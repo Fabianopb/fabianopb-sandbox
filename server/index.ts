@@ -10,7 +10,7 @@ import path from 'path';
     response.json('Hello new world!');
   });
   
-  app.use(express.static(path.resolve('build')));
+  app.use(express.static(path.resolve('dist')));
 
   app.get('*', (request, response) => {
     response.sendFile(path.resolve('index.html'));

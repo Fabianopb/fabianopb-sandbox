@@ -6,7 +6,9 @@
     "dev": "vite",
     "dev-server": "APP_ENV=development nodemon -r dotenv/config --exec ts-node server/index.ts",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build-server": "tsc ./server/index.ts --esModuleInterop true --outDir dist",
+    "preview": "vite preview",
+    "serve": "node dist/index.js"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.0.10",
