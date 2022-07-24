@@ -7,7 +7,7 @@ import path from 'path';
   const app = express();
   
   app.get('/api/v1/hello', (_, response) => {
-    response.json('Hello world!');
+    response.json('Hello new world!');
   });
   
   app.use(express.static(path.resolve('build')));
