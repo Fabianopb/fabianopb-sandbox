@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "build-server": "tsc ./server/index.ts --esModuleInterop true --outDir dist",
     "preview": "vite preview",
-    "serve": "node dist/index.js"
+    "serve": "node dist/index.js",
+    "create-dev-db": "APP_ENV=development ts-node ./scripts/createDb.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.0.10",
