@@ -9,6 +9,8 @@ Install dependencies:
 yarn install
 ```
 
+Create a duplicate of `.env.example` and rename it to `.env`, changing the environment variables according to your setup.
+
 Start docker containers:
 ```
 docker-compose up
