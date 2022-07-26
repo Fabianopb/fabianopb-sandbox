@@ -6,10 +6,11 @@
     "dev": "vite",
     "dev-server": "APP_ENV=development nodemon -r dotenv/config --exec ts-node server/index.ts",
     "build": "tsc && vite build",
-    "build-server": "tsc ./server/index.ts --esModuleInterop true --outDir dist",
+    "build-server": "tsc server/index.ts --esModuleInterop true --outDir dist",
     "preview": "vite preview",
     "serve": "node dist/index.js",
-    "create-dev-db": "APP_ENV=development ts-node ./scripts/createDb.ts"
+    "create-dev-db": "APP_ENV=development ts-node scripts/createDb.ts",
+    "migrate-make": "knex --knexfile server/knexfile.ts migrate:make -x ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.0.10",
