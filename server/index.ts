@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
+import exampleRoutes from './examples/routes';
 
 (async () => {
   const port = process.env.PORT || 9000;
@@ -9,6 +10,10 @@ import path from 'path';
   app.get('/api/v1/hello', (_, response) => {
     response.json('Hello new world!');
   });
+
+  app.use('/api/v1', [
+    exampleRoutes,
+  ]);
   
   app.use(express.static(path.resolve('dist')));
 
