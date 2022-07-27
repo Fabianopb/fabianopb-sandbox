@@ -2,12 +2,14 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import { useQuery } from '@tanstack/react-query'
-import { getTest } from './api'
+import { getExamples, getTest } from './api'
 
 function App() {
   const [count, setCount] = useState(0)
 
-  const { data } =  useQuery(['test'], getTest);
+  const { data: testData } =  useQuery(['test'], getTest);
+
+  const { data: exampleData } = useQuery(['examples'], getExamples);
 
   return (
     <div className="App">
@@ -19,7 +21,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>{data}</h1>
+      <h1>{testData}</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -29,7 +31,11 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        <ul>
+          {exampleData?.map(example => (
+            <li>{`${example.id} --> ${example.name}: ${example.value}`}</li>
+          ))}
+        </ul>
       </p>
     </div>
   )
