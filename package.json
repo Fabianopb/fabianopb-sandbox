@@ -8,7 +8,7 @@
     "start": "concurrently \"yarn start-server\" \"yarn start-client\"",
     "build-client": "tsc && vite build",
     "build-server": "tsc server/index.ts --esModuleInterop true --outDir dist",
-    "build": "yarn build-client && yarn build-server",
+    "build": "yarn build-client && yarn build-server && yarn migrate-latest",
     "preview": "vite preview",
     "serve": "node dist/index.js",
     "create-dev-db": "APP_ENV=development ts-node scripts/createDb.ts",
