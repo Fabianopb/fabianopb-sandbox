@@ -7,11 +7,7 @@ import { getAppEnv } from '../server/utils';
   const config = knexfile[appEnv];
   const devDbName = config.connection.database;
 
-  const initialKnex = Knex({ ...config, connection: { ...config.connection, database: undefined } });
-  await initialKnex.raw(`CREATE DATABASE ${devDbName}`);
-  await initialKnex.destroy();
-  
-  const knex = Knex(config);
-  await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
+  const knex = Knex({ ...config, connection: { ...config.connection, database: undefined } });
+  await knex.raw(`CREATE DATABASE ${devDbName}`);
   await knex.destroy();
 })();
