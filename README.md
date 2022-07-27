@@ -21,14 +21,9 @@ Create development database if it doesn't exist:
 yarn create-dev-db
 ```
 
-Run the server:
+Start development mode:
 ```
-yarn dev-server
-```
-
-Run the client:
-```
-yarn dev-client
+yarn start
 ```
 
 ### Using pgAdmin 4
