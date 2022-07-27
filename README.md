@@ -21,6 +21,16 @@ Create development database if it doesn't exist:
 yarn create-dev-db
 ```
 
+Run the server:
+```
+yarn dev-server
+```
+
+Run the client:
+```
+yarn dev-client
+```
+
 ### Using pgAdmin 4
 
 pgAdmin 4 also runs in a docker container, so after starting the containers with `docker-compose up`, open [http://localhost:5050](http://localhost:5050) and use the pgAdmin email and password defined in the environment.

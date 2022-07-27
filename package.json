@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev-client": "vite",
     "dev-server": "APP_ENV=development nodemon -r dotenv/config --exec ts-node server/index.ts",
     "build": "tsc && vite build",
     "build-server": "tsc server/index.ts --esModuleInterop true --outDir dist",
