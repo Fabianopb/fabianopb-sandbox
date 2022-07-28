@@ -6,8 +6,13 @@ type Example = {
   value: number;
 };
 
-const table = 'example';
+const exampleQueryBuilder = db<Example>('example');
 
 export const selectAllExamples = async () => {
-  return db<Example>(table).select();
+  return exampleQueryBuilder.select();
+};
+
+export const insertExample = async (example: Omit<Example, 'id'>) => {
+  const queryResponse = await exampleQueryBuilder.insert(example).returning("*");
+  return queryResponse[0];
 };
