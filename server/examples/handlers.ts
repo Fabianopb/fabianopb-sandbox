@@ -1,4 +1,4 @@
-import { db } from "../config";
+import { db } from '../config';
 
 type Example = {
   id: string;
@@ -13,6 +13,6 @@ export const selectAllExamples = async () => {
 };
 
 export const insertExample = async (example: Omit<Example, 'id'>) => {
-  const queryResponse = await db<Example>(exampleTable).insert(example).returning("*");
+  const queryResponse = await db<Example>(exampleTable).insert(example).returning('*');
   return queryResponse[0];
 };
