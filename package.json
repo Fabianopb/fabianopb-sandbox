@@ -16,7 +16,11 @@
     "create-dev-db": "APP_ENV=development ts-node scripts/createDb.ts",
     "migrate-make": "knex --knexfile server/knexfile.ts migrate:make -x ts",
     "migrate-latest": "knex --knexfile server/knexfile.ts migrate:latest",
-    "migrate-rollback": "knex --knexfile server/knexfile.ts migrate:rollback"
+    "migrate-rollback": "knex --knexfile server/knexfile.ts migrate:rollback",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["prettier --write", "eslint --fix"]
   },
   "dependencies": {
     "@tanstack/react-query": "^4.0.10",
@@ -47,6 +51,8 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.30.1",
     "eslint-watch": "^8.0.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
