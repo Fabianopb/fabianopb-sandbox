@@ -5,8 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getExamples, getTest } from './api';
 
 function App() {
-  const neverUsed = 0;
-
   const [count, setCount] = useState(0);
 
   const { data: testData } = useQuery(['test'], getTest);
