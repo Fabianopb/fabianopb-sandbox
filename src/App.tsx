@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg';
 import './App.css';
 import { useQuery } from '@tanstack/react-query';
 import { getExamples, getTest } from './api';
+import Test from './Test';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -28,6 +29,7 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
+      <Test />
       <p className="read-the-docs">
         <ul>
           {exampleData?.map((example) => (
