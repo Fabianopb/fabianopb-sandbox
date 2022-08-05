@@ -33,7 +33,7 @@ jobs:
           cache: 'yarn'
 
       - name: Set up docker
-        run: docker-compose up
+        run: docker-compose up -d
       
       - name: Install dependencies
         run: yarn install --frozen-lockfile
