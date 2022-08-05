@@ -43,3 +43,9 @@ jobs:
 
       - name: Test
         run: yarn test
+
+      - name: Build
+        run: yarn build
+
+      - name: Docker teardown
+        run: docker-compose down
