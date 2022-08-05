@@ -2,6 +2,9 @@
   "name": "fabianopb-sandbox-pern",
   "private": true,
   "version": "0.0.0",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start-client": "vite",
     "start-server": "APP_ENV=development nodemon -r dotenv/config --exec ts-node server/index.ts",
