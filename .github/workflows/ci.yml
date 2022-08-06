@@ -7,8 +7,11 @@ on:
   pull_request:
 
 jobs:
-  checks:
+  checks:    
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        command: ['lint', 'test', 'build']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -18,12 +21,17 @@ jobs:
         with:
           node-version: '16'
           cache: 'yarn'
+
+      - name: Set up docker
+        run: docker-compose up -d
       
-      - name: Install
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Lint
-        run: yarn lint
+      - name: Create test db
+        run: yarn create-dev-db
 
-      - name: Test
-        run: yarn test
+      - run: yarn ${{ matrix.command }}
+
+      - name: Docker teardown
+        run: docker-compose down
