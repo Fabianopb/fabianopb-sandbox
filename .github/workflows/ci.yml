@@ -9,6 +9,9 @@ on:
 jobs:
   checks:    
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        command: ['lint', 'test', 'build']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,14 +31,7 @@ jobs:
       - name: Create test db
         run: yarn create-dev-db
 
-      - name: Lint
-        run: yarn lint
-
-      - name: Test
-        run: yarn test
-
-      - name: Build
-        run: yarn build
+      - run: yarn ${{ matrix.command }}
 
       - name: Docker teardown
         run: docker-compose down
