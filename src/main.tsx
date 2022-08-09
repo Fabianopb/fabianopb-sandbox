@@ -31,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 
     width: 100%;
     height: 100%;
