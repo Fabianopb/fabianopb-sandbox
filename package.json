@@ -33,7 +33,6 @@
   "dependencies": {
     "@mui/material": "^5.10.1",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
-    "@mui/styled-engine-sc": "^5.10.1",
     "@tanstack/react-query": "^4.0.10",
     "axios": "^0.27.2",
     "body-parser": "^1.20.0",
@@ -85,8 +84,5 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.6.4",
     "vite": "^3.0.0"
-  },
-  "resolutions": {
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
   }
 }
