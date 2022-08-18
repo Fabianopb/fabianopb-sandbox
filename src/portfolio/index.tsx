@@ -1,4 +1,5 @@
-import styled, { css } from 'styled-components';
+import { Link } from '@mui/material';
+import styled from 'styled-components';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -25,25 +26,11 @@ const Navigation = styled.div`
   align-items: center;
 `;
 
-const linkStyle = css`
+const StyledLink = styled(Link)`
   color: #fff;
-  cursor: pointer;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
+  & + & {
+    margin-left: 24px;
   }
-  &:active {
-    color: #d9d0e3;
-  }
-`;
-
-const ContactLink = styled.div`
-  ${linkStyle}
-  margin-right: 24px;
-`;
-
-const BlogLink = styled.a`
-  ${linkStyle}
 `;
 
 const PortfolioView = () => (
@@ -51,10 +38,12 @@ const PortfolioView = () => (
     <Topbar>
       <Logo>Fabiano Brito</Logo>
       <Navigation>
-        <ContactLink>Contact</ContactLink>
-        <BlogLink href="https://medium.com/@fabianopb" target="_blank" rel="noopener noreferrer">
+        <StyledLink href="#" underline="hover">
+          Contact
+        </StyledLink>
+        <StyledLink href="https://medium.com/@fabianopb" target="_blank" rel="noopener noreferrer" underline="hover">
           Blog
-        </BlogLink>
+        </StyledLink>
       </Navigation>
     </Topbar>
     <div>Banner</div>
