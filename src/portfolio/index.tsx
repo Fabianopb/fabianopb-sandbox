@@ -28,6 +28,7 @@ const Navigation = styled.div`
 const linkStyle = css`
   color: #fff;
   cursor: pointer;
+  text-decoration: none;
   &:hover {
     text-decoration: underline;
   }
