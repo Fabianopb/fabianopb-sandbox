@@ -34,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
 
     color: #242424;
-    background-color: #FFF;
+    background-color: #fff;
 
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
