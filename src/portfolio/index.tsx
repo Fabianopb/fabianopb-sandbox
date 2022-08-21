@@ -1,5 +1,6 @@
 import { Link } from '@mui/material';
 import styled from 'styled-components';
+import bannerImageSrc from '../assets/banner.jpeg';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -33,6 +34,20 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const BannerOverlay = styled.div`
+  position: relative;
+  height: 560px;
+  background-color: #17293a;
+`;
+
+const Banner = styled.img`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+`;
+
 const PortfolioView = () => (
   <MainWrapper>
     <Topbar>
@@ -46,7 +61,10 @@ const PortfolioView = () => (
         </StyledLink>
       </Navigation>
     </Topbar>
-    <div>Banner</div>
+    <BannerOverlay>
+      <Banner src={bannerImageSrc} />
+    </BannerOverlay>
+
     <div>About me</div>
     <div>Skills</div>
     <div>Selected Work</div>
