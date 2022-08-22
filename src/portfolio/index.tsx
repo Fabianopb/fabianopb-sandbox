@@ -1,4 +1,4 @@
-import { Button, Link } from '@mui/material';
+import { Button, Divider, Link } from '@mui/material';
 import styled from 'styled-components';
 import bannerImageSrc from '../assets/banner.jpeg';
 import profileImageSrc from '../assets/fabiano.jpeg';
@@ -93,6 +93,11 @@ const BannerButton = styled(Button)`
 const Section = styled.div`
   display: flex;
   flex-direction: column;
+  width: 800px;
+  margin: 24px auto;
+`;
+
+const StyledDivider = styled(Divider)`
   width: 800px;
   margin: 24px auto;
 `;
@@ -197,6 +202,13 @@ const PortfolioView = () => (
         and spent a few months in Spain to start building a software team during a business expansion.
       </ProfileParagraph>
     </Section>
+
+    <StyledDivider variant="middle" />
+
+    <Section>
+      <SectionTitle>Skills</SectionTitle>
+    </Section>
+
     <div>Skills</div>
     <div>Selected Work</div>
     <div>Footer</div>
