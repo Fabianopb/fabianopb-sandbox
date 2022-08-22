@@ -111,18 +111,29 @@ const AboutMeHeader = styled.div`
 
 const ProfilePicture = styled.img`
   width: 240px;
-  margin-right: 32px;
+  margin-right: 40px;
 `;
 
 const ProfileMotto = styled.div`
+  margin-top: 16px;
   font-size: 18px;
+  color: #555;
 `;
 
 const ProfileQuote = styled.div`
+  position: relative;
   margin-top: 24px;
   font-size: 18px;
   font-style: italic;
   text-align: right;
+  color: #555;
+  ::before {
+    content: '“';
+    font-size: 36px;
+  }
+  ::after {
+    content: '”';
+  }
 `;
 
 const PortfolioView = () => (
