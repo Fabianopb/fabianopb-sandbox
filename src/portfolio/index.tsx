@@ -1,8 +1,52 @@
-import { Button, Divider, Link } from '@mui/material';
+import { Button, Divider, Link, Rating } from '@mui/material';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { PieChart, Pie, Sector, ResponsiveContainer } from 'recharts';
 import bannerImageSrc from '../assets/banner.jpeg';
 import profileImageSrc from '../assets/fabiano.jpeg';
+
+const data02 = [
+  {
+    name: 'JavaScript',
+    value: 100,
+  },
+  {
+    name: 'ReactJS',
+    value: 90,
+  },
+  {
+    name: 'Git',
+    value: 85,
+  },
+  {
+    name: 'Ruby on Rails',
+    value: 60,
+  },
+  {
+    name: 'Angular JS',
+    value: 55,
+  },
+  {
+    name: 'PostgreSQL',
+    value: 45,
+  },
+  {
+    name: 'Java',
+    value: 30,
+  },
+  {
+    name: 'MongoDB',
+    value: 30,
+  },
+  {
+    name: 'Express JS',
+    value: 25,
+  },
+  {
+    name: 'Node JS',
+    value: 15,
+  },
+];
 
 const MainWrapper = styled.div`
   display: flex;
@@ -198,6 +242,14 @@ const SkillBarValue = styled.div`
   z-index: 1;
 `;
 
+const SkillSubtitle = styled.h2`
+  margin-top: 48px;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  color: #555;
+`;
+
 const skills = [
   { name: 'Problem solving', value: 100 },
   { name: 'Programming', value: 95 },
@@ -213,6 +265,7 @@ const skills = [
 
 const PortfolioView = () => {
   const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
+  const [activePieIndex, setActivePieIndex] = useState(0);
 
   return (
     <MainWrapper>
@@ -288,6 +341,42 @@ const PortfolioView = () => {
               <SkillBarValue>{skill.value}%</SkillBarValue>
             </SkillBar>
           ))}
+          <SkillSubtitle>Toolset</SkillSubtitle>
+          <ResponsiveContainer height={300}>
+            <PieChart width={730} height={300}>
+              <Pie
+                activeIndex={activePieIndex}
+                activeShape={(props: any) => {
+                  const { cx, cy, innerRadius, outerRadius, startAngle, endAngle } = props;
+                  return (
+                    <>
+                      <Sector
+                        cx={cx}
+                        cy={cy}
+                        innerRadius={innerRadius}
+                        outerRadius={outerRadius}
+                        startAngle={startAngle}
+                        endAngle={endAngle}
+                        fill="#00998a"
+                      />
+                    </>
+                  );
+                }}
+                data={data02}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                innerRadius={80}
+                outerRadius={120}
+                label={(p: { name: string }) => p.name}
+                fill="#00d6c1"
+                onMouseEnter={(_, index) => setActivePieIndex(index)}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+          {activePieIndex} {data02[activePieIndex].value / 20}
+          <Rating defaultValue={data02[activePieIndex].value / 20} precision={0.5} size="small" />
         </SkillsContainer>
       </Section>
 
