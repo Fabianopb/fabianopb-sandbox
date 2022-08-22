@@ -1,6 +1,7 @@
 import { Button, Link } from '@mui/material';
 import styled from 'styled-components';
 import bannerImageSrc from '../assets/banner.jpeg';
+import profileImageSrc from '../assets/fabiano.jpeg';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -89,6 +90,41 @@ const BannerButton = styled(Button)`
   }
 `;
 
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  margin: 24px auto;
+`;
+
+const SectionTitle = styled.h1`
+  font-size: 40px;
+  color: #8e8f98;
+  font-weight: 800;
+  margin-bottom: 48px;
+`;
+
+const AboutMeHeader = styled.div`
+  display: flex;
+  margin: 0 40px;
+`;
+
+const ProfilePicture = styled.img`
+  width: 240px;
+  margin-right: 32px;
+`;
+
+const ProfileMotto = styled.div`
+  font-size: 18px;
+`;
+
+const ProfileQuote = styled.div`
+  margin-top: 24px;
+  font-size: 18px;
+  font-style: italic;
+  text-align: right;
+`;
+
 const PortfolioView = () => (
   <MainWrapper>
     <Topbar>
@@ -121,7 +157,19 @@ const PortfolioView = () => (
       </BannerText>
     </BannerContainer>
 
-    <div>About me</div>
+    <Section>
+      <SectionTitle>About me</SectionTitle>
+      <AboutMeHeader>
+        <ProfilePicture src={profileImageSrc} />
+        <div>
+          <ProfileMotto>
+            In order to have exciting experiences, to see different places, and to meet amazing people, you have to try
+            and fail a lot.
+          </ProfileMotto>
+          <ProfileQuote>The journey is the destination.</ProfileQuote>
+        </div>
+      </AboutMeHeader>
+    </Section>
     <div>Skills</div>
     <div>Selected Work</div>
     <div>Footer</div>
