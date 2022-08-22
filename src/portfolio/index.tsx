@@ -136,6 +136,11 @@ const ProfileQuote = styled.div`
   }
 `;
 
+const ProfileParagraph = styled.p`
+  margin: 24px 40px 0 40px;
+  color: #555;
+`;
+
 const PortfolioView = () => (
   <MainWrapper>
     <Topbar>
@@ -180,6 +185,17 @@ const PortfolioView = () => (
           <ProfileQuote>The journey is the destination.</ProfileQuote>
         </div>
       </AboutMeHeader>
+      <ProfileParagraph>
+        After graduating in Engineering in 2011, I started working with industrial facilities design, and after a couple
+        of years, seeking for new challenges, I got involved with design-based approaches for innovation, start-ups and
+        entrepreneurship. That&apos;s how I&apos;ve decided to get out of my comfort zone and ended up in Finland, in a
+        Master Program of Business Design.
+      </ProfileParagraph>
+      <ProfileParagraph>
+        During these past few years I got involved in mind-blowing experiences such as a business design case for water
+        purification in Tanzania, a start-up that teaches kids computational thinking, ended up in a Hackathon in Tokyo,
+        and spent a few months in Spain to start building a software team during a business expansion.
+      </ProfileParagraph>
     </Section>
     <div>Skills</div>
     <div>Selected Work</div>
