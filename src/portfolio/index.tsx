@@ -56,6 +56,9 @@ const BannerImage = styled.img`
 `;
 
 const BannerText = styled.div`
+  max-width: 800px;
+  margin: auto;
+  padding: 0 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,7 +66,6 @@ const BannerText = styled.div`
   position: relative;
   color: #fff;
   text-align: center;
-  padding: 0 64px;
   z-index: 1;
 `;
 
