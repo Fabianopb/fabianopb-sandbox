@@ -172,7 +172,7 @@ const BadgeName = styled.div`
 
 const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
   margin-top: 8px;
-  width: 160px;
+  width: 140px;
   ${({ shouldAnimate }) =>
     shouldAnimate &&
     css`
