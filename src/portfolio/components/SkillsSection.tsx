@@ -3,6 +3,24 @@ import { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled from 'styled-components';
 
+import codeSchool01 from '../../assets/codeSchool01.png';
+import codeSchool02 from '../../assets/codeSchool02.png';
+import codeSchool03 from '../../assets/codeSchool03.png';
+import codeSchool04 from '../../assets/codeSchool04.png';
+import codeSchool05 from '../../assets/codeSchool05.png';
+import codeSchool06 from '../../assets/codeSchool06.png';
+import codeSchool07 from '../../assets/codeSchool07.png';
+import codeSchool08 from '../../assets/codeSchool08.png';
+import codeSchool09 from '../../assets/codeSchool09.png';
+import codeSchool10 from '../../assets/codeSchool10.png';
+import codeSchool11 from '../../assets/codeSchool11.png';
+import codeSchool12 from '../../assets/codeSchool12.png';
+import codeSchool13 from '../../assets/codeSchool13.png';
+import codeSchool14 from '../../assets/codeSchool14.png';
+import codeSchool15 from '../../assets/codeSchool15.png';
+import codeSchool16 from '../../assets/codeSchool16.png';
+import codeSchool17 from '../../assets/codeSchool17.png';
+
 const skillsData = [
   { name: 'Problem solving', value: 100 },
   { name: 'Programming', value: 95 },
@@ -27,6 +45,26 @@ const toolsetData = [
   { name: 'MongoDB', value: 30 },
   { name: 'Express JS', value: 25 },
   { name: 'Node JS', value: 15 },
+];
+
+const badgesData = [
+  { name: 'JavaScript Road Trip #1', imageSrc: codeSchool01 },
+  { name: 'JavaScript Road Trip #2', imageSrc: codeSchool02 },
+  { name: 'JavaScript Road Trip #3', imageSrc: codeSchool03 },
+  { name: 'JavaScript Best Practices', imageSrc: codeSchool04 },
+  { name: 'Shaping up with Angular.js', imageSrc: codeSchool05 },
+  { name: 'Staying Sharp with Angular.js', imageSrc: codeSchool06 },
+  { name: 'Accelerating Through Angular 2', imageSrc: codeSchool07 },
+  { name: 'Real-time Web with Node.js', imageSrc: codeSchool08 },
+  { name: 'The Magical Marvels of MongoDB', imageSrc: codeSchool09 },
+  { name: 'Powering Up with React', imageSrc: codeSchool10 },
+  { name: 'ES2015: The Shape of JavaScript to Come', imageSrc: codeSchool11 },
+  { name: 'Try jQuery', imageSrc: codeSchool12 },
+  { name: 'jQuery: The Return Flight', imageSrc: codeSchool13 },
+  { name: 'CSS Cross-Country', imageSrc: codeSchool14 },
+  { name: 'Cracking the Case With Flexbox', imageSrc: codeSchool15 },
+  { name: 'Building Blocks of Express.js', imageSrc: codeSchool16 },
+  { name: 'Try Android', imageSrc: codeSchool17 },
 ];
 
 const SkillsContainer = styled.div`
@@ -110,6 +148,28 @@ const RatingLabel = styled.div`
   color: #555;
 `;
 
+const BadgesContainer = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto;
+`;
+
+const Badge = styled.div`
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const BadgeName = styled.div`
+  font-size: 12px;
+  font-weight: 600;
+`;
+
+const BadgeImage = styled.img`
+  margin-top: 8px;
+  width: 160px;
+`;
+
 const SkillsSection = () => {
   const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
   const [activePieIndex, setActivePieIndex] = useState(0);
@@ -190,6 +250,14 @@ const SkillsSection = () => {
       </ChartContainer>
 
       <SkillSubtitle>Code school badges</SkillSubtitle>
+      <BadgesContainer>
+        {badgesData.map((badge) => (
+          <Badge key={badge.name}>
+            <BadgeName>{badge.name}</BadgeName>
+            <BadgeImage src={badge.imageSrc} />
+          </Badge>
+        ))}
+      </BadgesContainer>
     </SkillsContainer>
   );
 };
