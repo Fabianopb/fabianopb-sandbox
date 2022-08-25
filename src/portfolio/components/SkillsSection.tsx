@@ -1,7 +1,7 @@
 import { Rating } from '@mui/material';
 import { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import codeSchool01 from '../../assets/codeSchool01.png';
 import codeSchool02 from '../../assets/codeSchool02.png';
@@ -66,6 +66,11 @@ const badgesData = [
   { name: 'Building Blocks of Express.js', imageSrc: codeSchool16 },
   { name: 'Try Android', imageSrc: codeSchool17 },
 ];
+
+const rotate = keyframes`
+  0% { transform: rotateY(0deg) }
+  100% { transform: rotateY(360deg); }
+`;
 
 const SkillsContainer = styled.div`
   width: 600px;
@@ -165,14 +170,29 @@ const BadgeName = styled.div`
   font-weight: 600;
 `;
 
-const BadgeImage = styled.img`
+const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
   margin-top: 8px;
   width: 160px;
+  ${({ shouldAnimate }) =>
+    shouldAnimate &&
+    css`
+      animation: ${rotate} 1000ms ease-in-out;
+    `}
 `;
 
 const SkillsSection = () => {
   const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
   const [activePieIndex, setActivePieIndex] = useState(0);
+  const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
+
+  const handleBadgeMouseEnter = async (index: number) => {
+    if (animatingBadges.includes(index)) {
+      return;
+    }
+    setAnimatingBadges((prev) => [...new Set([...prev, index])].sort());
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setAnimatingBadges((prev) => prev.filter((badgeIndex) => badgeIndex !== index));
+  };
 
   return (
     <SkillsContainer onMouseOver={() => (!hasHoveredSkills ? setHasHoveredSkills(true) : undefined)}>
@@ -251,10 +271,14 @@ const SkillsSection = () => {
 
       <SkillSubtitle>Code school badges</SkillSubtitle>
       <BadgesContainer>
-        {badgesData.map((badge) => (
+        {badgesData.map((badge, index) => (
           <Badge key={badge.name}>
             <BadgeName>{badge.name}</BadgeName>
-            <BadgeImage src={badge.imageSrc} />
+            <BadgeImage
+              src={badge.imageSrc}
+              shouldAnimate={animatingBadges.includes(index)}
+              onMouseEnter={() => handleBadgeMouseEnter(index)}
+            />
           </Badge>
         ))}
       </BadgesContainer>
