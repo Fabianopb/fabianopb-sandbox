@@ -2,6 +2,7 @@ import { Button, Divider, Link } from '@mui/material';
 import styled from 'styled-components';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
+import Footer from './components/Footer';
 import SkillsSection from './components/SkillsSection';
 import WorkSection from './components/WorkSection';
 
@@ -164,7 +165,7 @@ const PortfolioView = () => {
         <WorkSection />
       </Section>
 
-      <div>Footer</div>
+      <Footer />
     </MainWrapper>
   );
 };
