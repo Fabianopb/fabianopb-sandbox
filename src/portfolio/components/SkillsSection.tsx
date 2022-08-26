@@ -1,104 +1,8 @@
-import { Rating } from '@mui/material';
+import { Link, Rating } from '@mui/material';
 import { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled, { css, keyframes } from 'styled-components';
-
-const skillsData = [
-  { name: 'Problem solving', value: 100 },
-  { name: 'Programming', value: 95 },
-  { name: 'Innovation management', value: 90 },
-  { name: 'Project management', value: 85 },
-  { name: 'Marketing', value: 80 },
-  { name: 'Facilitation', value: 75 },
-  { name: 'Business strategy', value: 65 },
-  { name: 'UI/UX design', value: 60 },
-  { name: 'Data analytics', value: 55 },
-  { name: 'Adobe Ps, Ai & In', value: 40 },
-];
-
-const toolsetData = [
-  { name: 'JavaScript', value: 100 },
-  { name: 'ReactJS', value: 90 },
-  { name: 'Git', value: 85 },
-  { name: 'Ruby on Rails', value: 60 },
-  { name: 'Angular JS', value: 55 },
-  { name: 'PostgreSQL', value: 45 },
-  { name: 'Java', value: 30 },
-  { name: 'MongoDB', value: 30 },
-  { name: 'Express JS', value: 25 },
-  { name: 'Node JS', value: 15 },
-];
-
-const badgesData = [
-  {
-    name: 'JavaScript Road Trip #1',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/1/JS1.png',
-  },
-  {
-    name: 'JavaScript Road Trip #2',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/2/JS2.png',
-  },
-  {
-    name: 'JavaScript Road Trip #3',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/3/JS3.png',
-  },
-  {
-    name: 'JavaScript Best Practices',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/4/JSbp.png',
-  },
-  {
-    name: 'Shaping up with Angular.js',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/5/Angular1-1.png',
-  },
-  {
-    name: 'Staying Sharp with Angular.js',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/6/Angular1-2.png',
-  },
-  {
-    name: 'Accelerating Through Angular 2',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/7/Angular2.png',
-  },
-  {
-    name: 'Real-time Web with Node.js',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/8/Node.png',
-  },
-  {
-    name: 'The Magical Marvels of MongoDB',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/9/mongo.png',
-  },
-  {
-    name: 'Powering Up with React',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/10/react.png',
-  },
-  {
-    name: 'ES2015: The Shape of JavaScript to Come',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/11/es2015.png',
-  },
-  {
-    name: 'Try jQuery',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/12/try-jquery.png',
-  },
-  {
-    name: 'jQuery: The Return Flight',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/13/jquery2.png',
-  },
-  {
-    name: 'CSS Cross-Country',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/14/css.png',
-  },
-  {
-    name: 'Cracking the Case With Flexbox',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/15/flexbox.png',
-  },
-  {
-    name: 'Building Blocks of Express.js',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/16/express.png',
-  },
-  {
-    name: 'Try Android',
-    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/17/android_1.png',
-  },
-];
+import { badgesData, skillsData, toolsetData } from '../data';
 
 const rotate = keyframes`
   0% { transform: rotateY(0deg) }
@@ -191,7 +95,7 @@ const BadgesContainer = styled.div`
   grid-template-columns: auto auto auto;
 `;
 
-const Badge = styled.div`
+const Badge = styled(Link)`
   height: 172px;
   margin-bottom: 16px;
   display: flex;
@@ -202,6 +106,7 @@ const Badge = styled.div`
 const BadgeName = styled.div`
   font-size: 12px;
   font-weight: 600;
+  color: #555;
 `;
 
 const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
@@ -306,7 +211,7 @@ const SkillsSection = () => {
       <SkillSubtitle>Code school badges</SkillSubtitle>
       <BadgesContainer>
         {badgesData.map((badge, index) => (
-          <Badge key={badge.name}>
+          <Badge key={badge.name} href={badge.href} underline="none" target="_blank" rel="noopener noreferrer">
             <BadgeName>{badge.name}</BadgeName>
             <BadgeImage
               src={badge.imageSrc}
