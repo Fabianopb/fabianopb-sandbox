@@ -3,24 +3,6 @@ import { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled, { css, keyframes } from 'styled-components';
 
-import codeSchool01 from '../../assets/codeSchool01.png';
-import codeSchool02 from '../../assets/codeSchool02.png';
-import codeSchool03 from '../../assets/codeSchool03.png';
-import codeSchool04 from '../../assets/codeSchool04.png';
-import codeSchool05 from '../../assets/codeSchool05.png';
-import codeSchool06 from '../../assets/codeSchool06.png';
-import codeSchool07 from '../../assets/codeSchool07.png';
-import codeSchool08 from '../../assets/codeSchool08.png';
-import codeSchool09 from '../../assets/codeSchool09.png';
-import codeSchool10 from '../../assets/codeSchool10.png';
-import codeSchool11 from '../../assets/codeSchool11.png';
-import codeSchool12 from '../../assets/codeSchool12.png';
-import codeSchool13 from '../../assets/codeSchool13.png';
-import codeSchool14 from '../../assets/codeSchool14.png';
-import codeSchool15 from '../../assets/codeSchool15.png';
-import codeSchool16 from '../../assets/codeSchool16.png';
-import codeSchool17 from '../../assets/codeSchool17.png';
-
 const skillsData = [
   { name: 'Problem solving', value: 100 },
   { name: 'Programming', value: 95 },
@@ -48,23 +30,74 @@ const toolsetData = [
 ];
 
 const badgesData = [
-  { name: 'JavaScript Road Trip #1', imageSrc: codeSchool01 },
-  { name: 'JavaScript Road Trip #2', imageSrc: codeSchool02 },
-  { name: 'JavaScript Road Trip #3', imageSrc: codeSchool03 },
-  { name: 'JavaScript Best Practices', imageSrc: codeSchool04 },
-  { name: 'Shaping up with Angular.js', imageSrc: codeSchool05 },
-  { name: 'Staying Sharp with Angular.js', imageSrc: codeSchool06 },
-  { name: 'Accelerating Through Angular 2', imageSrc: codeSchool07 },
-  { name: 'Real-time Web with Node.js', imageSrc: codeSchool08 },
-  { name: 'The Magical Marvels of MongoDB', imageSrc: codeSchool09 },
-  { name: 'Powering Up with React', imageSrc: codeSchool10 },
-  { name: 'ES2015: The Shape of JavaScript to Come', imageSrc: codeSchool11 },
-  { name: 'Try jQuery', imageSrc: codeSchool12 },
-  { name: 'jQuery: The Return Flight', imageSrc: codeSchool13 },
-  { name: 'CSS Cross-Country', imageSrc: codeSchool14 },
-  { name: 'Cracking the Case With Flexbox', imageSrc: codeSchool15 },
-  { name: 'Building Blocks of Express.js', imageSrc: codeSchool16 },
-  { name: 'Try Android', imageSrc: codeSchool17 },
+  {
+    name: 'JavaScript Road Trip #1',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/1/JS1.png',
+  },
+  {
+    name: 'JavaScript Road Trip #2',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/2/JS2.png',
+  },
+  {
+    name: 'JavaScript Road Trip #3',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/3/JS3.png',
+  },
+  {
+    name: 'JavaScript Best Practices',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/4/JSbp.png',
+  },
+  {
+    name: 'Shaping up with Angular.js',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/5/Angular1-1.png',
+  },
+  {
+    name: 'Staying Sharp with Angular.js',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/6/Angular1-2.png',
+  },
+  {
+    name: 'Accelerating Through Angular 2',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/7/Angular2.png',
+  },
+  {
+    name: 'Real-time Web with Node.js',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/8/Node.png',
+  },
+  {
+    name: 'The Magical Marvels of MongoDB',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/9/mongo.png',
+  },
+  {
+    name: 'Powering Up with React',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/10/react.png',
+  },
+  {
+    name: 'ES2015: The Shape of JavaScript to Come',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/11/es2015.png',
+  },
+  {
+    name: 'Try jQuery',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/12/try-jquery.png',
+  },
+  {
+    name: 'jQuery: The Return Flight',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/13/jquery2.png',
+  },
+  {
+    name: 'CSS Cross-Country',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/14/css.png',
+  },
+  {
+    name: 'Cracking the Case With Flexbox',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/15/flexbox.png',
+  },
+  {
+    name: 'Building Blocks of Express.js',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/16/express.png',
+  },
+  {
+    name: 'Try Android',
+    imageSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/badge/image_url/17/android_1.png',
+  },
 ];
 
 const rotate = keyframes`
@@ -159,6 +192,7 @@ const BadgesContainer = styled.div`
 `;
 
 const Badge = styled.div`
+  height: 172px;
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
