@@ -111,3 +111,72 @@ export const badgesData = [
     href: 'https://www.codeschool.com/courses/try-android',
   },
 ];
+
+export const workData = [
+  {
+    title: 'Computational thinking and coding for kids',
+    tag: 'Business Design',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/2/work2.png',
+    to: '/',
+  },
+  {
+    title: 'Water purification in Tanzania',
+    tag: 'Business Design',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/3/work1.png',
+    to: '/',
+  },
+  {
+    title: 'Facilitating innovation workshops around the globe',
+    tag: 'Business Design',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/4/facil.png',
+    to: '/',
+  },
+  {
+    title: 'Sharing experience and knowledge',
+    tag: 'Business Design',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/5/work-speak.png',
+    to: '/',
+  },
+  {
+    title: '30 hours of intense coding and illustration',
+    tag: 'Software Development',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/6/work3.png',
+    to: '/',
+  },
+  {
+    title: 'A dynamic portfolio developed using the latest frameworks',
+    tag: 'Software Development',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/7/work-site.png',
+    to: '/',
+  },
+  {
+    title: 'Quit paperwork! This is the digital era...',
+    tag: 'Software Development',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/11/paperwork.png',
+    to: '/',
+  },
+  {
+    title: "Real-time diagnosis of your home's heating",
+    tag: 'Software Development',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/12/home.png',
+    to: '/',
+  },
+  {
+    title: 'A dynamic troubleshooting system for a big industrial company',
+    tag: 'Software Development',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/13/factory-thumb.png',
+    to: '/',
+  },
+  {
+    title: 'Use OpenOffice, Inkscape lightly in your Android device',
+    tag: 'Software Development',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/14/thumb1.png',
+    to: '/',
+  },
+  {
+    title: 'A friendly robot to make daily work more efficient',
+    tag: 'Software Development',
+    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/15/Screen_Shot_2017-05-15_at_8.43.09.png',
+    to: '/',
+  },
+];

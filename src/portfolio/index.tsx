@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
 import SkillsSection from './components/SkillsSection';
+import WorkSection from './components/WorkSection';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -156,7 +157,13 @@ const PortfolioView = () => {
         <SkillsSection />
       </Section>
 
-      <div>Selected Work</div>
+      <StyledDivider variant="middle" />
+
+      <Section>
+        <SectionTitle>Selected Work</SectionTitle>
+        <WorkSection />
+      </Section>
+
       <div>Footer</div>
     </MainWrapper>
   );
