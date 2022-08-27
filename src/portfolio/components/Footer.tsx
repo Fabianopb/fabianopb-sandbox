@@ -41,8 +41,8 @@ const Copyright = styled.div`
   font-size: 12px;
 `;
 
-const Footer = () => (
-  <Root>
+const Footer = ({ className }: { className?: string }) => (
+  <Root className={className}>
     <Title>Get in touch!</Title>
     <Email>fabianopbrito@gmail.com</Email>
     <Social>

@@ -112,6 +112,10 @@ const SectionTitle = styled.h1`
   margin-bottom: 48px;
 `;
 
+const StyledFooter = styled(Footer)`
+  margin-top: 48px;
+`;
+
 const PortfolioView = () => {
   return (
     <MainWrapper>
@@ -165,7 +169,7 @@ const PortfolioView = () => {
         <WorkSection />
       </Section>
 
-      <Footer />
+      <StyledFooter />
     </MainWrapper>
   );
 };
