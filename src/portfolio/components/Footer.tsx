@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import twitterIcon from '../../assets/twitter.svg';
 import linkedinIcon from '../../assets/linkedin.svg';
 import githubIcon from '../../assets/github.svg';
+import { Link } from '@mui/material';
 
 const Root = styled.div`
   background-color: #284865;
@@ -18,9 +19,10 @@ const Title = styled.div`
   font-weight: 800;
 `;
 
-const Email = styled.div`
+const Email = styled(Link)`
   margin-top: 32px;
   font-size: 14px;
+  color: #fff;
 `;
 
 const Social = styled.div`
@@ -44,13 +46,21 @@ const Copyright = styled.div`
 const Footer = ({ className }: { className?: string }) => (
   <Root className={className}>
     <Title>Get in touch!</Title>
-    <Email>fabianopbrito@gmail.com</Email>
+    <Email href="mailto:fabianopbrito@gmail.com" underline="none">
+      fabianopbrito@gmail.com
+    </Email>
     <Social>
-      <SocialIcon src={twitterIcon} />
-      <SocialIcon src={linkedinIcon} />
-      <SocialIcon src={githubIcon} />
+      <Link href="https://twitter.com/fabianopaivab" target="_blank" rel="noopener noreferrer">
+        <SocialIcon src={twitterIcon} />
+      </Link>
+      <Link href="https://linkedin.com/in/fabianopb" target="_blank" rel="noopener noreferrer">
+        <SocialIcon src={linkedinIcon} />
+      </Link>
+      <Link href="https://github.com/Fabianopb" target="_blank" rel="noopener noreferrer">
+        <SocialIcon src={githubIcon} />
+      </Link>
     </Social>
-    <Copyright>© 2016 Fabiano Brito. Developed using Ruby on Rails.</Copyright>
+    <Copyright>© 2016 Fabiano Brito. Developed using Ruby on Rails. Recreated in 2022 using React.</Copyright>
   </Root>
 );
 
