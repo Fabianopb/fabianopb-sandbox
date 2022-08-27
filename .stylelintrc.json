@@ -1,5 +1,13 @@
 {
   "processors": ["stylelint-processor-styled-components"],
   "extends": ["stylelint-config-recommended", "stylelint-config-prettier", "stylelint-config-styled-components"],
-  "customSyntax": "postcss-scss"
+  "customSyntax": "postcss-scss",
+  "rules": {
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignoreTypes": ["/-styled-mixin/", "$dummyValue"]
+      }
+    ]
+  }
 }
