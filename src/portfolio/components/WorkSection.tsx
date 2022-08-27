@@ -63,7 +63,7 @@ const WorkTag = styled.div`
 const WorkSection = () => (
   <WorkContainer>
     {workData.map((work) => (
-      <WorkCell key={work.title} to={work.to}>
+      <WorkCell key={work.title} to={`/projects/${work.readableId}`}>
         <WorkImage src={work.src} />
         <ImageText>{work.title}</ImageText>
         <WorkTag>{work.tag}</WorkTag>
