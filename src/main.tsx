@@ -9,6 +9,10 @@ import nunitoWoff2 from './assets/nunito-v25-latin-regular.woff2';
 import App from './App';
 
 const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+
   @font-face {
     font-family: 'Nunito';
     font-style: normal;
