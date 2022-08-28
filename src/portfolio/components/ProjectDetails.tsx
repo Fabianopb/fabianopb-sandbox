@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { projectData } from '../data';
@@ -95,6 +96,9 @@ const ProjectDetails = () => {
   if (!project) {
     return <div>redirect to 404</div>;
   }
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
   return (
     <Root>
       <Title>{project.title}</Title>
