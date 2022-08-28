@@ -2,7 +2,6 @@ import { Button, Divider } from '@mui/material';
 import styled from 'styled-components';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
-import Footer from './components/Footer';
 import SkillsSection from './components/SkillsSection';
 import WorkSection from './components/WorkSection';
 
@@ -85,10 +84,6 @@ const SectionTitle = styled.h1`
   margin-bottom: 48px;
 `;
 
-const StyledFooter = styled(Footer)`
-  margin-top: 48px;
-`;
-
 const PortfolioView = () => {
   return (
     <MainWrapper>
@@ -130,8 +125,6 @@ const PortfolioView = () => {
         <SectionTitle>Selected Work</SectionTitle>
         <WorkSection />
       </Section>
-
-      <StyledFooter />
     </MainWrapper>
   );
 };

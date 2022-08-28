@@ -2,6 +2,7 @@ import { Link } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import PortfolioView from './portfolio';
+import Footer from './portfolio/components/Footer';
 import ProjectDetails from './portfolio/components/ProjectDetails';
 
 const Topbar = styled.div`
@@ -31,6 +32,10 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const StyledFooter = styled(Footer)`
+  margin-top: 48px;
+`;
+
 const App = () => (
   <BrowserRouter>
     <Topbar>
@@ -44,10 +49,13 @@ const App = () => (
         </StyledLink>
       </Navigation>
     </Topbar>
+
     <Routes>
       <Route path="/" element={<PortfolioView />} />
       <Route path="/projects/:id" element={<ProjectDetails />} />
     </Routes>
+
+    <StyledFooter />
   </BrowserRouter>
 );
 
