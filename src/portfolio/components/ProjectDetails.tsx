@@ -69,7 +69,7 @@ const ProjectDetails = () => {
   const { id } = useParams();
   const project = projectData.find((project) => project.readableId === id);
   if (!project) {
-    return 'redirect to 404';
+    return <div>redirect to 404</div>;
   }
   return (
     <Root>
