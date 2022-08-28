@@ -205,4 +205,30 @@ export const projectData = [
       'Haru, the dog',
     ],
   },
+  {
+    readableId: 'water-purification',
+    title: 'Nanomaji',
+    subtitle: 'Water purification in Tanzania',
+    shortDescription: 'A global challenged transformed in an affordable solution and a profitable business concept',
+    dates: 'Oct/2014 - May/2015',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/3/nanomaji1.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/3/nanomaji2.png',
+    ],
+    innerHtml:
+      'This project started during a collaboration between Industry and Academia in <a href="http://www.aalto.fi/en/" target="_blank">Aalto University</a> in Finland. We were two groups, the one I was participating focusing on the development of a business model, and the other one focusing on the product development.<br><br><a href="http://www.ahlstrom.com/" target="_blank">Ahlstrom</a>, a big finnish company had developed a material capable of purifying water at low cost. Our challenge was to approach the Tanzanian market and come up with a hollistic  win-win solution that could be desirable, and technically and economically viable.<br><br>During 8 months we have researched the case, we spent 20 days in Tanzania running a workshop and talking to potential users, customers and partners, and <a href="https://s3.amazonaws.com/fabianopb-production/uploads/Nanomaji+project+factsheet.pdf" target="_blank">we have created</a> a working prototype sustained by a highly profitable business model.<br><br>Seeing the potential, we participated in a Start-up competition, got <a href="http://climatelaunchpad.org/finalists/nanomaji/" target="_blank">1st place</a> in Finland and after that we have raised an investment. Now, part of the team is dedicated to improve the product.',
+    tags: ['2 teams', '11 members', '20 days in Tanzania', '8 months of project', '2 startup competitions', '1 prize'],
+    videoLink: 'https://www.youtube.com/embed/0339As_1FW8',
+  },
 ];
+
+// {
+//   readableId: '',
+//   title: '',
+//   subtitle: '',
+//   shortDescription: '',
+//   dates: '',
+//   images: [],
+//   innerHtml: '',
+//   tags: [],
+// },
