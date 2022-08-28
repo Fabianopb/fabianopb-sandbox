@@ -1,5 +1,5 @@
 import { Link } from '@mui/material';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link as RRDLink } from 'react-router-dom';
 import styled from 'styled-components';
 import PortfolioView from './portfolio';
 import Footer from './portfolio/components/Footer';
@@ -15,9 +15,11 @@ const Topbar = styled.div`
   color: #fff;
 `;
 
-const Logo = styled.div`
+const Logo = styled(RRDLink)`
   font-size: 24px;
   font-weight: 400;
+  color: #fff;
+  text-decoration: none;
 `;
 
 const Navigation = styled.div`
@@ -39,7 +41,7 @@ const StyledFooter = styled(Footer)`
 const App = () => (
   <BrowserRouter>
     <Topbar>
-      <Logo>Fabiano Brito</Logo>
+      <Logo to="/">Fabiano Brito</Logo>
       <Navigation>
         <StyledLink href="#" underline="hover">
           Contact
