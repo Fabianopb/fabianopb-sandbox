@@ -54,6 +54,11 @@ const Text = styled.div`
   color: #555;
   font-size: 14px;
   margin-left: 24px;
+  a,
+  a:hover,
+  a:visited {
+    color: #53b5cc;
+  }
 `;
 
 const TagCloud = styled.div`
@@ -84,7 +89,7 @@ const ProjectDetails = () => {
             <Image key={src} src={src} />
           ))}
         </ImagesContainer>
-        <Text>{project.innerHtml}</Text>
+        <Text dangerouslySetInnerHTML={{ __html: project.innerHtml }} />
       </ContentWrapper>
       <TagCloud>{project.tags.join('  •  ')}</TagCloud>
     </Root>
