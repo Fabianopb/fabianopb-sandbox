@@ -14,6 +14,7 @@ const Title = styled.h1`
   color: #8e8f98;
   font-size: 40px;
   font-weight: 600;
+  margin-top: 48px;
 `;
 
 const Subtitle = styled.h2`
@@ -58,7 +59,7 @@ const Text = styled.div`
 const TagCloud = styled.div`
   font-size: 32px;
   line-height: 1.2;
-  margin-top: 30px;
+  margin-top: 48px;
   color: #afc42f;
   & + & {
     margin-left: 12px;
