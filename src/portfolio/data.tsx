@@ -220,6 +220,82 @@ export const projectData = [
     tags: ['2 teams', '11 members', '20 days in Tanzania', '8 months of project', '2 startup competitions', '1 prize'],
     videoLink: 'https://www.youtube.com/embed/0339As_1FW8',
   },
+  {
+    readableId: 'facilitating-innovation',
+    title: 'Facilitation',
+    subtitle: 'Facilitating innovation workshops around the globe',
+    shortDescription:
+      'Multidisciplinary teams have a great potential, but they might not know how to take advantage of it.',
+    dates: '2013 - on going occasionally',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/4/facilitation1.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/4/facilitation2.png',
+    ],
+    innerHtml:
+      'A facilitator must understand and perceive how different people react to diverse situations in teams. Everyone carries a baggage of knowledge that is valuable in a teamwork, but often they lack understanding on how to connect the dots and structure the ideas.<br><br>I have been a facilitator in several workshops and events, interacting with different teams and leading them to empower themselves during their journey.<br><br>In Brazil, I have facilitated business design teams in a corporation, in co-creative events like the <a href="http://planet.globalservicejam.org/" target="_blank">Global Service Jam</a> and <a href="https://www.facebook.com/GlobalSustainabilityJam/" target="_blank">Global Sustainability Jam</a>, and groups of learners in a <a href="http://www.escoladesignthinking.com.br/" target="_blank">Design Thinking School</a> in São Paulo. Also, I had the opportunity to facilitate a game design workshop in Helsinki and an ideation session in Tanzania during the <a href="http://www.fabianopb.com/public/show/3" target="_blank">Nanomaji</a> project.',
+    tags: [
+      'Teams from 4 to 6 people',
+      'Workshops with up to 40 participants',
+      'Experience in Brazil, Finland and Tanzania',
+      "100's of dots connected",
+    ],
+  },
+  {
+    readableId: 'sharing-experience',
+    title: 'Talks',
+    subtitle: 'Sharing experience and knowledge',
+    shortDescription:
+      'When giving a talk we learn as much as we pass forward. It is a strong exercise for developing self knowledge.',
+    dates: '2013 - on going occasionally',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/5/speaking2.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/5/speaking1.png',
+    ],
+    innerHtml:
+      'At the beginning of my student life I started to realize that I felt comfortable beign on the stage. Presenting is an art that requires a lot of self knowledge and trial and error.<br><br>I have started to really develop my presentation skills in a big engineering company where I worked in Brazil. There, I performed several presentations for managers and board members to sell ideas internally. Moreover, I had the opportunity of being one of the speakers in an internal TED style event.<br><br>Moving from Brazil was challenging as I had to readapt my speaking skills to the english language, what brought me even more self-knowledge on how to deal with the stage.<br><br>I\'ve also given talks on customer research, <a href="https://s3.amazonaws.com/fabianopb-production/uploads/reframing+the+brief.pdf" target="_blank">framing challenges</a> and <a href="https://s3.amazonaws.com/fabianopb-production/uploads/Business+Model+ZERO+Competition.pdf" target="_blank">business modelling</a>, and pitching ideas.',
+    tags: [
+      '15-20 min talks',
+      'Diverse public',
+      '2 languages',
+      'Presentations / TED style / Pitches',
+      "Storytelling + hero's journey",
+    ],
+  },
+  {
+    readableId: 'finnish-game-jam',
+    title: 'Game development',
+    subtitle: '30 hours of intense coding and illustration',
+    shortDescription: 'Jumping on the bandwagon of the Global Game Jam 2016, this game was developed in 30 hours',
+    dates: '2012 - on going occasionally',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/6/bedtime2.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/6/bedtime1.png',
+    ],
+    innerHtml:
+      'In the middle of 2013 I saw one of my friends having success with a mobile game he had developed. That was enough for me for joining my passion for coding and creativity and start learning game development.<br><br>During this past years I have developed from scratch a few <a href="https://play.google.com/store/apps/developer?id=Visivae+Mobile" target="_blank">games and apps</a> for Android, that are far from perfection, but with which I could learn the whole process of designing, developing, illustrating, shipping and monetizing a mobile game.<br><br>On the hype of the <a href="http://globalgamejam.org/" target="_blank">Global Game Jam 2016</a> and its theme, that was \'ritual\', I have developed \'<a href="https://play.google.com/store/apps/details?id=com.visivaemobile.itsbedtime" target="_blank">It\'s Bedtime</a>\' in 30 hours during one weekend. It\'s an interactive game in which you have to perform a series of pre-bedtime rituals to make the character feel sleepy.<br><br>The game was created with <a href="http://www.andengine.org/" target="_blank">AndEngine</a>, <a href="https://eclipse.org/" target="_blank">Eclipse</a> as the IDE, <a href="http://www.adobe.com/products/illustrator.html" target="_blank">Adobe Illustrator</a>, and <a href="https://www.codeandweb.com/texturepacker" target="_blank">TexturePacker</a>. You can see the source code <a href="https://github.com/Fabianopb/It-s-Bedtime" target="_blank">here</a>.',
+    tags: ['1 weekend', '30 hours', '10+ illustrations', '1900+ lines of Java and XML', 'A lot of pizza and coffee'],
+    videoLink: 'https://www.youtube.com/embed/YYEJm36GZBw',
+  },
+  {
+    readableId: 'dynamic-portfolio',
+    title: 'This website',
+    subtitle: 'A dynamic portfolio developed using the latest frameworks',
+    shortDescription:
+      'This website was developed in Cloud9, using Ruby on Rails and PostgreSQL, deployed to Heroku, and integrated with AWS S3.',
+    dates: 'Jan/2015 [2 weeks in total]',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/7/website1.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/7/website2.png',
+    ],
+    innerHtml:
+      'During a <a href="http://itpaalto.net/tracks/digital-interactive-entertainment/" target="_blank">course</a> taken in the summer of 2015 and my experience working at <a href="http://www.fabianopb.com/public/show/2" target="_blank">Hello Ruby</a> in the autumn of 2015, I have jumped again into the web development.<br><br>This is how I started learning <a href="http://rubyonrails.org/" target="_blank">Ruby on Rails</a>, and discovered this super powerful framework for creating modern web apps.<br><br>This website you are navigating right now has an MVC architecture and perform CRUD actions to list you my skills and projects. Also, those actions allow me to edit everything from the admin area, without having to rewrite one single line of code.<br><br>I have developed it in <a href="https://pt.wikipedia.org/wiki/HTML" target="_blank">HTML</a>, <a href="https://pt.wikipedia.org/wiki/Cascading_Style_Sheets" target="_blank">CSS</a> and basic <a href="https://pt.wikipedia.org/wiki/Ruby_(linguagem_de_programa%C3%A7%C3%A3o)" target="_blank">Ruby</a>, using <a href="https://c9.io/" target="_blank">Cloud9</a>, Ruby on Rails framework and <a href="http://www.postgresql.org/" target="_blank">PostgreSQL</a> as database, deployed to <a href="https://www.heroku.com/" target="_blank">Heroku</a> and redirected to my personal domain, and integrated with <a href="https://aws.amazon.com/s3/" target="_blank">AWS S3</a>, the storage buckets from Amazon. See the source code <a href="https://github.com/Fabianopb/fabianopb-portfolio" target="_blank">here</a>.',
+    tags: [
+      '2 weeks of work',
+      '4 databases',
+      '1400+ lines of HTML, CSS and Ruby',
+      'Days and days digging my directories to show my projects',
+    ],
+  },
 ];
 
 // {
