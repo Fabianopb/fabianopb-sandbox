@@ -180,3 +180,64 @@ export const workData = [
     src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/15/Screen_Shot_2017-05-15_at_8.43.09.png',
   },
 ];
+
+export const projectData = [
+  {
+    readableId: 'computational-thinking',
+    title: 'Hello Ruby',
+    subtitle: 'Computational thinking and coding for kids',
+    shortDescription:
+      'Measuring offline consumer behavior, defining analytics strategy and writing about the development of soft skills for kids',
+    dates: 'Sep/2015 - Nov/2015',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/2/ruby-playtest.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/2/ruby-analytics.png',
+    ],
+    innerHtml: (
+      <>
+        <a href="http://www.helloruby.com/" target="_blank" rel="noreferrer">
+          Hello Ruby
+        </a>{' '}
+        is a Finnish Start-up founded by{' '}
+        <a href="http://lindaliukas.fi/" target="_blank" rel="noreferrer">
+          Linda Liukas
+        </a>
+        , the creator of a world of possibilities for kids to develop computational thinking and coding skills. I have
+        worked in this inspiring company during the{' '}
+        <a href="http://www.helloruby.com/fellowship" target="_blank" rel="noreferrer">
+          Autumn of 2015
+        </a>
+        .
+        <br />
+        <br />
+        To start with, we had to dive deep into the world of parenting and teaching for kids, and also in the world of
+        the little ones. The dynamic and fast-paced environment was an enabler factor for experimenting different
+        approaches and solving problems autonomously.
+        <br />
+        <br />
+        During about three months there I have developed a method for measuring offline consumer behaviour, worked with
+        the team to define the analytics strategy for the company, and I have created a{' '}
+        <a href="http://blog.helloruby.com/tagged/futureskills" target="_blank" rel="noreferrer">
+          series of blog posts
+        </a>{' '}
+        for the company&apos;s blog about future skills for children.
+        <br />
+        <br />
+        Read more about{' '}
+        <a href="http://blog.helloruby.com/post/134913185088/from-the-fellows-fabiano" target="_blank" rel="noreferrer">
+          here
+        </a>
+        .
+      </>
+    ),
+    tags: [
+      '3.5 months',
+      '3 fellows',
+      '5 blog posts',
+      '2 surveys',
+      'a talk on data analysis',
+      'Brilliant kids',
+      'Haru, the dog',
+    ],
+  },
+];
