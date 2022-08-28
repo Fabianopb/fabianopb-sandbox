@@ -1,4 +1,5 @@
 import { Button, Divider } from '@mui/material';
+import { useRef } from 'react';
 import styled from 'styled-components';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
@@ -85,6 +86,7 @@ const SectionTitle = styled.h1`
 `;
 
 const PortfolioView = () => {
+  const workSectionRef = useRef<HTMLDivElement>(null);
   return (
     <MainWrapper>
       <BannerContainer>
@@ -101,7 +103,11 @@ const PortfolioView = () => {
             <br />
             <br />I have also side projects in RoR and native Android.
           </BannerBody>
-          <BannerButton variant="outlined" size="large">
+          <BannerButton
+            variant="outlined"
+            size="large"
+            onClick={() => workSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          >
             Show me
           </BannerButton>
         </BannerText>
@@ -121,7 +127,7 @@ const PortfolioView = () => {
 
       <StyledDivider variant="middle" />
 
-      <Section>
+      <Section ref={workSectionRef}>
         <SectionTitle>Selected Work</SectionTitle>
         <WorkSection />
       </Section>
