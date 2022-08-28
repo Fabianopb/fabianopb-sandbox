@@ -25,6 +25,7 @@ const Subtitle = styled.h2`
 
 const ShortDescription = styled.h3`
   color: #555;
+  font-weight: 300;
   font-size: 20px;
 `;
 
