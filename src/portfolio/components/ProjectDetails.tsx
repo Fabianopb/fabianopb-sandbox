@@ -72,6 +72,23 @@ const TagCloud = styled.div`
   }
 `;
 
+const VideoContainer = styled.div`
+  margin-top: 48px;
+  position: relative;
+  overflow: hidden;
+  max-width: 900px;
+  padding-bottom: 56.25%;
+  height: 0;
+`;
+
+const YouTubeFrame = styled.iframe`
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+`;
+
 const ProjectDetails = () => {
   const { id } = useParams();
   const project = projectData.find((project) => project.readableId === id);
@@ -93,6 +110,19 @@ const ProjectDetails = () => {
         <Text dangerouslySetInnerHTML={{ __html: project.innerHtml }} />
       </ContentWrapper>
       <TagCloud>{project.tags.join('  •  ')}</TagCloud>
+      {project.videoLink && (
+        <VideoContainer>
+          <YouTubeFrame
+            title="YouTube video player"
+            width="560"
+            height="315"
+            src={project.videoLink}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </VideoContainer>
+      )}
     </Root>
   );
 };
