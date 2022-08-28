@@ -1,4 +1,5 @@
 import { Link } from '@mui/material';
+import { useRef } from 'react';
 import { BrowserRouter, Routes, Route, Link as RRDLink } from 'react-router-dom';
 import styled from 'styled-components';
 import PortfolioView from './portfolio';
@@ -27,38 +28,49 @@ const Navigation = styled.div`
   align-items: center;
 `;
 
-const StyledLink = styled(Link)`
+const ContactLink = styled.div`
   color: #fff;
-  & + & {
-    margin-left: 24px;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
-const StyledFooter = styled(Footer)`
+const BlogLink = styled(Link)`
+  color: #fff;
+  margin-left: 24px;
+`;
+
+const FooterContainer = styled.div`
   margin-top: 48px;
 `;
 
-const App = () => (
-  <BrowserRouter>
-    <Topbar>
-      <Logo to="/">Fabiano Brito</Logo>
-      <Navigation>
-        <StyledLink href="#" underline="hover">
-          Contact
-        </StyledLink>
-        <StyledLink href="https://medium.com/@fabianopb" target="_blank" rel="noopener noreferrer" underline="hover">
-          Blog
-        </StyledLink>
-      </Navigation>
-    </Topbar>
+const App = () => {
+  const footerRef = useRef<HTMLDivElement>(null);
+  return (
+    <BrowserRouter>
+      <Topbar>
+        <Logo to="/">Fabiano Brito</Logo>
+        <Navigation>
+          <ContactLink onClick={() => footerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
+            Contact
+          </ContactLink>
+          <BlogLink href="https://medium.com/@fabianopb" target="_blank" rel="noopener noreferrer" underline="hover">
+            Blog
+          </BlogLink>
+        </Navigation>
+      </Topbar>
 
-    <Routes>
-      <Route path="/" element={<PortfolioView />} />
-      <Route path="/projects/:id" element={<ProjectDetails />} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<PortfolioView />} />
+        <Route path="/projects/:id" element={<ProjectDetails />} />
+      </Routes>
 
-    <StyledFooter />
-  </BrowserRouter>
-);
+      <FooterContainer ref={footerRef}>
+        <Footer />
+      </FooterContainer>
+    </BrowserRouter>
+  );
+};
 
 export default App;
