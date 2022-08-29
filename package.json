@@ -31,6 +31,7 @@
     ]
   },
   "dependencies": {
+    "@mui/icons-material": "^5.10.2",
     "@mui/material": "^5.10.1",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@tanstack/react-query": "^4.0.10",
