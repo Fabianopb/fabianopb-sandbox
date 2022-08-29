@@ -296,15 +296,77 @@ export const projectData = [
       'Days and days digging my directories to show my projects',
     ],
   },
+  {
+    readableId: 'quit-paperwork',
+    title: 'Project Management Web App',
+    subtitle: 'Quit paperwork! This is the digital era...',
+    shortDescription:
+      'A web-based application for managing students projects, including travel plans, refund claims and general budget.',
+    dates: 'Jan/2016 - Aug/2016',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/11/Screen_Shot_2016-09-20_at_15.46.38.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/11/Screen_Shot_2016-09-20_at_15.52.39.png',
+    ],
+    innerHtml:
+      "During 2015 when working part-time at Aalto University, I realized we had a need in our Master Program. Every year 60 students are divided in 10 to 11 teams to work in a year-long project. In one hand they have to create travel plans and several expenses claims. In the other hand, the Program staff has to process everything and manage the budget, in paper! (can you still use a pen?)<br><br>After recognizing and validating the need, I have created and tested with the students a few prototypes using Google Forms with a couple of scripts running on the background to provide some basic functionality. Then the next step was to put together my Ruby on Rails skills and create this app to make everyone's life easier. Now students can create all those claims online and administrators can manage everything on the other side.<br><br>The system is in beta release, so it will be tested throughout this year.",
+    tags: ['Ruby on Rails', 'AWS S3', 'Bootstrap', 'PostgreSQL', 'lovely RoR model relationships'],
+  },
+  {
+    readableId: 'smart-home',
+    title: 'Smart home application',
+    subtitle: "Real-time diagnosis of your home's heating",
+    shortDescription: 'Front-end of a web-based app for a company providing smart home solutions',
+    dates: 'Ago/2016 - Oct/2016',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/12/smart-home-1.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/12/Screen_Shot_2016-09-24_at_14.54.21.png',
+    ],
+    innerHtml:
+      "In this project a have worked in a small team of covering front-end development and UX design of a smart home application for a client's technology.<br><br>With this technology, end users are able to have a real-time diagnosis of the heating systems in their homes, such as air heater, water heater and floor heating. Users can measure, keep track of the history and control the systems directly from the application via a route-like product installed in their homes and connected to sensors and controllers.<br><br>Among other features, users can set different temperature profiles depending whether they will be at home, away or sleeping. Also during long travels, they can set the system in economy mode. In the graphs view, consumption data can be shown for different time ranges.",
+    tags: ['AngularJS', 'D3js', 'real-time data', 'responsive UI'],
+  },
+  {
+    readableId: 'industrial-troubleshooting',
+    title: 'Troubleshooting for factories',
+    subtitle: 'A dynamic troubleshooting system for a big industrial company',
+    shortDescription: 'This system was part of a big application for a cloud-based system for a big industrial company',
+    dates: 'Jul/2016 - Sep/2016',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/13/Screen_Shot_2016-09-24_at_15.16.09.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/13/Screen_Shot_2016-09-24_at_15.17.49.png',
+    ],
+    innerHtml:
+      'A big industrial company wanted to have a cloud-based solution to manage several factories in real-time, having an instant view of the production, systems, and possible problems that could be occurring in the industrial plants, so they would be able to act fast.<br><br>One part of this application is the troubleshooting. The industrial plants used to have in-site checklists for solving different issues that could happen with machines and equipment, being difficult to keep track and standardize the procedures.<br><br>The troubleshooting was created so that problems and solutions could be easily and quickly found from any device with access to the system. The user can search for keywords and/or use a three-level selection boxe to drill down the problem and filter the long list of possible solutions. Also, in a near future users with the right permissions will be able to add and edit the troubleshooting.',
+    tags: ['AngularJS 1.5 components', 'TypeScript', 'Dynamic search'],
+  },
+  {
+    readableId: 'cloud-computing',
+    title: 'Android Thin Client',
+    subtitle: 'Use OpenOffice, Inkscape lightly in your Android device',
+    shortDescription:
+      'This Android app allows you to run heavy desktop applications on your phone using cloud services and VNC.',
+    dates: 'Sep/2016 - Oct/2016',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/14/screens1.png',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/14/06.png',
+    ],
+    innerHtml:
+      'As part of a project during a course in Aalto University we worked in a team of four developers to create an Android app that could run heavy desktop applications.<br><br>This was achieved using <a href="https://cloud.google.com" target="_blank">Google Cloud</a>. In this project, OpenOffice and Inkscape instances were created in Google Cloud.<br><br>The backend, done mainly in Python, and also running as an instance in the cloud, was responsible to authorize a user to login into the application, return the list of available instances in the cloud, and start and stop the instances as requested by the user.<br><br>The Android app itself, works with several async tasks to sending http requests to authenticate, get the list of apps, and start and stop the instances. When starting an instance, the front-end receives a public IP and can then connect via VNC to the remote application running in the cloud. For making this possible, we have embedded the <a href="https://github.com/bk138/multivnc" target="_blank">MultiVNC</a> inside our own. Pretty nifty!',
+    tags: ['Google Cloud', 'Python', 'Java', 'VMs', 'MultiVNC'],
+  },
+  {
+    readableId: 'pepper-japan',
+    title: 'An office buddy made in Tokyo',
+    subtitle: 'A friendly robot to make daily work more efficient',
+    shortDescription: 'This project was developed during a Hackathon in Tokyo',
+    dates: '28-30 April 2017',
+    images: [
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image1/15/fabiano3.jpg',
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/image2/15/fabiano5.jpg',
+    ],
+    innerHtml:
+      'Yes, in Tokyo! During the last weekend of April 2017 I participated in <a href="http://tokyo.hackjunction.com/" target="_blank">Tokyo Junction Hackathon</a>.<br><br>Starting with the challenge of "How can we change the way people work?" we have used <a href="https://www.ald.softbankrobotics.com/en/cool-robots/pepper" target="_blank">Pepper</a>, the friendly robot from SoftBank to create the office buddy.<br><br>The fully implemented feature during that weekend was booking meetings with voice command. By saying for example "Buddy, I want to have a meeting with Jake on May 5 from 11 to 12", Pepper would record the voice, send to <a href="https://www.ibm.com/watson/developercloud/speech-to-text.html" target="_blank">IBM Watson\'s speech to text API</a>, and the output would be parsed in a series of scripts on <a href="https://nodered.org/" target="_blank">Node-RED</a> to become an HTTP request to our backend, which would create the appointment in the database and send that information via websocket to update our user interface done in <a href="https://facebook.github.io/react/" target="_blank">React</a> in real-time. Oh, and both backend and frontend were hosted in <a href="https://www.ibm.com/cloud-computing/bluemix/" target="_blank">Bluemix</a> nicely configured to build and deploy when pushing to Github.<br><br>It was fun, exhausting, and mind-blowing, to be in a Hackathon in Japan with amazing people developing unimaginable things in such a short time.<br><br>Some more info on the project on <a href="https://devpost.com/software/theworkbuddy" target="_blank">Devpost</a><br><br>The UI source code on <a href="https://github.com/Fabianopb/work-buddy" target="_blank">my Github</a>.<br><br>Pictures and video credit to Junction Hackathon team.',
+    tags: ['team of 6 great people', '3 nationalities', '48 hours', 'uncountable coffees, pizzas and energy drinks'],
+    videoLink: 'https://www.youtube.com/embed/qmT3eFmMt7I',
+  },
 ];
-
-// {
-//   readableId: '',
-//   title: '',
-//   subtitle: '',
-//   shortDescription: '',
-//   dates: '',
-//   images: [],
-//   innerHtml: '',
-//   tags: [],
-// },
