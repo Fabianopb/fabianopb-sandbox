@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import PortfolioView from './portfolio';
+import PortfolioView from '.';
 
 jest.mock('recharts', () => {
   const OriginalRechartsModule = jest.requireActual('recharts');
@@ -20,6 +20,6 @@ const wrapper = ({ children }: { children?: ReactNode }) => <MemoryRouter>{child
 describe('PortfolioView()', () => {
   it('renders the index', () => {
     const { getByText } = render(<PortfolioView />, { wrapper });
-    expect(getByText('Fabiano Brito')).toBeInTheDocument();
+    expect(getByText("Hey, I'm Fabiano!")).toBeInTheDocument();
   });
 });
