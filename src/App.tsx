@@ -1,6 +1,6 @@
 import { Link } from '@mui/material';
 import { useRef } from 'react';
-import { BrowserRouter, Routes, Route, Link as RRDLink } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link as RRDLink, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PortfolioView from './portfolio';
 import Footer from './portfolio/components/Footer';
@@ -50,7 +50,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Topbar>
-        <Logo to="/">Fabiano Brito</Logo>
+        <Logo to="/portfolio">Fabiano Brito</Logo>
         <Navigation>
           <ContactLink onClick={() => footerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
             Contact
@@ -62,8 +62,9 @@ const App = () => {
       </Topbar>
 
       <Routes>
-        <Route path="/" element={<PortfolioView />} />
-        <Route path="/projects/:id" element={<ProjectDetails />} />
+        <Route path="/" element={<Navigate to="/portfolio" replace />} />
+        <Route path="/portfolio" element={<PortfolioView />} />
+        <Route path="/portfolio/projects/:id" element={<ProjectDetails />} />
       </Routes>
 
       <FooterContainer ref={footerRef}>

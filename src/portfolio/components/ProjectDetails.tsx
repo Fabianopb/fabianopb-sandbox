@@ -107,13 +107,13 @@ const ProjectDetails = () => {
   const handleClickNextProject = () => {
     const currentProjectIndex = projectData.findIndex((project) => project.readableId === id);
     const nextProjectIndex = currentProjectIndex < projectData.length - 1 ? currentProjectIndex + 1 : 0;
-    navigate(`/projects/${projectData[nextProjectIndex].readableId}`);
+    navigate(`/portfolio/projects/${projectData[nextProjectIndex].readableId}`);
   };
 
   const handleClickPreviousProject = () => {
     const currentProjectIndex = projectData.findIndex((project) => project.readableId === id);
     const nextProjectIndex = currentProjectIndex === 0 ? projectData.length - 1 : currentProjectIndex - 1;
-    navigate(`/projects/${projectData[nextProjectIndex].readableId}`);
+    navigate(`/portfolio/projects/${projectData[nextProjectIndex].readableId}`);
   };
 
   return (
