@@ -1,9 +1,8 @@
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
-import { Button } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { projectData } from '../data';
+import ProjectNavigation from './ProjectNavigation';
 
 const Root = styled.div`
   display: flex;
@@ -11,16 +10,6 @@ const Root = styled.div`
   max-width: 900px;
   padding: 0 24px;
   margin: auto;
-`;
-
-const NavigationContainer = styled.div`
-  margin-top: 48px;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const NavigationButton = styled(Button)`
-  color: #53b5cc;
 `;
 
 const Title = styled.h1`
@@ -106,32 +95,30 @@ const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const project = projectData.find((project) => project.readableId === id);
+
   if (!project) {
     return <div>redirect to 404</div>;
   }
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
   const handleClickNextProject = () => {
     const currentProjectIndex = projectData.findIndex((project) => project.readableId === id);
     const nextProjectIndex = currentProjectIndex < projectData.length - 1 ? currentProjectIndex + 1 : 0;
     navigate(`/projects/${projectData[nextProjectIndex].readableId}`);
   };
+
   const handleClickPreviousProject = () => {
     const currentProjectIndex = projectData.findIndex((project) => project.readableId === id);
     const nextProjectIndex = currentProjectIndex === 0 ? projectData.length - 1 : currentProjectIndex - 1;
     navigate(`/projects/${projectData[nextProjectIndex].readableId}`);
   };
+
   return (
     <Root>
-      <NavigationContainer>
-        <NavigationButton variant="text" size="small" startIcon={<ChevronLeft />} onClick={handleClickPreviousProject}>
-          Previous project
-        </NavigationButton>
-        <NavigationButton variant="text" size="small" endIcon={<ChevronRight />} onClick={handleClickNextProject}>
-          Next project
-        </NavigationButton>
-      </NavigationContainer>
+      <ProjectNavigation onClickPrevious={handleClickPreviousProject} onClickNext={handleClickNextProject} />
       <Title>{project.title}</Title>
       <Subtitle>{project.subtitle}</Subtitle>
       <ShortDescription>{project.shortDescription}</ShortDescription>
@@ -158,6 +145,7 @@ const ProjectDetails = () => {
           />
         </VideoContainer>
       )}
+      <ProjectNavigation onClickPrevious={handleClickPreviousProject} onClickNext={handleClickNextProject} />
     </Root>
   );
 };
