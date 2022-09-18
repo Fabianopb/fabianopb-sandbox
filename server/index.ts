@@ -16,7 +16,7 @@ import exampleRoutes from './examples/routes';
   app.use(express.static(path.resolve('dist')));
 
   app.get('*', (_, response) => {
-    response.sendFile(path.resolve('index.html'));
+    response.sendFile(path.resolve('dist', 'index.html'));
   });
 
   app.use((error: any, _1: Request, res: Response, _2: NextFunction) => {
