@@ -6,6 +6,8 @@ on:
       - main
 
 jobs:
+  checks:
+    - uses: ./.github/workflows/ci.yml
   deploy:
     runs-on: ubuntu-latest
     steps:
