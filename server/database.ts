@@ -11,6 +11,34 @@ export const init = async () => {
   client = new MongoClient(uri);
   await client.connect();
   database = client.db('fabianopb_sandbox');
+  await setupSchemas();
+};
+
+export const setupSchemas = async () => {
+  const skillsValidator = {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['name', 'value'],
+      properties: {
+        name: {
+          bsonType: 'string',
+          description: 'must be a string and is required',
+        },
+        value: {
+          bsonType: 'int',
+          minimum: 0,
+          maximum: 100,
+          description: 'must be an integer [0, 100] and is required',
+        },
+      },
+    },
+  };
+  const skillsCollection = database.collection('skills');
+  if (skillsCollection) {
+    await database.command({ collMod: 'skills', validator: skillsValidator });
+  } else {
+    await database.createCollection('skills', { validator: skillsValidator });
+  }
 };
 
 export const close = () => {
