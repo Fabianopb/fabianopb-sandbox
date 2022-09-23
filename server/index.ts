@@ -3,7 +3,7 @@ import * as server from './server';
 
 (async () => {
   try {
-    database.init();
+    await database.init();
     server.init();
   } catch (error) {
     console.error('Server closed unexpectedly!', error);
