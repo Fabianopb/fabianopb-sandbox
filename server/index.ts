@@ -1,8 +1,20 @@
 import express, { NextFunction, Request, Response } from 'express';
+import { MongoClient } from 'mongodb';
 import path from 'path';
 // import exampleRoutes from './examples/routes';
 
 (async () => {
+  if (!process.env.MONGO_URI) {
+    throw new Error('MONGO_URI is not defined in the environment!');
+  }
+  const client = new MongoClient(process.env.MONGO_URI);
+  try {
+    await client.connect();
+    await client.db('admin').command({ ping: 1 });
+  } finally {
+    await client.close();
+  }
+
   const port = process.env.PORT || 9000;
 
   const app = express();
