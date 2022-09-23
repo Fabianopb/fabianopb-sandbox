@@ -1,4 +1,4 @@
-// import bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 import { Router } from 'express';
 import { database } from '../database';
 
@@ -16,14 +16,15 @@ skills.route('/skills').get(async (_, response) => {
   return response.status(200).json(skills);
 });
 
-// router.route('/').post(bodyParser.json(), async (request, response) => {
-//   try {
-//     const item = new Item(request.body);
-//     await item.save();
-//     return response.status(200).json('Item saved!');
-//   } catch (error) {
-//     return response.status(400).send(error);
-//   }
-// });
+skills.route('/skill').post(bodyParser.json(), async (request, response) => {
+  try {
+    const collection = database.collection<Skill>('skills');
+    const skill = request.body;
+    await collection.insertOne(skill);
+    return response.status(200).json('Item saved!');
+  } catch (error) {
+    return response.status(400).send(error);
+  }
+});
 
 export default skills;
