@@ -2,7 +2,12 @@ import { MongoClient, Db, Document } from 'mongodb';
 import { PORTFOLIO_SKILLS } from './portfolio/collections';
 import { portfolioSkillsSchema } from './portfolio/schemas';
 
-const uri = process.env.MONGO_URI;
+const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
+const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
+const password = encodeURIComponent(process.env.MONGO_PASSWORD || '');
+const cluster = process.env.MONGO_CLUSTER;
+const uri = `mongodb${cloudServer}://${user}:${password}@${cluster}/?retryWrites=true&w=majority`;
+
 const databaseName = process.env.MONGO_DB_NAME;
 let client: MongoClient;
 export let database: Db;
