@@ -6,7 +6,7 @@ import * as server from './server';
     await database.init();
     server.init();
   } catch (error) {
-    console.error('Server closed unexpectedly!', error);
+    console.error('Server closed unexpectedly!\n', error);
     await database.close();
   }
 })();
