@@ -1,8 +1,18 @@
-import { MongoClient, Db } from 'mongodb';
+import { MongoClient, Db, Document } from 'mongodb';
+import { PORTFOLIO_SKILLS } from './portfolio/collections';
+import { portfolioSkillsSchema } from './portfolio/schemas';
 
 const uri = process.env.MONGO_URI;
 let client: MongoClient;
 export let database: Db;
+
+const setupSchema = async (collectionName: string, validator: Document, exists: boolean) => {
+  if (exists) {
+    await database.command({ collMod: collectionName, validator });
+  } else {
+    await database.createCollection(collectionName, { validator });
+  }
+};
 
 export const init = async () => {
   if (!uri) {
@@ -11,34 +21,9 @@ export const init = async () => {
   client = new MongoClient(uri);
   await client.connect();
   database = client.db('fabianopb_sandbox');
-  await setupSchemas();
-};
-
-export const setupSchemas = async () => {
-  const skillsValidator = {
-    $jsonSchema: {
-      bsonType: 'object',
-      required: ['name', 'value'],
-      properties: {
-        name: {
-          bsonType: 'string',
-          description: 'must be a string and is required',
-        },
-        value: {
-          bsonType: 'int',
-          minimum: 0,
-          maximum: 100,
-          description: 'must be an integer [0, 100] and is required',
-        },
-      },
-    },
-  };
-  const skillsCollection = database.collection('skills');
-  if (skillsCollection) {
-    await database.command({ collMod: 'skills', validator: skillsValidator });
-  } else {
-    await database.createCollection('skills', { validator: skillsValidator });
-  }
+  const collections = await database.collections();
+  const existingCollectionNames = collections.map((c) => c.collectionName);
+  await setupSchema(PORTFOLIO_SKILLS, portfolioSkillsSchema, existingCollectionNames.includes(PORTFOLIO_SKILLS));
 };
 
 export const close = () => {
