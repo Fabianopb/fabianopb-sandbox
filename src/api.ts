@@ -6,3 +6,5 @@ type Skill = {
 };
 
 export const getSkills = () => axios.get<Skill[]>('/api/v1/portfolio/skills').then((r) => r.data);
+
+export const addSkills = () => axios.post('/api/v1/portfolio/skills');
