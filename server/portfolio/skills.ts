@@ -23,7 +23,7 @@ skillsRouter.post('/skills', auth, async (request, response) => {
     const collection = database.collection(PORTFOLIO_SKILLS);
     const skills = request.body;
     await collection.insertMany(skills);
-    return response.status(200).json('Items saved!');
+    return response.status(200).json('Items created');
   } catch (error: any) {
     return response.status(400).send(error.message);
   }
@@ -40,6 +40,20 @@ skillsRouter.put('/skills/:skillId', auth, async (request, response) => {
       return response.status(404).send('Item not found');
     }
     return response.status(200).json({ message: 'Item updated' });
+  } catch (error: any) {
+    return response.status(400).send(error.message);
+  }
+});
+
+skillsRouter.delete('/skills/:skillId', auth, async (request, response) => {
+  try {
+    const { skillId } = request.params;
+    const collection = database.collection(PORTFOLIO_SKILLS);
+    const result = await collection.deleteOne({ _id: new ObjectId(skillId) });
+    if (result.deletedCount === 0) {
+      return response.status(404).send('Item not found');
+    }
+    return response.status(200).json({ message: 'Item deleted' });
   } catch (error: any) {
     return response.status(400).send(error.message);
   }
