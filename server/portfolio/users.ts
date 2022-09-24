@@ -21,7 +21,7 @@ usersRouter.route('/users/login').post(async (request, response) => {
     }
     return response.status(200).json('Return token');
   } catch (error) {
-    return response.status(400).send(error);
+    return response.status(400).send({ error });
   }
 });
 
@@ -30,7 +30,7 @@ usersRouter.route('/users/register-admin').post(async (request, response) => {
     const collection = database.collection<User>(PORTFOLIO_USERS);
     const existingDocuments = await collection.countDocuments();
     if (existingDocuments > 0) {
-      throw new Error('Admin user already registered');
+      return response.status(400).send({ error: 'Admin user already exists!' });
     }
     const { username, password } = request.body;
     const salt = bcrypt.genSaltSync(10);
@@ -38,7 +38,7 @@ usersRouter.route('/users/register-admin').post(async (request, response) => {
     await collection.insertOne({ username, password: hashPassword });
     return response.status(200).json('Admin user created!');
   } catch (error) {
-    return response.status(400).send(error);
+    return response.status(400).send({ error });
   }
 });
 
