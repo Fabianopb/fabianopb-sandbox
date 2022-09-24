@@ -18,7 +18,7 @@ skillsRouter.route('/skill').post(async (request, response) => {
     await collection.insertOne(skill);
     return response.status(200).json('Item saved!');
   } catch (error) {
-    return response.status(400).send(error);
+    return response.status(400).send({ error });
   }
 });
 
