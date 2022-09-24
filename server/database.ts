@@ -1,6 +1,6 @@
 import { MongoClient, Db, Document } from 'mongodb';
-import { PORTFOLIO_SKILLS } from './portfolio/collections';
-import { portfolioSkillsSchema } from './portfolio/schemas';
+import { PORTFOLIO_SKILLS, PORTFOLIO_USERS } from './portfolio/collections';
+import { portfolioSkillsSchema, portfolioUsersSchema } from './portfolio/schemas';
 
 const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
 const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
@@ -36,6 +36,7 @@ export const init = async () => {
   const existingCollectionNames = collections.map((c) => c.collectionName);
 
   await setupSchema(PORTFOLIO_SKILLS, portfolioSkillsSchema, existingCollectionNames.includes(PORTFOLIO_SKILLS));
+  await setupSchema(PORTFOLIO_USERS, portfolioUsersSchema, existingCollectionNames.includes(PORTFOLIO_USERS));
 };
 
 export const close = () => {
