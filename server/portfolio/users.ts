@@ -10,7 +10,7 @@ type User = {
 
 const usersRouter = Router();
 
-usersRouter.route('/login').post(async (request, response) => {
+usersRouter.route('/users/login').post(async (request, response) => {
   try {
     const collection = database.collection<User>(PORTFOLIO_USERS);
     const { username, password } = request.body;
@@ -25,7 +25,7 @@ usersRouter.route('/login').post(async (request, response) => {
   }
 });
 
-usersRouter.route('/register-admin').post(async (request, response) => {
+usersRouter.route('/users/register-admin').post(async (request, response) => {
   try {
     const collection = database.collection<User>(PORTFOLIO_USERS);
     const existingDocuments = await collection.countDocuments();
