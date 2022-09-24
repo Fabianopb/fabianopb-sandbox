@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import skillsRoutes from './portfolio/skills';
@@ -6,6 +7,9 @@ const port = process.env.PORT || 9000;
 
 export const init = () => {
   const app = express();
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
 
   app.get('/api/v1/hello', (_, response) => {
     response.json('Hello new world!');
