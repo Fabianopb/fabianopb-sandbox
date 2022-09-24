@@ -28,10 +28,13 @@ export const init = async () => {
     throw new Error('MONGO_DB_NAME is not defined in the environment!');
   }
   client = new MongoClient(uri);
+
   await client.connect();
   database = client.db(databaseName);
+
   const collections = await database.collections();
   const existingCollectionNames = collections.map((c) => c.collectionName);
+
   await setupSchema(PORTFOLIO_SKILLS, portfolioSkillsSchema, existingCollectionNames.includes(PORTFOLIO_SKILLS));
 };
 
