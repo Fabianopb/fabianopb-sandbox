@@ -1,6 +1,6 @@
 import { MongoClient, Db, Document } from 'mongodb';
-import { PORTFOLIO_SKILLS } from './portfolio/collections';
-import { portfolioSkillsSchema } from './portfolio/schemas';
+import { PORTFOLIO_SKILLS, PORTFOLIO_USERS } from './portfolio/collections';
+import { portfolioSkillsSchema, portfolioUsersSchema } from './portfolio/schemas';
 
 const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
 const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
@@ -28,11 +28,15 @@ export const init = async () => {
     throw new Error('MONGO_DB_NAME is not defined in the environment!');
   }
   client = new MongoClient(uri);
+
   await client.connect();
   database = client.db(databaseName);
+
   const collections = await database.collections();
   const existingCollectionNames = collections.map((c) => c.collectionName);
+
   await setupSchema(PORTFOLIO_SKILLS, portfolioSkillsSchema, existingCollectionNames.includes(PORTFOLIO_SKILLS));
+  await setupSchema(PORTFOLIO_USERS, portfolioUsersSchema, existingCollectionNames.includes(PORTFOLIO_USERS));
 };
 
 export const close = () => {
