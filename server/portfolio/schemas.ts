@@ -5,13 +5,26 @@ export const portfolioSkillsSchema = {
     properties: {
       name: {
         bsonType: 'string',
-        description: 'must be a string and is required',
       },
       value: {
         bsonType: 'int',
         minimum: 0,
         maximum: 100,
-        description: 'must be an integer [0, 100] and is required',
+      },
+    },
+  },
+};
+
+export const portfolioUsersSchema = {
+  $jsonSchema: {
+    bsonType: 'object',
+    required: ['username', 'password'],
+    properties: {
+      username: {
+        bsonType: 'string',
+      },
+      password: {
+        bsonType: 'string',
       },
     },
   },
