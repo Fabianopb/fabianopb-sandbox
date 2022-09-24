@@ -1,18 +1,17 @@
-import bodyParser from 'body-parser';
 import { Router } from 'express';
 import { database } from '../database';
 import { PORTFOLIO_SKILLS } from './collections';
 
-const skills = Router();
+const skillsRouter = Router();
 
-skills.route('/skills').get(async (_, response) => {
+skillsRouter.route('/skills').get(async (_, response) => {
   const collection = database.collection(PORTFOLIO_SKILLS);
   const cursor = collection.find();
   const skills = await cursor.toArray();
   return response.status(200).json(skills);
 });
 
-skills.route('/skill').post(bodyParser.json(), async (request, response) => {
+skillsRouter.route('/skill').post(async (request, response) => {
   try {
     const collection = database.collection(PORTFOLIO_SKILLS);
     const skill = request.body;
@@ -23,4 +22,4 @@ skills.route('/skill').post(bodyParser.json(), async (request, response) => {
   }
 });
 
-export default skills;
+export default skillsRouter;
