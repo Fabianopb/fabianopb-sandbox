@@ -17,7 +17,7 @@ usersRouter.route('/users/login').post(async (request, response) => {
     const user = await collection.findOne({ username });
     const isValidUser = user && bcrypt.compareSync(password, user.password);
     if (!isValidUser) {
-      return response.status(403);
+      return response.status(403).send({ error: 'Invalid username or password' });
     }
     return response.status(200).json('Return token');
   } catch (error) {
