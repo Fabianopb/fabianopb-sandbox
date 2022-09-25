@@ -1,7 +1,17 @@
-import { Button, Divider, LinearProgress } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  LinearProgress,
+  TextField,
+} from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { StringParam, useQueryParam } from 'use-query-params';
 import { getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
@@ -90,7 +100,18 @@ const SectionTitle = styled.h1`
 const PortfolioView = () => {
   const workSectionRef = useRef<HTMLDivElement>(null);
 
+  const [mode] = useQueryParam('mode', StringParam);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { data: skillsData, isLoading: loadingSkills } = useQuery(['portfolio', 'skills'], getSkills);
+
+  useEffect(() => {
+    // TODO: check if session is not valid
+    if (mode === 'admin') {
+      setIsModalOpen(true);
+    }
+  }, []);
 
   return (
     <MainWrapper>
@@ -137,6 +158,18 @@ const PortfolioView = () => {
         <SectionTitle>Selected Work</SectionTitle>
         <WorkSection />
       </Section>
+
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <DialogTitle>Login</DialogTitle>
+        <DialogContent>
+          <TextField label="Username" fullWidth variant="outlined" size="small" />
+          <TextField label="Password" type="password" fullWidth variant="outlined" size="small" />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
+          <Button onClick={() => setIsModalOpen(false)}>Confirm</Button>
+        </DialogActions>
+      </Dialog>
     </MainWrapper>
   );
 };
