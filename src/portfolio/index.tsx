@@ -9,6 +9,7 @@ import AboutSection from './components/AboutSection';
 import LoginDialog from './components/LoginDialog';
 import SkillsSection from './components/SkillsSection';
 import WorkSection from './components/WorkSection';
+import { isSessionValid } from './utils';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -92,15 +93,14 @@ const SectionTitle = styled.h1`
 const PortfolioView = () => {
   const workSectionRef = useRef<HTMLDivElement>(null);
 
-  const [mode] = useQueryParam('mode', StringParam);
+  const [mode, setMode] = useQueryParam('mode', StringParam);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: skillsData, isLoading: loadingSkills } = useQuery(['portfolio', 'skills'], getSkills);
 
   useEffect(() => {
-    // TODO: check if session is not valid
-    if (mode === 'admin') {
+    if (mode === 'admin' && !isSessionValid()) {
       setIsModalOpen(true);
     }
   }, []);
@@ -151,7 +151,7 @@ const PortfolioView = () => {
         <WorkSection />
       </Section>
 
-      <LoginDialog isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <LoginDialog isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onError={() => setMode(undefined)} />
     </MainWrapper>
   );
 };
