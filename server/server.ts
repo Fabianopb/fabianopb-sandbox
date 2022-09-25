@@ -12,10 +12,6 @@ export const init = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.get('/api/v1/hello', (_, response) => {
-    response.json('Hello new world!');
-  });
-
   app.use('/api/v1/portfolio', [skillsRouter, usersRouter]);
 
   app.use(express.static(path.resolve('dist')));
@@ -25,6 +21,7 @@ export const init = () => {
   });
 
   app.use((error: any, _1: Request, res: Response, _2: NextFunction) => {
+    console.log('CATCH KUNAMI ERROR!!!!!\n', error);
     const statusCode = error.statusCode || 500;
     res.status(statusCode).json({ statusCode, error: error.message });
   });
