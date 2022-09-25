@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createGlobalStyle } from 'styled-components';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 import nunitoWoff from './assets/nunito-v25-latin-regular.woff';
 import nunitoWoff2 from './assets/nunito-v25-latin-regular.woff2';
@@ -17,9 +18,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Nunito';
     font-style: normal;
     font-weight: 400;
-    src: local(''),
-      url(${nunitoWoff2}) format('woff2'),
-      url(${nunitoWoff}) format('woff');
+    src: local(''), url(${nunitoWoff2}) format('woff2'), url(${nunitoWoff}) format('woff');
   }
 
   html {
@@ -49,6 +48,24 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Nunito, sans-serif',
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+        @font-face {
+          font-family: 'Nunito';
+          font-style: normal;
+          font-weight: 400;
+          src: local(''), url(${nunitoWoff2}) format('woff2'), url(${nunitoWoff}) format('woff');
+        }
+      `,
+    },
+  },
+});
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -62,8 +79,10 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <App />
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <App />
+      </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );
