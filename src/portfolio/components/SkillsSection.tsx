@@ -2,7 +2,11 @@ import { Link, Rating } from '@mui/material';
 import { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled, { css, keyframes } from 'styled-components';
-import { badgesData, skillsData, toolsetData } from '../data';
+import { badgesData, toolsetData } from '../data';
+
+type Props = {
+  skills: { name: string; value: number }[];
+};
 
 const rotate = keyframes`
   0% { transform: rotateY(0deg) }
@@ -119,7 +123,7 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
     `}
 `;
 
-const SkillsSection = () => {
+const SkillsSection = ({ skills }: Props) => {
   const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
   const [activePieIndex, setActivePieIndex] = useState(0);
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
@@ -140,7 +144,7 @@ const SkillsSection = () => {
         <SkillLevel>PROFICIENT</SkillLevel>
         <SkillLevel>EXPERT</SkillLevel>
       </SkillsHeader>
-      {skillsData.map((skill) => (
+      {skills.map((skill) => (
         <SkillBar key={skill.name} value={hasHoveredSkills ? skill.value : 0}>
           <SkillBarValue>{skill.name}</SkillBarValue>
           <SkillBarValue>{skill.value}%</SkillBarValue>
