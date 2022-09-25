@@ -151,7 +151,14 @@ const PortfolioView = () => {
         <WorkSection />
       </Section>
 
-      <LoginDialog isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onError={() => setMode(undefined)} />
+      <LoginDialog
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setMode(undefined);
+        }}
+        onSuccess={() => setIsModalOpen(false)}
+      />
     </MainWrapper>
   );
 };

@@ -8,7 +8,7 @@ import { clearSession, setSession } from '../utils';
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onError: () => void;
+  onSuccess: () => void;
 };
 
 const StyledDialogActions = styled(DialogActions)`
@@ -23,18 +23,18 @@ const StyledInput = styled(TextField)`
   margin-top: 16px;
 `;
 
-const LoginDialog = ({ isOpen, onClose, onError }: Props) => {
+const LoginDialog = ({ isOpen, onClose, onSuccess }: Props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const { mutate, isLoading } = useMutation(() => login({ username, password }), {
     onSuccess: ({ token }) => {
       setSession(token);
-      onClose();
+      onSuccess();
     },
     onError: () => {
       clearSession();
-      onError();
+      onClose();
     },
   });
 
