@@ -1,13 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  LinearProgress,
-  TextField,
-} from '@mui/material';
+import { Button, Divider, LinearProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -15,6 +6,7 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
+import LoginDialog from './components/LoginDialog';
 import SkillsSection from './components/SkillsSection';
 import WorkSection from './components/WorkSection';
 
@@ -159,17 +151,7 @@ const PortfolioView = () => {
         <WorkSection />
       </Section>
 
-      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DialogTitle>Login</DialogTitle>
-        <DialogContent>
-          <TextField label="Username" fullWidth variant="outlined" size="small" />
-          <TextField label="Password" type="password" fullWidth variant="outlined" size="small" />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
-          <Button onClick={() => setIsModalOpen(false)}>Confirm</Button>
-        </DialogActions>
-      </Dialog>
+      <LoginDialog isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </MainWrapper>
   );
 };
