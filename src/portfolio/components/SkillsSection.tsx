@@ -2,6 +2,8 @@ import { Link, Rating } from '@mui/material';
 import { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled, { css, keyframes } from 'styled-components';
+import { useAtom } from 'jotai';
+import { isAdminAtom } from '../atoms';
 import { badgesData, toolsetData } from '../data';
 
 type Props = {
@@ -127,6 +129,9 @@ const SkillsSection = ({ skills }: Props) => {
   const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
   const [activePieIndex, setActivePieIndex] = useState(0);
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
+
+  const [isAdmin] = useAtom(isAdminAtom);
+  console.log(isAdmin);
 
   const handleBadgeMouseEnter = async (index: number) => {
     if (animatingBadges.includes(index)) {

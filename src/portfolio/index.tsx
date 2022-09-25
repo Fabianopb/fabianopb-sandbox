@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
+import { useAtom } from 'jotai';
 import { getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
@@ -10,6 +11,7 @@ import LoginDialog from './components/LoginDialog';
 import SkillsSection from './components/SkillsSection';
 import WorkSection from './components/WorkSection';
 import { isSessionValid } from './utils';
+import { isAdminAtom } from './atoms';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -95,6 +97,8 @@ const PortfolioView = () => {
 
   const [mode, setMode] = useQueryParam('mode', StringParam);
 
+  const [, setIsAdmin] = useAtom(isAdminAtom);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: skillsData, isLoading: loadingSkills } = useQuery(['portfolio', 'skills'], getSkills);
@@ -103,7 +107,12 @@ const PortfolioView = () => {
     if (mode === 'admin' && !isSessionValid()) {
       setIsModalOpen(true);
     }
-  }, []);
+    if (mode === 'admin' && isSessionValid()) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  }, [mode]);
 
   return (
     <MainWrapper>
@@ -157,7 +166,10 @@ const PortfolioView = () => {
           setIsModalOpen(false);
           setMode(undefined);
         }}
-        onSuccess={() => setIsModalOpen(false)}
+        onSuccess={() => {
+          setIsModalOpen(false);
+          setIsAdmin(true);
+        }}
       />
     </MainWrapper>
   );
