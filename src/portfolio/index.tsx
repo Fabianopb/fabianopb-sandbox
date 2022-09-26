@@ -12,6 +12,7 @@ import SkillsSection from './components/SkillsSection';
 import WorkSection from './components/WorkSection';
 import { isSessionValid } from './utils';
 import { isAdminAtom } from './atoms';
+import { Edit } from '@mui/icons-material';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -92,14 +93,22 @@ const SectionTitle = styled.h1`
   margin-bottom: 48px;
 `;
 
+const EditIcon = styled(Edit)`
+  margin-left: 16px;
+  width: 20px;
+  fill: #17293a;
+  cursor: pointer;
+`;
+
 const PortfolioView = () => {
   const workSectionRef = useRef<HTMLDivElement>(null);
 
   const [mode, setMode] = useQueryParam('mode', StringParam);
 
-  const [, setIsAdmin] = useAtom(isAdminAtom);
+  const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditingSkills, setIsEditingSkills] = useState(true);
 
   const { data: skillsData, isLoading: loadingSkills } = useQuery(['portfolio', 'skills'], getSkills);
 
@@ -109,8 +118,9 @@ const PortfolioView = () => {
     }
     if (mode === 'admin' && isSessionValid()) {
       setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
+    }
+    if (!mode) {
+      setIsEditingSkills(false);
     }
   }, [mode]);
 
@@ -148,9 +158,15 @@ const PortfolioView = () => {
       <StyledDivider variant="middle" />
 
       <Section>
-        <SectionTitle>Skills</SectionTitle>
+        <SectionTitle>Skills{isAdmin && <EditIcon onClick={() => setIsEditingSkills((prev) => !prev)} />}</SectionTitle>
         {loadingSkills && <LinearProgress />}
-        {skillsData && !loadingSkills && <SkillsSection skills={skillsData} />}
+        {skillsData && !loadingSkills && (
+          <SkillsSection
+            isEditing={isEditingSkills}
+            skills={skillsData}
+            onCancelEditing={() => setIsEditingSkills(false)}
+          />
+        )}
       </Section>
 
       <StyledDivider variant="middle" />
