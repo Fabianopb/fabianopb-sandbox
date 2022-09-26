@@ -4,6 +4,7 @@ import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled, { css, keyframes } from 'styled-components';
 import { badgesData, toolsetData } from '../data';
 import { useFieldArray, useForm } from 'react-hook-form';
+import { Add, Clear } from '@mui/icons-material';
 
 type Props = {
   skills: { _id: string; name: string; value: number }[];
@@ -70,6 +71,7 @@ const SkillBarValue = styled.div`
 const SkillFormRow = styled.div`
   margin-top: 8px;
   display: flex;
+  align-items: center;
 `;
 
 const StyledNameInput = styled(TextField)`
@@ -79,6 +81,13 @@ const StyledNameInput = styled(TextField)`
 const StyledValueInput = styled(TextField)`
   margin-left: 8px;
   flex: 1;
+`;
+
+const ClearIcon = styled(Clear)`
+  margin-left: 8px;
+  width: 16px;
+  fill: #9b0000;
+  cursor: pointer;
 `;
 
 const SkillFormActions = styled.div`
@@ -153,7 +162,7 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing }: Props) => {
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
 
   const { control, register, handleSubmit } = useForm({ defaultValues: { skills } });
-  const { fields } = useFieldArray({ control, name: 'skills' });
+  const { fields, remove, append } = useFieldArray({ control, name: 'skills' });
 
   const handleBadgeMouseEnter = async (index: number) => {
     if (animatingBadges.includes(index)) {
@@ -179,18 +188,34 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing }: Props) => {
           </SkillBar>
         ))}
       {isEditing && (
-        <form onSubmit={handleSubmit((data) => console.log(data))}>
+        <form>
           {fields.map((field, index) => (
             <SkillFormRow key={field._id}>
               <StyledNameInput {...register(`skills.${index}.name`)} size="small" />
               <StyledValueInput {...register(`skills.${index}.value`)} size="small" />
+              <ClearIcon onClick={() => remove(index)} />
             </SkillFormRow>
           ))}
+          <Button
+            style={{ marginTop: 8 }}
+            size="small"
+            variant="text"
+            endIcon={<Add />}
+            onClick={() => append({ _id: new Date().valueOf().toString(), name: '', value: 0 })}
+          >
+            Add field
+          </Button>
           <SkillFormActions>
             <Button size="small" variant="outlined" onClick={onCancelEditing}>
               Cancel
             </Button>
-            <Button style={{ marginLeft: 8 }} size="small" variant="contained" type="submit">
+            <Button
+              style={{ marginLeft: 8 }}
+              size="small"
+              variant="contained"
+              type="submit"
+              onClick={handleSubmit((data) => console.log(data))}
+            >
               Save
             </Button>
           </SkillFormActions>
