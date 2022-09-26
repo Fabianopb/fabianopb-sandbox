@@ -1,13 +1,14 @@
-import { Link, Rating } from '@mui/material';
+import { Button, Link, Rating, TextField } from '@mui/material';
 import { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled, { css, keyframes } from 'styled-components';
-import { useAtom } from 'jotai';
-import { isAdminAtom } from '../atoms';
 import { badgesData, toolsetData } from '../data';
+import { useFieldArray, useForm } from 'react-hook-form';
 
 type Props = {
-  skills: { name: string; value: number }[];
+  skills: { _id: string; name: string; value: number }[];
+  isEditing: boolean;
+  onCancelEditing: () => void;
 };
 
 const rotate = keyframes`
@@ -64,6 +65,27 @@ const SkillBarValue = styled.div`
   position: relative;
   color: #fff;
   z-index: 1;
+`;
+
+const SkillFormRow = styled.div`
+  margin-top: 8px;
+  display: flex;
+`;
+
+const StyledNameInput = styled(TextField)`
+  flex: 3;
+`;
+
+const StyledValueInput = styled(TextField)`
+  margin-left: 8px;
+  flex: 1;
+`;
+
+const SkillFormActions = styled.div`
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 const SkillSubtitle = styled.h2`
@@ -125,13 +147,13 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
     `}
 `;
 
-const SkillsSection = ({ skills }: Props) => {
+const SkillsSection = ({ skills, isEditing, onCancelEditing }: Props) => {
   const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
   const [activePieIndex, setActivePieIndex] = useState(0);
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
 
-  const [isAdmin] = useAtom(isAdminAtom);
-  console.log(isAdmin);
+  const { control, register, handleSubmit } = useForm({ defaultValues: { skills } });
+  const { fields } = useFieldArray({ control, name: 'skills' });
 
   const handleBadgeMouseEnter = async (index: number) => {
     if (animatingBadges.includes(index)) {
@@ -149,12 +171,31 @@ const SkillsSection = ({ skills }: Props) => {
         <SkillLevel>PROFICIENT</SkillLevel>
         <SkillLevel>EXPERT</SkillLevel>
       </SkillsHeader>
-      {skills.map((skill) => (
-        <SkillBar key={skill.name} value={hasHoveredSkills ? skill.value : 0}>
-          <SkillBarValue>{skill.name}</SkillBarValue>
-          <SkillBarValue>{skill.value}%</SkillBarValue>
-        </SkillBar>
-      ))}
+      {!isEditing &&
+        skills.map((skill) => (
+          <SkillBar key={skill.name} value={hasHoveredSkills ? skill.value : 0}>
+            <SkillBarValue>{skill.name}</SkillBarValue>
+            <SkillBarValue>{skill.value}%</SkillBarValue>
+          </SkillBar>
+        ))}
+      {isEditing && (
+        <form onSubmit={handleSubmit((data) => console.log(data))}>
+          {fields.map((field, index) => (
+            <SkillFormRow key={field._id}>
+              <StyledNameInput {...register(`skills.${index}.name`)} size="small" />
+              <StyledValueInput {...register(`skills.${index}.value`)} size="small" />
+            </SkillFormRow>
+          ))}
+          <SkillFormActions>
+            <Button size="small" variant="outlined" onClick={onCancelEditing}>
+              Cancel
+            </Button>
+            <Button style={{ marginLeft: 8 }} size="small" variant="contained" type="submit">
+              Save
+            </Button>
+          </SkillFormActions>
+        </form>
+      )}
       <SkillSubtitle>Toolset</SkillSubtitle>
       <ChartContainer>
         <RatingContainer>
