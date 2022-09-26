@@ -6,6 +6,7 @@ import { badgesData, toolsetData } from '../data';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { Add, Clear } from '@mui/icons-material';
 import { useMutation } from '@tanstack/react-query';
+import { addSkills, deleteSkill, editSkill } from '../../api';
 
 type Skill = { _id: string; name: string; value: number };
 
@@ -13,6 +14,7 @@ type Props = {
   skills: Skill[];
   isEditing: boolean;
   onCancelEditing: () => void;
+  onChangeSuccess: () => void;
 };
 
 const rotate = keyframes`
@@ -159,7 +161,7 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
     `}
 `;
 
-const SkillsSection = ({ skills, isEditing, onCancelEditing }: Props) => {
+const SkillsSection = ({ skills, isEditing, onCancelEditing, onChangeSuccess }: Props) => {
   const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
   const [activePieIndex, setActivePieIndex] = useState(0);
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
@@ -188,9 +190,22 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing }: Props) => {
       }
       return acc;
     }, []);
-    console.log('addedSkills', addedSkills);
-    console.log('deletedSkills', deletedSkills);
-    console.log('editedSkills', editedSkills);
+    if (addedSkills.length > 0) {
+      const payload = addedSkills.map(({ name, value }) => ({ name, value }));
+      await addSkills(payload);
+    }
+    if (deletedSkills.length > 0) {
+      for (const skill of deletedSkills) {
+        await deleteSkill(skill._id);
+      }
+    }
+    if (editedSkills.length > 0) {
+      for (const skill of editedSkills) {
+        const { _id: skillId, ...payload } = skill;
+        await editSkill(skillId, payload);
+      }
+    }
+    onChangeSuccess();
   });
 
   return (

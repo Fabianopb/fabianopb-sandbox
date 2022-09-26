@@ -110,7 +110,11 @@ const PortfolioView = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditingSkills, setIsEditingSkills] = useState(true);
 
-  const { data: skillsData, isLoading: loadingSkills } = useQuery(['portfolio', 'skills'], getSkills);
+  const {
+    data: skillsData,
+    isLoading: loadingSkills,
+    refetch: refetchSkills,
+  } = useQuery(['portfolio', 'skills'], getSkills);
 
   useEffect(() => {
     if (mode === 'admin' && !isSessionValid()) {
@@ -165,6 +169,10 @@ const PortfolioView = () => {
             isEditing={isEditingSkills}
             skills={skillsData}
             onCancelEditing={() => setIsEditingSkills(false)}
+            onChangeSuccess={() => {
+              setIsEditingSkills(false);
+              refetchSkills();
+            }}
           />
         )}
       </Section>
