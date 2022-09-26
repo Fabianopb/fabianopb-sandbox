@@ -3,6 +3,7 @@ import axios from 'axios';
 const agent = axios.create({ baseURL: '/api/v1/portfolio' });
 
 type Skill = {
+  _id: string;
   name: string;
   value: number;
 };
