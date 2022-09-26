@@ -5,9 +5,12 @@ import styled, { css, keyframes } from 'styled-components';
 import { badgesData, toolsetData } from '../data';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { Add, Clear } from '@mui/icons-material';
+import { useMutation } from '@tanstack/react-query';
+
+type Skill = { _id: string; name: string; value: number };
 
 type Props = {
-  skills: { _id: string; name: string; value: number }[];
+  skills: Skill[];
   isEditing: boolean;
   onCancelEditing: () => void;
 };
@@ -173,6 +176,23 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing }: Props) => {
     setAnimatingBadges((prev) => prev.filter((badgeIndex) => badgeIndex !== index));
   };
 
+  const { mutate } = useMutation(async (data: { skills: Skill[] }) => {
+    const originalSkillIds = skills.map((skill) => skill._id);
+    const formSkillIds = data.skills.map((dataSkill) => dataSkill._id);
+    const addedSkills = data.skills.filter((dataSkill) => !originalSkillIds.includes(dataSkill._id));
+    const deletedSkills = skills.filter((skill) => !formSkillIds.includes(skill._id));
+    const editedSkills = data.skills.reduce<Skill[]>((acc, curr) => {
+      const originalSkill = skills.find((skill) => skill._id === curr._id);
+      if (originalSkill && (originalSkill.name !== curr.name || originalSkill?.value !== curr.value)) {
+        return [...acc, curr];
+      }
+      return acc;
+    }, []);
+    console.log('addedSkills', addedSkills);
+    console.log('deletedSkills', deletedSkills);
+    console.log('editedSkills', editedSkills);
+  });
+
   return (
     <SkillsContainer onMouseOver={() => (!hasHoveredSkills ? setHasHoveredSkills(true) : undefined)}>
       <SkillsHeader>
@@ -214,7 +234,7 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing }: Props) => {
               size="small"
               variant="contained"
               type="submit"
-              onClick={handleSubmit((data) => console.log(data))}
+              onClick={handleSubmit((data) => mutate(data))}
             >
               Save
             </Button>
