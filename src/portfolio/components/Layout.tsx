@@ -70,7 +70,7 @@ const FooterContainer = styled.div`
 const Layout = () => {
   const footerRef = useRef<HTMLDivElement>(null);
   const [, setMode] = useQueryParam('mode', StringParam);
-  const [isAdmin] = useAtom(isAdminAtom);
+  const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
   return (
     <>
       <Topbar>
@@ -83,6 +83,7 @@ const Layout = () => {
                 onClick={() => {
                   clearSession();
                   setMode(undefined);
+                  setIsAdmin(false);
                 }}
               />
             </>
