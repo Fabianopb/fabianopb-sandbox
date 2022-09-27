@@ -1,5 +1,7 @@
 import jwtDecode from 'jwt-decode';
 
+export const getToken = () => localStorage.getItem('portfolio_token');
+
 export const setSession = (token: string) => {
   localStorage.setItem('portfolio_token', token);
 };
