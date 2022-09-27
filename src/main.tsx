@@ -85,7 +85,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <App />
-        <ToastContainer />
+        <ToastContainer theme="colored" />
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>

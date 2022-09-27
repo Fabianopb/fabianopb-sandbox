@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { addSkills, deleteSkill, editSkill } from '../../api';
 import { isAdminAtom } from '../atoms';
@@ -121,7 +122,7 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
   const { control, register, handleSubmit } = useForm<FormValues>({ defaultValues });
   const { fields, remove, append } = useFieldArray({ control, name: 'skills' });
 
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     async (data: FormValues) => {
       const originalSkillIds = skills.map((skill) => skill._id);
       const formSkillIds = data.skills.map((dataSkill) => dataSkill.id);
@@ -155,6 +156,10 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
         setIsEditingSkills(false);
         onSubmitSuccess();
       },
+      onError: (error?: any) => {
+        const message = error?.response?.data?.message || error?.message;
+        toast(message || 'Unkown error!', { type: 'error' });
+      },
     }
   );
 
@@ -177,8 +182,8 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
         <form>
           {fields.map((field, index) => (
             <SkillFormRow key={field.id}>
-              <StyledNameInput {...register(`skills.${index}.name`)} size="small" />
-              <StyledValueInput {...register(`skills.${index}.value`)} size="small" />
+              <StyledNameInput {...register(`skills.${index}.name`)} size="small" disabled={isLoading} />
+              <StyledValueInput {...register(`skills.${index}.value`)} size="small" disabled={isLoading} />
               <ClearIcon onClick={() => remove(index)} />
             </SkillFormRow>
           ))}
@@ -188,11 +193,12 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
             variant="text"
             endIcon={<Add />}
             onClick={() => append({ id: new Date().valueOf().toString(), name: '', value: '' })}
+            disabled={isLoading}
           >
             Add field
           </Button>
           <SkillFormActions>
-            <Button size="small" variant="outlined" onClick={() => setIsEditingSkills(false)}>
+            <Button size="small" variant="outlined" onClick={() => setIsEditingSkills(false)} disabled={isLoading}>
               Cancel
             </Button>
             <Button
@@ -201,6 +207,7 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
               variant="contained"
               type="submit"
               onClick={handleSubmit((data) => mutate(data))}
+              disabled={isLoading}
             >
               Save
             </Button>
