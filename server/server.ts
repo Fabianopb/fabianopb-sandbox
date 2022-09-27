@@ -21,7 +21,6 @@ export const init = () => {
   });
 
   app.use((error: any, _1: Request, res: Response, _2: NextFunction) => {
-    console.log('CATCH KUNAMI ERROR!!!!!\n', error);
     const statusCode = error.statusCode || 500;
     res.status(statusCode).json({ statusCode, error: error.message });
   });
