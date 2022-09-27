@@ -22,7 +22,8 @@ export const init = () => {
 
   app.use((error: any, _1: Request, res: Response, _2: NextFunction) => {
     const statusCode = error.statusCode || 500;
-    res.status(statusCode).json({ statusCode, error: error.message });
+    const message = error.message || 'Unknown error!';
+    res.status(statusCode).json({ statusCode, message });
   });
 
   app.listen(port);
