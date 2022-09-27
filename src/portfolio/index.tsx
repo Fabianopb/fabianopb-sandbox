@@ -8,11 +8,11 @@ import { getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
 import LoginDialog from './components/LoginDialog';
-import SkillsSection from './components/SkillsSection';
+import LegacySkillsSection from './components/LegacySkillsSection';
 import WorkSection from './components/WorkSection';
 import { isSessionValid } from './utils';
 import { isAdminAtom } from './atoms';
-import { Edit } from '@mui/icons-material';
+import SkillsSubsection from './components/SkillsSubsection';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -93,22 +93,14 @@ const SectionTitle = styled.h1`
   margin-bottom: 48px;
 `;
 
-const EditIcon = styled(Edit)`
-  margin-left: 16px;
-  width: 20px;
-  fill: #17293a;
-  cursor: pointer;
-`;
-
 const PortfolioView = () => {
   const workSectionRef = useRef<HTMLDivElement>(null);
 
   const [mode, setMode] = useQueryParam('mode', StringParam);
 
-  const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
+  const [, setIsAdmin] = useAtom(isAdminAtom);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditingSkills, setIsEditingSkills] = useState(true);
 
   const {
     data: skillsData,
@@ -122,9 +114,6 @@ const PortfolioView = () => {
     }
     if (mode === 'admin' && isSessionValid()) {
       setIsAdmin(true);
-    }
-    if (!mode) {
-      setIsEditingSkills(false);
     }
   }, [mode, setIsAdmin]);
 
@@ -162,19 +151,10 @@ const PortfolioView = () => {
       <StyledDivider variant="middle" />
 
       <Section>
-        <SectionTitle>Skills{isAdmin && <EditIcon onClick={() => setIsEditingSkills((prev) => !prev)} />}</SectionTitle>
+        <SectionTitle>Skills</SectionTitle>
         {loadingSkills && <LinearProgress />}
-        {skillsData && !loadingSkills && (
-          <SkillsSection
-            isEditing={isEditingSkills}
-            skills={skillsData}
-            onCancelEditing={() => setIsEditingSkills(false)}
-            onChangeSuccess={() => {
-              setIsEditingSkills(false);
-              refetchSkills();
-            }}
-          />
-        )}
+        {skillsData && !loadingSkills && <SkillsSubsection skills={skillsData} onSubmitSuccess={refetchSkills} />}
+        <LegacySkillsSection />
       </Section>
 
       <StyledDivider variant="middle" />
