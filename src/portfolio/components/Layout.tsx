@@ -4,7 +4,6 @@ import { useAtom } from 'jotai';
 import { useRef } from 'react';
 import { Outlet, Link as RRDLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { useQueryParam, StringParam } from 'use-query-params';
 import { isAdminAtom } from '../atoms';
 import { clearSession } from '../utils';
 import Footer from './Footer';
@@ -69,7 +68,6 @@ const FooterContainer = styled.div`
 
 const Layout = () => {
   const footerRef = useRef<HTMLDivElement>(null);
-  const [, setMode] = useQueryParam('mode', StringParam);
   const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
   return (
     <>
@@ -82,7 +80,6 @@ const Layout = () => {
               <LogoutIcon
                 onClick={() => {
                   clearSession();
-                  setMode(undefined);
                   setIsAdmin(false);
                 }}
               />

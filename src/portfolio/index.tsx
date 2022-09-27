@@ -109,10 +109,10 @@ const PortfolioView = () => {
   } = useQuery(['portfolio', 'skills'], getSkills);
 
   useEffect(() => {
-    if (mode === 'admin' && !isSessionValid()) {
+    if (mode === 'adminLogin' && !isSessionValid()) {
       setIsModalOpen(true);
     }
-    if (mode === 'admin' && isSessionValid()) {
+    if (isSessionValid()) {
       setIsAdmin(true);
     }
   }, [mode, setIsAdmin]);
