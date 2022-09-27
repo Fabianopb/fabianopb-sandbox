@@ -1,17 +1,13 @@
 import { Button, Divider, LinearProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
-import { StringParam, useQueryParam } from 'use-query-params';
-import { useAtom } from 'jotai';
 import { getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
 import LoginDialog from './components/LoginDialog';
 import LegacySkillsSection from './components/LegacySkillsSection';
 import WorkSection from './components/WorkSection';
-import { isSessionValid } from './utils';
-import { isAdminAtom } from './atoms';
 import SkillsSubsection from './components/SkillsSubsection';
 
 const MainWrapper = styled.div`
@@ -96,26 +92,11 @@ const SectionTitle = styled.h1`
 const PortfolioView = () => {
   const workSectionRef = useRef<HTMLDivElement>(null);
 
-  const [mode, setMode] = useQueryParam('mode', StringParam);
-
-  const [, setIsAdmin] = useAtom(isAdminAtom);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const {
     data: skillsData,
     isLoading: loadingSkills,
     refetch: refetchSkills,
   } = useQuery(['portfolio', 'skills'], getSkills);
-
-  useEffect(() => {
-    if (mode === 'adminLogin' && !isSessionValid()) {
-      setIsModalOpen(true);
-    }
-    if (isSessionValid()) {
-      setIsAdmin(true);
-    }
-  }, [mode, setIsAdmin]);
 
   return (
     <MainWrapper>
@@ -164,17 +145,7 @@ const PortfolioView = () => {
         <WorkSection />
       </Section>
 
-      <LoginDialog
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setMode(undefined);
-        }}
-        onSuccess={() => {
-          setIsModalOpen(false);
-          setIsAdmin(true);
-        }}
-      />
+      <LoginDialog />
     </MainWrapper>
   );
 };
