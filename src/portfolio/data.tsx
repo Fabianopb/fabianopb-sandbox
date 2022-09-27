@@ -1,16 +1,3 @@
-export const skillsData = [
-  { name: 'Problem solving', value: 100 },
-  { name: 'Programming', value: 95 },
-  { name: 'Innovation management', value: 90 },
-  { name: 'Project management', value: 85 },
-  { name: 'Marketing', value: 80 },
-  { name: 'Facilitation', value: 75 },
-  { name: 'Business strategy', value: 65 },
-  { name: 'UI/UX design', value: 60 },
-  { name: 'Data analytics', value: 55 },
-  { name: 'Adobe Ps, Ai & In', value: 40 },
-];
-
 export const toolsetData = [
   { name: 'JavaScript', value: 100 },
   { name: 'ReactJS', value: 90 },

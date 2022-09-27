@@ -2,7 +2,9 @@ import { Link, Rating } from '@mui/material';
 import { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled, { css, keyframes } from 'styled-components';
-import { badgesData, skillsData, toolsetData } from '../data';
+import { badgesData, toolsetData } from '../data';
+
+// type Props = {};
 
 const rotate = keyframes`
   0% { transform: rotateY(0deg) }
@@ -12,52 +14,6 @@ const rotate = keyframes`
 const SkillsContainer = styled.div`
   width: 600px;
   margin: auto;
-`;
-
-const SkillsHeader = styled.div`
-  display: flex;
-  font-weight: bold;
-`;
-
-const SkillLevel = styled.div`
-  flex: 1;
-  text-align: center;
-  font-size: 12px;
-  color: #555;
-  &:not(:last-child) {
-    border-right: 1px solid #555;
-  }
-`;
-
-const SkillBar = styled.div<{ value: number }>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 12px;
-  padding: 0 8px;
-  width: 100%;
-  background-color: #d1d0d7;
-  height: 24px;
-  border-radius: 4px;
-  ::after {
-    position: absolute;
-    display: block;
-    content: '';
-    background-color: #17293a;
-    height: 100%;
-    width: ${({ value }) => `${value}%`};
-    left: 0;
-    top: 0;
-    border-radius: 4px;
-    transition: width 1000ms ease-in-out;
-  }
-`;
-
-const SkillBarValue = styled.div`
-  position: relative;
-  color: #fff;
-  z-index: 1;
 `;
 
 const SkillSubtitle = styled.h2`
@@ -119,8 +75,7 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
     `}
 `;
 
-const SkillsSection = () => {
-  const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
+const LegacySkillsSection = () => {
   const [activePieIndex, setActivePieIndex] = useState(0);
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
 
@@ -134,18 +89,7 @@ const SkillsSection = () => {
   };
 
   return (
-    <SkillsContainer onMouseOver={() => (!hasHoveredSkills ? setHasHoveredSkills(true) : undefined)}>
-      <SkillsHeader>
-        <SkillLevel>BEGINNER</SkillLevel>
-        <SkillLevel>PROFICIENT</SkillLevel>
-        <SkillLevel>EXPERT</SkillLevel>
-      </SkillsHeader>
-      {skillsData.map((skill) => (
-        <SkillBar key={skill.name} value={hasHoveredSkills ? skill.value : 0}>
-          <SkillBarValue>{skill.name}</SkillBarValue>
-          <SkillBarValue>{skill.value}%</SkillBarValue>
-        </SkillBar>
-      ))}
+    <SkillsContainer>
       <SkillSubtitle>Toolset</SkillSubtitle>
       <ChartContainer>
         <RatingContainer>
@@ -225,4 +169,4 @@ const SkillsSection = () => {
   );
 };
 
-export default SkillsSection;
+export default LegacySkillsSection;

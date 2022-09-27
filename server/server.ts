@@ -21,9 +21,10 @@ export const init = () => {
   });
 
   app.use((error: any, _1: Request, res: Response, _2: NextFunction) => {
-    console.log('CATCH KUNAMI ERROR!!!!!\n', error);
     const statusCode = error.statusCode || 500;
-    res.status(statusCode).json({ statusCode, error: error.message });
+    const name = error.name || 'Unknown error!';
+    const message = error.message || 'Unknown error!';
+    res.status(statusCode).json({ statusCode, name, message });
   });
 
   app.listen(port);

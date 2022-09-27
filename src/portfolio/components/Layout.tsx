@@ -1,7 +1,11 @@
+import { Logout } from '@mui/icons-material';
 import { Link } from '@mui/material';
+import { useAtom } from 'jotai';
 import { useRef } from 'react';
 import { Outlet, Link as RRDLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { isAdminAtom } from '../atoms';
+import { clearSession } from '../utils';
 import Footer from './Footer';
 
 const Topbar = styled.div`
@@ -14,11 +18,30 @@ const Topbar = styled.div`
   color: #fff;
 `;
 
+const LeftContent = styled.div`
+  display: flex;
+  align-items: center; ;
+`;
+
 const Logo = styled(RRDLink)`
   font-size: 24px;
   font-weight: 400;
   color: #fff;
   text-decoration: none;
+`;
+
+const Admin = styled.div`
+  margin-left: 24px;
+  font-size: 12px;
+  font-style: italic;
+  color: #53b5cc;
+`;
+
+const LogoutIcon = styled(Logout)`
+  margin-left: 12px;
+  width: 18px;
+  fill: #53b5cc;
+  cursor: pointer;
 `;
 
 const Navigation = styled.div`
@@ -45,10 +68,24 @@ const FooterContainer = styled.div`
 
 const Layout = () => {
   const footerRef = useRef<HTMLDivElement>(null);
+  const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
   return (
     <>
       <Topbar>
-        <Logo to="/portfolio">Fabiano Brito</Logo>
+        <LeftContent>
+          <Logo to="/portfolio">Fabiano Brito</Logo>
+          {isAdmin && (
+            <>
+              <Admin>Admin session</Admin>
+              <LogoutIcon
+                onClick={() => {
+                  clearSession();
+                  setIsAdmin(false);
+                }}
+              />
+            </>
+          )}
+        </LeftContent>
         <Navigation>
           <ContactLink onClick={() => footerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
             Contact

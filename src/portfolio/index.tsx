@@ -1,10 +1,14 @@
-import { Button, Divider } from '@mui/material';
+import { Button, Divider, LinearProgress } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import styled from 'styled-components';
+import { getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
-import SkillsSection from './components/SkillsSection';
+import LoginDialog from './components/LoginDialog';
+import LegacySkillsSection from './components/LegacySkillsSection';
 import WorkSection from './components/WorkSection';
+import SkillsSubsection from './components/SkillsSubsection';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -87,6 +91,13 @@ const SectionTitle = styled.h1`
 
 const PortfolioView = () => {
   const workSectionRef = useRef<HTMLDivElement>(null);
+
+  const {
+    data: skillsData,
+    isLoading: loadingSkills,
+    refetch: refetchSkills,
+  } = useQuery(['portfolio', 'skills'], getSkills);
+
   return (
     <MainWrapper>
       <BannerContainer>
@@ -122,7 +133,11 @@ const PortfolioView = () => {
 
       <Section>
         <SectionTitle>Skills</SectionTitle>
-        <SkillsSection />
+        {loadingSkills && <LinearProgress />}
+        {skillsData && !loadingSkills && (
+          <SkillsSubsection skills={skillsData.sort((a, b) => b.value - a.value)} onSubmitSuccess={refetchSkills} />
+        )}
+        <LegacySkillsSection />
       </Section>
 
       <StyledDivider variant="middle" />
@@ -131,6 +146,8 @@ const PortfolioView = () => {
         <SectionTitle>Selected Work</SectionTitle>
         <WorkSection />
       </Section>
+
+      <LoginDialog />
     </MainWrapper>
   );
 };

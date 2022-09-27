@@ -96,13 +96,13 @@ const ProjectDetails = () => {
   const navigate = useNavigate();
   const project = projectData.find((project) => project.readableId === id);
 
-  if (!project) {
-    return <div>redirect to 404</div>;
-  }
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
+  if (!project) {
+    return <div>redirect to 404</div>;
+  }
 
   const handleClickNextProject = () => {
     const currentProjectIndex = projectData.findIndex((project) => project.readableId === id);
