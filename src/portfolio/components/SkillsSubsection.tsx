@@ -178,7 +178,7 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
             <SkillBarValue>{skill.value}%</SkillBarValue>
           </SkillBar>
         ))}
-      {isEditingSkills && (
+      {isAdmin && isEditingSkills && (
         <form>
           {fields.map((field, index) => (
             <SkillFormRow key={field.id}>
