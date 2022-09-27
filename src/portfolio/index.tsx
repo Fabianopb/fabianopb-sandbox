@@ -126,7 +126,7 @@ const PortfolioView = () => {
     if (!mode) {
       setIsEditingSkills(false);
     }
-  }, [mode]);
+  }, [mode, setIsAdmin]);
 
   return (
     <MainWrapper>
