@@ -104,7 +104,7 @@ const SkillFormActions = styled.div`
 
 const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
   const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
-  const [isEditingSkills, setIsEditingSkills] = useState(true);
+  const [isEditingSkills, setIsEditingSkills] = useState(false);
 
   const [isAdmin] = useAtom(isAdminAtom);
 
