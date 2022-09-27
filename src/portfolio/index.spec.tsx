@@ -1,6 +1,9 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import PortfolioView from '.';
 
 jest.mock('recharts', () => {
@@ -15,7 +18,15 @@ jest.mock('recharts', () => {
   };
 });
 
-const wrapper = ({ children }: { children?: ReactNode }) => <MemoryRouter>{children}</MemoryRouter>;
+const queryClient = new QueryClient();
+
+const wrapper = ({ children }: { children?: ReactNode }) => (
+  <QueryClientProvider client={queryClient}>
+    <MemoryRouter>
+      <QueryParamProvider adapter={ReactRouter6Adapter}>{children}</QueryParamProvider>
+    </MemoryRouter>
+  </QueryClientProvider>
+);
 
 describe('PortfolioView()', () => {
   it('renders the index', () => {
