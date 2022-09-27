@@ -8,6 +8,9 @@ import nunitoWoff from './assets/nunito-v25-latin-regular.woff';
 import nunitoWoff2 from './assets/nunito-v25-latin-regular.woff2';
 
 import App from './App';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -82,6 +85,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <App />
+        <ToastContainer />
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
