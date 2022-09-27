@@ -1,5 +1,5 @@
 import { Button, Link, Rating, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled, { css, keyframes } from 'styled-components';
 import { badgesData, toolsetData } from '../data';
@@ -8,10 +8,12 @@ import { Add, Clear } from '@mui/icons-material';
 import { useMutation } from '@tanstack/react-query';
 import { addSkills, deleteSkill, editSkill } from '../../api';
 
-type Skill = { _id: string; name: string; value: number };
+type FormValues = {
+  skills: { id: string; name: string; value: string }[];
+};
 
 type Props = {
-  skills: Skill[];
+  skills: { _id: string; name: string; value: number }[];
   isEditing: boolean;
   onCancelEditing: () => void;
   onChangeSuccess: () => void;
@@ -166,7 +168,12 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing, onChangeSuccess }: 
   const [activePieIndex, setActivePieIndex] = useState(0);
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
 
-  const { control, register, handleSubmit } = useForm({ defaultValues: { skills } });
+  const defaultValues = useMemo(
+    () => ({ skills: skills.map((skill) => ({ id: skill._id, name: skill.name, value: skill.value.toString() })) }),
+    [skills]
+  );
+
+  const { control, register, handleSubmit } = useForm<FormValues>({ defaultValues });
   const { fields, remove, append } = useFieldArray({ control, name: 'skills' });
 
   const handleBadgeMouseEnter = async (index: number) => {
@@ -178,20 +185,20 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing, onChangeSuccess }: 
     setAnimatingBadges((prev) => prev.filter((badgeIndex) => badgeIndex !== index));
   };
 
-  const { mutate } = useMutation(async (data: { skills: Skill[] }) => {
+  const { mutate } = useMutation(async (data: FormValues) => {
     const originalSkillIds = skills.map((skill) => skill._id);
-    const formSkillIds = data.skills.map((dataSkill) => dataSkill._id);
-    const addedSkills = data.skills.filter((dataSkill) => !originalSkillIds.includes(dataSkill._id));
+    const formSkillIds = data.skills.map((dataSkill) => dataSkill.id);
+    const addedSkills = data.skills.filter((dataSkill) => !originalSkillIds.includes(dataSkill.id));
     const deletedSkills = skills.filter((skill) => !formSkillIds.includes(skill._id));
-    const editedSkills = data.skills.reduce<Skill[]>((acc, curr) => {
-      const originalSkill = skills.find((skill) => skill._id === curr._id);
-      if (originalSkill && (originalSkill.name !== curr.name || originalSkill?.value !== curr.value)) {
+    const editedSkills = data.skills.reduce<FormValues['skills']>((acc, curr) => {
+      const originalSkill = skills.find((skill) => skill._id === curr.id);
+      if (originalSkill && (originalSkill.name !== curr.name || originalSkill?.value !== Number(curr.value))) {
         return [...acc, curr];
       }
       return acc;
     }, []);
     if (addedSkills.length > 0) {
-      const payload = addedSkills.map(({ name, value }) => ({ name, value }));
+      const payload = addedSkills.map(({ name, value }) => ({ name, value: Number(value) }));
       await addSkills(payload);
     }
     if (deletedSkills.length > 0) {
@@ -201,8 +208,8 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing, onChangeSuccess }: 
     }
     if (editedSkills.length > 0) {
       for (const skill of editedSkills) {
-        const { _id: skillId, ...payload } = skill;
-        await editSkill(skillId, payload);
+        const { id: skillId, name, value } = skill;
+        await editSkill(skillId, { name, value: Number(value) });
       }
     }
     onChangeSuccess();
@@ -225,7 +232,7 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing, onChangeSuccess }: 
       {isEditing && (
         <form>
           {fields.map((field, index) => (
-            <SkillFormRow key={field._id}>
+            <SkillFormRow key={field.id}>
               <StyledNameInput {...register(`skills.${index}.name`)} size="small" />
               <StyledValueInput {...register(`skills.${index}.value`)} size="small" />
               <ClearIcon onClick={() => remove(index)} />
@@ -236,7 +243,7 @@ const SkillsSection = ({ skills, isEditing, onCancelEditing, onChangeSuccess }: 
             size="small"
             variant="text"
             endIcon={<Add />}
-            onClick={() => append({ _id: new Date().valueOf().toString(), name: '', value: 0 })}
+            onClick={() => append({ id: new Date().valueOf().toString(), name: '', value: '' })}
           >
             Add field
           </Button>
