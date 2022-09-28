@@ -1,14 +1,12 @@
 import { Add, Clear, Edit } from '@mui/icons-material';
 import { Button, Rating, TextField } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled from 'styled-components';
-import { addSkills, deleteSkill, editSkill } from '../../api';
 import { isAdminAtom } from '../atoms';
+import useSkillsManagement from '../hooks/useSkillsManagement';
 import { Skill } from '../types';
 
 type FormValues = {
@@ -99,15 +97,9 @@ const FormActions = styled.div`
 
 const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
   const [activePieIndex, setActivePieIndex] = useState(0);
-  const [isEditing, setIsEditing] = useState(false);
-
   const [isAdmin] = useAtom(isAdminAtom);
 
-  useEffect(() => {
-    if (!isAdmin) {
-      setIsEditing(false);
-    }
-  }, [isAdmin]);
+  const { skillsMutation, isEditing, setIsEditing } = useSkillsManagement(toolset, 'tool', onSubmitSuccess);
 
   const defaultValues = useMemo(
     () => ({ toolset: toolset.map((tool) => ({ id: tool._id, name: tool.name, value: tool.value.toString() })) }),
@@ -116,50 +108,6 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
 
   const { control, register, handleSubmit } = useForm<FormValues>({ defaultValues });
   const { fields, remove, append } = useFieldArray({ control, name: 'toolset' });
-
-  const { mutate, isLoading } = useMutation(
-    async (data: FormValues) => {
-      const originalToolIds = toolset.map((tool) => tool._id);
-      const formToolIds = data.toolset.map((dataTool) => dataTool.id);
-      const addedTools = data.toolset.filter((dataTool) => !originalToolIds.includes(dataTool.id));
-      const deletedTools = toolset.filter((tool) => !formToolIds.includes(tool._id));
-      const editedTools = data.toolset.reduce<FormValues['toolset']>((acc, curr) => {
-        const originalTool = toolset.find((tool) => tool._id === curr.id);
-        if (originalTool && (originalTool.name !== curr.name || originalTool?.value !== Number(curr.value))) {
-          return [...acc, curr];
-        }
-        return acc;
-      }, []);
-      console.log('addedTools', addedTools);
-      console.log('deletedTools', deletedTools);
-      console.log('editedTools', editedTools);
-      if (addedTools.length > 0) {
-        const payload = addedTools.map(({ name, value }) => ({ name, value: Number(value), type: 'tool' as const }));
-        await addSkills(payload);
-      }
-      if (deletedTools.length > 0) {
-        for (const skill of deletedTools) {
-          await deleteSkill(skill._id);
-        }
-      }
-      if (editedTools.length > 0) {
-        for (const skill of editedTools) {
-          const { id: skillId, name, value } = skill;
-          await editSkill(skillId, { name, value: Number(value), type: 'tool' });
-        }
-      }
-    },
-    {
-      onSuccess: () => {
-        setIsEditing(false);
-        onSubmitSuccess();
-      },
-      onError: (error?: any) => {
-        const message = error?.response?.data?.message || error?.message;
-        toast(message || 'Unkown error!', { type: 'error' });
-      },
-    }
-  );
 
   return (
     <ToolsetContainer>
@@ -233,8 +181,16 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
         <form>
           {fields.map((field, index) => (
             <FormRow key={field.id}>
-              <StyledNameInput {...register(`toolset.${index}.name`)} size="small" disabled={isLoading} />
-              <StyledValueInput {...register(`toolset.${index}.value`)} size="small" disabled={isLoading} />
+              <StyledNameInput
+                {...register(`toolset.${index}.name`)}
+                size="small"
+                disabled={skillsMutation.isLoading}
+              />
+              <StyledValueInput
+                {...register(`toolset.${index}.value`)}
+                size="small"
+                disabled={skillsMutation.isLoading}
+              />
               <ClearIcon onClick={() => remove(index)} />
             </FormRow>
           ))}
@@ -244,12 +200,17 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
             variant="text"
             endIcon={<Add />}
             onClick={() => append({ id: new Date().valueOf().toString(), name: '', value: '' })}
-            disabled={isLoading}
+            disabled={skillsMutation.isLoading}
           >
             Add field
           </Button>
           <FormActions>
-            <Button size="small" variant="outlined" onClick={() => setIsEditing(false)} disabled={isLoading}>
+            <Button
+              size="small"
+              variant="outlined"
+              onClick={() => setIsEditing(false)}
+              disabled={skillsMutation.isLoading}
+            >
               Cancel
             </Button>
             <Button
@@ -257,8 +218,8 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
               size="small"
               variant="contained"
               type="submit"
-              onClick={handleSubmit((data) => mutate(data))}
-              disabled={isLoading}
+              onClick={handleSubmit((data) => skillsMutation.mutate(data.toolset))}
+              disabled={skillsMutation.isLoading}
             >
               Save
             </Button>

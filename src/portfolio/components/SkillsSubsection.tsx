@@ -1,13 +1,11 @@
 import { Clear, Add, Edit } from '@mui/icons-material';
 import { TextField, Button } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { addSkills, deleteSkill, editSkill } from '../../api';
 import { isAdminAtom } from '../atoms';
+import useSkillsManagement from '../hooks/useSkillsManagement';
 import { Skill } from '../types';
 
 type FormValues = {
@@ -105,15 +103,9 @@ const SkillFormActions = styled.div`
 
 const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
   const [hasHoveredSkills, setHasHoveredSkills] = useState(false);
-  const [isEditingSkills, setIsEditingSkills] = useState(false);
-
   const [isAdmin] = useAtom(isAdminAtom);
 
-  useEffect(() => {
-    if (!isAdmin) {
-      setIsEditingSkills(false);
-    }
-  }, [isAdmin]);
+  const { skillsMutation, isEditing, setIsEditing } = useSkillsManagement(skills, 'skill', onSubmitSuccess);
 
   const defaultValues = useMemo(
     () => ({ skills: skills.map((skill) => ({ id: skill._id, name: skill.name, value: skill.value.toString() })) }),
@@ -123,68 +115,31 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
   const { control, register, handleSubmit } = useForm<FormValues>({ defaultValues });
   const { fields, remove, append } = useFieldArray({ control, name: 'skills' });
 
-  const { mutate, isLoading } = useMutation(
-    async (data: FormValues) => {
-      const originalSkillIds = skills.map((skill) => skill._id);
-      const formSkillIds = data.skills.map((dataSkill) => dataSkill.id);
-      const addedSkills = data.skills.filter((dataSkill) => !originalSkillIds.includes(dataSkill.id));
-      const deletedSkills = skills.filter((skill) => !formSkillIds.includes(skill._id));
-      const editedSkills = data.skills.reduce<FormValues['skills']>((acc, curr) => {
-        const originalSkill = skills.find((skill) => skill._id === curr.id);
-        if (originalSkill && (originalSkill.name !== curr.name || originalSkill?.value !== Number(curr.value))) {
-          return [...acc, curr];
-        }
-        return acc;
-      }, []);
-      if (addedSkills.length > 0) {
-        const payload = addedSkills.map(({ name, value }) => ({ name, value: Number(value), type: 'skill' as const }));
-        await addSkills(payload);
-      }
-      if (deletedSkills.length > 0) {
-        for (const skill of deletedSkills) {
-          await deleteSkill(skill._id);
-        }
-      }
-      if (editedSkills.length > 0) {
-        for (const skill of editedSkills) {
-          const { id: skillId, name, value } = skill;
-          await editSkill(skillId, { name, value: Number(value), type: 'skill' });
-        }
-      }
-    },
-    {
-      onSuccess: () => {
-        setIsEditingSkills(false);
-        onSubmitSuccess();
-      },
-      onError: (error?: any) => {
-        const message = error?.response?.data?.message || error?.message;
-        toast(message || 'Unkown error!', { type: 'error' });
-      },
-    }
-  );
-
   return (
     <SkillsContainer onMouseOver={() => (!hasHoveredSkills ? setHasHoveredSkills(true) : undefined)}>
       <SkillsHeader>
         <SkillLevel>BEGINNER</SkillLevel>
         <SkillLevel>PROFICIENT</SkillLevel>
         <SkillLevel>EXPERT</SkillLevel>
-        {isAdmin && <EditIcon onClick={() => setIsEditingSkills((prev) => !prev)} />}
+        {isAdmin && <EditIcon onClick={() => setIsEditing((prev) => !prev)} />}
       </SkillsHeader>
-      {!isEditingSkills &&
+      {!isEditing &&
         skills.map((skill) => (
           <SkillBar key={skill.name} value={hasHoveredSkills ? skill.value : 0}>
             <SkillBarValue>{skill.name}</SkillBarValue>
             <SkillBarValue>{skill.value}%</SkillBarValue>
           </SkillBar>
         ))}
-      {isAdmin && isEditingSkills && (
+      {isAdmin && isEditing && (
         <form>
           {fields.map((field, index) => (
             <SkillFormRow key={field.id}>
-              <StyledNameInput {...register(`skills.${index}.name`)} size="small" disabled={isLoading} />
-              <StyledValueInput {...register(`skills.${index}.value`)} size="small" disabled={isLoading} />
+              <StyledNameInput {...register(`skills.${index}.name`)} size="small" disabled={skillsMutation.isLoading} />
+              <StyledValueInput
+                {...register(`skills.${index}.value`)}
+                size="small"
+                disabled={skillsMutation.isLoading}
+              />
               <ClearIcon onClick={() => remove(index)} />
             </SkillFormRow>
           ))}
@@ -194,12 +149,17 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
             variant="text"
             endIcon={<Add />}
             onClick={() => append({ id: new Date().valueOf().toString(), name: '', value: '' })}
-            disabled={isLoading}
+            disabled={skillsMutation.isLoading}
           >
             Add field
           </Button>
           <SkillFormActions>
-            <Button size="small" variant="outlined" onClick={() => setIsEditingSkills(false)} disabled={isLoading}>
+            <Button
+              size="small"
+              variant="outlined"
+              onClick={() => setIsEditing(false)}
+              disabled={skillsMutation.isLoading}
+            >
               Cancel
             </Button>
             <Button
@@ -207,8 +167,8 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
               size="small"
               variant="contained"
               type="submit"
-              onClick={handleSubmit((data) => mutate(data))}
-              disabled={isLoading}
+              onClick={handleSubmit((data) => skillsMutation.mutate(data.skills))}
+              disabled={skillsMutation.isLoading}
             >
               Save
             </Button>
