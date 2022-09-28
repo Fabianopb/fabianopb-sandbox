@@ -143,7 +143,7 @@ const PortfolioView = () => {
         )}
         {loadingSkills && <LinearProgress />}
         {toolTypeData && !loadingSkills && (
-          <ToolsetSubsection toolset={toolTypeData.sort((a, b) => b.value - a.value)} onSubmitSuccess={() => {}} />
+          <ToolsetSubsection toolset={toolTypeData.sort((a, b) => b.value - a.value)} onSubmitSuccess={refetchSkills} />
         )}
         <LegacySkillsSection />
       </Section>
