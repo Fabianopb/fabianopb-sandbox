@@ -1,14 +1,14 @@
 export const toolsetData = [
-  { name: 'JavaScript', value: 100 },
-  { name: 'ReactJS', value: 90 },
-  { name: 'Git', value: 85 },
-  { name: 'Ruby on Rails', value: 60 },
-  { name: 'Angular JS', value: 55 },
-  { name: 'PostgreSQL', value: 45 },
-  { name: 'Java', value: 30 },
-  { name: 'MongoDB', value: 30 },
-  { name: 'Express JS', value: 25 },
-  { name: 'Node JS', value: 15 },
+  { _id: '01', name: 'JavaScript', value: 100 },
+  { _id: '02', name: 'ReactJS', value: 90 },
+  { _id: '03', name: 'Git', value: 85 },
+  { _id: '04', name: 'Ruby on Rails', value: 60 },
+  { _id: '05', name: 'Angular JS', value: 55 },
+  { _id: '06', name: 'PostgreSQL', value: 45 },
+  { _id: '07', name: 'Java', value: 30 },
+  { _id: '08', name: 'MongoDB', value: 30 },
+  { _id: '09', name: 'Express JS', value: 25 },
+  { _id: '10', name: 'Node JS', value: 15 },
 ];
 
 export const badgesData = [
