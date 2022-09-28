@@ -15,6 +15,23 @@ export const portfolioSkillsSchema = {
   },
 };
 
+export const portfolioToolsetSchema = {
+  $jsonSchema: {
+    bsonType: 'object',
+    required: ['name', 'value'],
+    properties: {
+      name: {
+        bsonType: 'string',
+      },
+      value: {
+        bsonType: 'int',
+        minimum: 0,
+        maximum: 100,
+      },
+    },
+  },
+};
+
 export const portfolioUsersSchema = {
   $jsonSchema: {
     bsonType: 'object',
