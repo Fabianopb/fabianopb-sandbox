@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Skill } from './portfolio/types';
 import { getToken } from './portfolio/utils';
 
 const agent = axios.create({ baseURL: '/api/v1/portfolio' });
@@ -12,15 +13,10 @@ agent.interceptors.request.use((config) => {
   return config;
 });
 
-type Skill = {
-  _id: string;
+type Payload = {
   name: string;
   value: number;
-};
-
-type SkillPayload = {
-  name: string;
-  value: number;
+  type: 'skill' | 'tool';
 };
 
 export const login = (payload: { username: string; password: string }) =>
@@ -28,9 +24,9 @@ export const login = (payload: { username: string; password: string }) =>
 
 export const getSkills = () => agent.get<Skill[]>('/skills').then((r) => r.data);
 
-export const addSkills = (payload: SkillPayload[]) => agent.post('/skills', payload).then((res) => res.data);
+export const addSkills = (payload: Payload[]) => agent.post('/skills', payload).then((res) => res.data);
 
-export const editSkill = (skillId: string, payload: SkillPayload) =>
+export const editSkill = (skillId: string, payload: Payload) =>
   agent.put(`/skills/${skillId}`, payload).then((res) => res.data);
 
 export const deleteSkill = (skillId: string) => agent.delete(`/skills/${skillId}`).then((res) => res.data);

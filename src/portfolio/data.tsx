@@ -1,16 +1,3 @@
-export const toolsetData = [
-  { name: 'JavaScript', value: 100 },
-  { name: 'ReactJS', value: 90 },
-  { name: 'Git', value: 85 },
-  { name: 'Ruby on Rails', value: 60 },
-  { name: 'Angular JS', value: 55 },
-  { name: 'PostgreSQL', value: 45 },
-  { name: 'Java', value: 30 },
-  { name: 'MongoDB', value: 30 },
-  { name: 'Express JS', value: 25 },
-  { name: 'Node JS', value: 15 },
-];
-
 export const badgesData = [
   {
     name: 'JavaScript Road Trip #1',

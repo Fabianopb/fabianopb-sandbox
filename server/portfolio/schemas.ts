@@ -1,7 +1,7 @@
 export const portfolioSkillsSchema = {
   $jsonSchema: {
     bsonType: 'object',
-    required: ['name', 'value'],
+    required: ['name', 'value', 'type'],
     properties: {
       name: {
         bsonType: 'string',
@@ -10,6 +10,9 @@ export const portfolioSkillsSchema = {
         bsonType: 'int',
         minimum: 0,
         maximum: 100,
+      },
+      type: {
+        enum: ['skill', 'tool'],
       },
     },
   },

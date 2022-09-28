@@ -1,6 +1,6 @@
 import { Button, Divider, LinearProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import { getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
@@ -9,6 +9,7 @@ import LoginDialog from './components/LoginDialog';
 import LegacySkillsSection from './components/LegacySkillsSection';
 import WorkSection from './components/WorkSection';
 import SkillsSubsection from './components/SkillsSubsection';
+import ToolsetSubsection from './components/ToolsetSubsection';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -98,6 +99,9 @@ const PortfolioView = () => {
     refetch: refetchSkills,
   } = useQuery(['portfolio', 'skills'], getSkills);
 
+  const skillTypeData = useMemo(() => skillsData?.filter((skill) => skill.type === 'skill'), [skillsData]);
+  const toolTypeData = useMemo(() => skillsData?.filter((skill) => skill.type === 'tool'), [skillsData]);
+
   return (
     <MainWrapper>
       <BannerContainer>
@@ -134,8 +138,12 @@ const PortfolioView = () => {
       <Section>
         <SectionTitle>Skills</SectionTitle>
         {loadingSkills && <LinearProgress />}
-        {skillsData && !loadingSkills && (
-          <SkillsSubsection skills={skillsData.sort((a, b) => b.value - a.value)} onSubmitSuccess={refetchSkills} />
+        {skillTypeData && !loadingSkills && (
+          <SkillsSubsection skills={skillTypeData.sort((a, b) => b.value - a.value)} onSubmitSuccess={refetchSkills} />
+        )}
+        {loadingSkills && <LinearProgress />}
+        {toolTypeData && !loadingSkills && (
+          <ToolsetSubsection toolset={toolTypeData.sort((a, b) => b.value - a.value)} onSubmitSuccess={refetchSkills} />
         )}
         <LegacySkillsSection />
       </Section>
