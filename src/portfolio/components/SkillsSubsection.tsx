@@ -8,13 +8,14 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { addSkills, deleteSkill, editSkill } from '../../api';
 import { isAdminAtom } from '../atoms';
+import { Skill } from '../types';
 
 type FormValues = {
   skills: { id: string; name: string; value: string }[];
 };
 
 type Props = {
-  skills: { _id: string; name: string; value: number }[];
+  skills: Skill[];
   onSubmitSuccess: () => void;
 };
 
@@ -136,7 +137,7 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
         return acc;
       }, []);
       if (addedSkills.length > 0) {
-        const payload = addedSkills.map(({ name, value }) => ({ name, value: Number(value) }));
+        const payload = addedSkills.map(({ name, value }) => ({ name, value: Number(value), type: 'skill' as const }));
         await addSkills(payload);
       }
       if (deletedSkills.length > 0) {
@@ -147,7 +148,7 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
       if (editedSkills.length > 0) {
         for (const skill of editedSkills) {
           const { id: skillId, name, value } = skill;
-          await editSkill(skillId, { name, value: Number(value) });
+          await editSkill(skillId, { name, value: Number(value), type: 'skill' });
         }
       }
     },
