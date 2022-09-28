@@ -8,6 +8,7 @@ import { PORTFOLIO_SKILLS } from './collections';
 type Skill = {
   name: string;
   value: number;
+  type: 'skill' | 'tool';
 };
 
 const skillsRouter = Router();
@@ -38,7 +39,7 @@ skillsRouter.put('/skills/:skillId', auth, async (req, res, next) => {
   try {
     const { skillId } = req.params;
     const skill = req.body;
-    const replaceDocument: Skill = { name: skill.name, value: skill.value };
+    const replaceDocument: Skill = { name: skill.name, value: skill.value, type: skill.type };
     const collection = database.collection(PORTFOLIO_SKILLS);
     const result = await collection.replaceOne({ _id: new ObjectId(skillId) }, replaceDocument);
     if (result.matchedCount === 0) {
