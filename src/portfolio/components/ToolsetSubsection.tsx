@@ -7,14 +7,16 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled from 'styled-components';
+import { addSkills, deleteSkill, editSkill } from '../../api';
 import { isAdminAtom } from '../atoms';
+import { Skill } from '../types';
 
 type FormValues = {
   toolset: { id: string; name: string; value: string }[];
 };
 
 type Props = {
-  toolset: { _id: string; name: string; value: number }[];
+  toolset: Skill[];
   onSubmitSuccess: () => void;
 };
 
@@ -131,21 +133,21 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
       console.log('addedTools', addedTools);
       console.log('deletedTools', deletedTools);
       console.log('editedTools', editedTools);
-      // if (addedSkills.length > 0) {
-      //   const payload = addedSkills.map(({ name, value }) => ({ name, value: Number(value) }));
-      //   await addSkills(payload);
-      // }
-      // if (deletedSkills.length > 0) {
-      //   for (const skill of deletedSkills) {
-      //     await deleteSkill(skill._id);
-      //   }
-      // }
-      // if (editedSkills.length > 0) {
-      //   for (const skill of editedSkills) {
-      //     const { id: skillId, name, value } = skill;
-      //     await editSkill(skillId, { name, value: Number(value) });
-      //   }
-      // }
+      if (addedTools.length > 0) {
+        const payload = addedTools.map(({ name, value }) => ({ name, value: Number(value), type: 'tool' as const }));
+        await addSkills(payload);
+      }
+      if (deletedTools.length > 0) {
+        for (const skill of deletedTools) {
+          await deleteSkill(skill._id);
+        }
+      }
+      if (editedTools.length > 0) {
+        for (const skill of editedTools) {
+          const { id: skillId, name, value } = skill;
+          await editSkill(skillId, { name, value: Number(value), type: 'tool' });
+        }
+      }
     },
     {
       onSuccess: () => {
@@ -165,7 +167,7 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
         <Subtitle>Toolset</Subtitle>
         {isAdmin && <EditIcon onClick={() => setIsEditing((prev) => !prev)} />}
       </Header>
-      {!isEditing && (
+      {!isEditing && toolset.length > 0 && (
         <ChartContainer>
           <RatingContainer>
             <RatingLabel>{toolset[activePieIndex].name}</RatingLabel>
