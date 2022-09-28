@@ -9,6 +9,8 @@ import LoginDialog from './components/LoginDialog';
 import LegacySkillsSection from './components/LegacySkillsSection';
 import WorkSection from './components/WorkSection';
 import SkillsSubsection from './components/SkillsSubsection';
+import ToolsetSubsection from './components/ToolsetSubsection';
+import { toolsetData } from './data';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -137,6 +139,7 @@ const PortfolioView = () => {
         {skillsData && !loadingSkills && (
           <SkillsSubsection skills={skillsData.sort((a, b) => b.value - a.value)} onSubmitSuccess={refetchSkills} />
         )}
+        <ToolsetSubsection toolset={toolsetData} />
         <LegacySkillsSection />
       </Section>
 
