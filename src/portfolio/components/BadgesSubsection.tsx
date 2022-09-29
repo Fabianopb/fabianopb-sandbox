@@ -1,7 +1,12 @@
 import { Link } from '@mui/material';
 import { useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import { badgesData } from '../data';
+import { Badge } from '../types';
+
+type Props = {
+  badges: Badge[];
+  onSubmitSuccess: () => void;
+};
 
 const rotate = keyframes`
   0% { transform: rotateY(0deg) }
@@ -26,7 +31,7 @@ const BadgesContainer = styled.div`
   grid-template-columns: auto auto auto;
 `;
 
-const Badge = styled(Link)`
+const BadgeCard = styled(Link)`
   height: 172px;
   margin-bottom: 16px;
   display: flex;
@@ -50,7 +55,7 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
     `}
 `;
 
-const BadgesSubsection = () => {
+const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
 
   const handleBadgeMouseEnter = async (index: number) => {
@@ -66,15 +71,15 @@ const BadgesSubsection = () => {
     <SkillsContainer>
       <SkillSubtitle>Code school badges</SkillSubtitle>
       <BadgesContainer>
-        {badgesData.map((badge, index) => (
-          <Badge key={badge.name} href={badge.href} underline="none" target="_blank" rel="noopener noreferrer">
+        {badges.map((badge, index) => (
+          <BadgeCard key={badge.name} href={badge.href} underline="none" target="_blank" rel="noopener noreferrer">
             <BadgeName>{badge.name}</BadgeName>
             <BadgeImage
               src={badge.imageSrc}
               shouldAnimate={animatingBadges.includes(index)}
               onMouseEnter={() => handleBadgeMouseEnter(index)}
             />
-          </Badge>
+          </BadgeCard>
         ))}
       </BadgesContainer>
     </SkillsContainer>
