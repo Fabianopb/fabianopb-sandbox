@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Skill } from './portfolio/types';
+import { Badge, Skill } from './portfolio/types';
 import { getToken } from './portfolio/utils';
 
 const agent = axios.create({ baseURL: '/api/v1/portfolio' });
@@ -30,3 +30,5 @@ export const editSkill = (skillId: string, payload: Payload) =>
   agent.put(`/skills/${skillId}`, payload).then((res) => res.data);
 
 export const deleteSkill = (skillId: string) => agent.delete(`/skills/${skillId}`).then((res) => res.data);
+
+export const getBadges = () => agent.get<Badge[]>('/badges').then((r) => r.data);
