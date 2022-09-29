@@ -1,5 +1,6 @@
-import { Link } from '@mui/material';
-import { useState } from 'react';
+import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
+import { IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, MenuList } from '@mui/material';
+import { useState, MouseEvent } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { Badge } from '../types';
 
@@ -45,9 +46,14 @@ const BadgeName = styled.div`
   color: #555;
 `;
 
-const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
+const ImageContainer = styled.div`
+  position: relative;
   margin-top: 8px;
   width: 140px;
+`;
+
+const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
+  width: 100%;
   ${({ shouldAnimate }) =>
     shouldAnimate &&
     css`
@@ -55,7 +61,33 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
     `}
 `;
 
+const StyledIconButton = styled(IconButton)`
+  position: absolute;
+  right: -36px;
+  top: 0;
+  color: #17293a;
+`;
+
+const DeleteIcon = styled(Delete)`
+  fill: #9b0000;
+`;
+
+const DeleteListItemText = styled(ListItemText)`
+  color: #9b0000;
+`;
+
 const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
+
+  const handleOpenMenu = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
 
   const handleBadgeMouseEnter = async (index: number) => {
@@ -74,14 +106,35 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
         {badges.map((badge, index) => (
           <BadgeCard key={badge.name} href={badge.href} underline="none" target="_blank" rel="noopener noreferrer">
             <BadgeName>{badge.name}</BadgeName>
-            <BadgeImage
-              src={badge.imageSrc}
-              shouldAnimate={animatingBadges.includes(index)}
-              onMouseEnter={() => handleBadgeMouseEnter(index)}
-            />
+            <ImageContainer>
+              <BadgeImage
+                src={badge.imageSrc}
+                shouldAnimate={animatingBadges.includes(index)}
+                onMouseEnter={() => handleBadgeMouseEnter(index)}
+              />
+              <StyledIconButton size="small" onClick={handleOpenMenu}>
+                <MoreHoriz />
+              </StyledIconButton>
+            </ImageContainer>
           </BadgeCard>
         ))}
       </BadgesContainer>
+      <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
+        <MenuList dense>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Edit />
+            </ListItemIcon>
+            <ListItemText>Edit</ListItemText>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <DeleteIcon />
+            </ListItemIcon>
+            <DeleteListItemText>Delete</DeleteListItemText>
+          </MenuItem>
+        </MenuList>
+      </Menu>
     </SkillsContainer>
   );
 };
