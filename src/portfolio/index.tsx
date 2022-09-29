@@ -6,7 +6,7 @@ import { getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
 import LoginDialog from './components/LoginDialog';
-import LegacySkillsSection from './components/LegacySkillsSection';
+import BadgesSubsection from './components/BadgesSubsection';
 import WorkSection from './components/WorkSection';
 import SkillsSubsection from './components/SkillsSubsection';
 import ToolsetSubsection from './components/ToolsetSubsection';
@@ -145,7 +145,7 @@ const PortfolioView = () => {
         {toolTypeData && !loadingSkills && (
           <ToolsetSubsection toolset={toolTypeData.sort((a, b) => b.value - a.value)} onSubmitSuccess={refetchSkills} />
         )}
-        <LegacySkillsSection />
+        <BadgesSubsection />
       </Section>
 
       <StyledDivider variant="middle" />

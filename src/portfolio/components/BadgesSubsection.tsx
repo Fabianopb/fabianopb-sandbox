@@ -50,7 +50,7 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
     `}
 `;
 
-const LegacySkillsSection = () => {
+const BadgesSubsection = () => {
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
 
   const handleBadgeMouseEnter = async (index: number) => {
@@ -81,4 +81,4 @@ const LegacySkillsSection = () => {
   );
 };
 
-export default LegacySkillsSection;
+export default BadgesSubsection;
