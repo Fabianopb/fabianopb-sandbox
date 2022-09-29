@@ -1,8 +1,11 @@
 import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
 import { IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, MenuList } from '@mui/material';
+import { useAtom } from 'jotai';
 import { useState, MouseEvent } from 'react';
 import styled, { css, keyframes } from 'styled-components';
+import { isAdminAtom } from '../atoms';
 import { Badge } from '../types';
+import EditBadgeDialog from './EditBadgeDialog';
 
 type Props = {
   badges: Badge[];
@@ -77,15 +80,20 @@ const DeleteListItemText = styled(ListItemText)`
 `;
 
 const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
+  const [isAdmin] = useAtom(isAdminAtom);
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
+  const [badgeModalOpen, setBadgeModalOpen] = useState(false);
+  const [badgeToEdit, setBadgeToEdit] = useState<Badge>();
 
-  const handleOpenMenu = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleOpenMenu = (e: MouseEvent<HTMLButtonElement>, badge: Badge) => {
     e.preventDefault();
     setAnchorEl(e.currentTarget);
+    setBadgeToEdit(badge);
   };
 
-  const handleClose = () => {
+  const handleEditBadge = () => {
     setAnchorEl(null);
+    setBadgeModalOpen(true);
   };
 
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
@@ -112,29 +120,40 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
                 shouldAnimate={animatingBadges.includes(index)}
                 onMouseEnter={() => handleBadgeMouseEnter(index)}
               />
-              <StyledIconButton size="small" onClick={handleOpenMenu}>
-                <MoreHoriz />
-              </StyledIconButton>
+              {isAdmin && (
+                <StyledIconButton size="small" onClick={(e) => handleOpenMenu(e, badge)}>
+                  <MoreHoriz />
+                </StyledIconButton>
+              )}
             </ImageContainer>
           </BadgeCard>
         ))}
       </BadgesContainer>
-      <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
-        <MenuList dense>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Edit />
-            </ListItemIcon>
-            <ListItemText>Edit</ListItemText>
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <DeleteIcon />
-            </ListItemIcon>
-            <DeleteListItemText>Delete</DeleteListItemText>
-          </MenuItem>
-        </MenuList>
-      </Menu>
+      {isAdmin && (
+        <>
+          <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={() => setAnchorEl(null)}>
+            <MenuList dense>
+              <MenuItem onClick={handleEditBadge}>
+                <ListItemIcon>
+                  <Edit />
+                </ListItemIcon>
+                <ListItemText>Edit</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleEditBadge}>
+                <ListItemIcon>
+                  <DeleteIcon />
+                </ListItemIcon>
+                <DeleteListItemText>Delete</DeleteListItemText>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+          <EditBadgeDialog
+            defaultValues={badgeToEdit}
+            isOpen={badgeModalOpen}
+            onClose={() => setBadgeModalOpen(false)}
+          />
+        </>
+      )}
     </SkillsContainer>
   );
 };
