@@ -5,6 +5,7 @@ import { useState, MouseEvent } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { isAdminAtom } from '../atoms';
 import { Badge } from '../types';
+import DeleteDialog from './DeleteDialog';
 import EditBadgeDialog from './EditBadgeDialog';
 
 type Props = {
@@ -83,17 +84,23 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
   const [isAdmin] = useAtom(isAdminAtom);
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
   const [badgeModalOpen, setBadgeModalOpen] = useState(false);
-  const [badgeToEdit, setBadgeToEdit] = useState<Badge>();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [activeBadge, setActiveBadge] = useState<Badge>();
 
   const handleOpenMenu = (e: MouseEvent<HTMLButtonElement>, badge: Badge) => {
     e.preventDefault();
     setAnchorEl(e.currentTarget);
-    setBadgeToEdit(badge);
+    setActiveBadge(badge);
   };
 
   const handleEditBadge = () => {
     setAnchorEl(null);
     setBadgeModalOpen(true);
+  };
+
+  const handleDeleteBadge = () => {
+    setAnchorEl(null);
+    setDeleteModalOpen(true);
   };
 
   const [animatingBadges, setAnimatingBadges] = useState<number[]>([]);
@@ -139,7 +146,7 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
                 </ListItemIcon>
                 <ListItemText>Edit</ListItemText>
               </MenuItem>
-              <MenuItem onClick={handleEditBadge}>
+              <MenuItem onClick={handleDeleteBadge}>
                 <ListItemIcon>
                   <DeleteIcon />
                 </ListItemIcon>
@@ -148,9 +155,16 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
             </MenuList>
           </Menu>
           <EditBadgeDialog
-            defaultValues={badgeToEdit}
+            defaultValues={activeBadge}
             isOpen={badgeModalOpen}
             onClose={() => setBadgeModalOpen(false)}
+          />
+          <DeleteDialog
+            title={`Delete "${activeBadge?.name}"?`}
+            isOpen={deleteModalOpen}
+            isLoading={false}
+            onClose={() => setDeleteModalOpen(false)}
+            onDelete={() => {}}
           />
         </>
       )}

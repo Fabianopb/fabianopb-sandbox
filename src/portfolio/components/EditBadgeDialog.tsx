@@ -24,7 +24,6 @@ const StyledInput = styled(TextField)`
 `;
 
 const EditBadgeDialog = ({ defaultValues, isOpen, onClose }: Props) => {
-  console.log(defaultValues);
   const { register, handleSubmit, reset } = useForm<FormValues>({ defaultValues });
 
   useEffect(() => {
