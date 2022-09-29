@@ -1,4 +1,4 @@
-import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
+import { Add, Delete, Edit, MoreHoriz } from '@mui/icons-material';
 import { IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, MenuList } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useState, MouseEvent } from 'react';
@@ -6,7 +6,7 @@ import styled, { css, keyframes } from 'styled-components';
 import { isAdminAtom } from '../atoms';
 import { Badge } from '../types';
 import DeleteDialog from './DeleteDialog';
-import EditBadgeDialog from './EditBadgeDialog';
+import BadgeFormDialog from './BadgeFormDialog';
 
 type Props = {
   badges: Badge[];
@@ -23,8 +23,14 @@ const SkillsContainer = styled.div`
   margin: auto;
 `;
 
-const SkillSubtitle = styled.h2`
+const SubtitleContainer = styled.div`
   margin-top: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SkillSubtitle = styled.h2`
   font-size: 24px;
   font-weight: 600;
   text-align: center;
@@ -65,6 +71,11 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
     `}
 `;
 
+const AddIconButton = styled(IconButton)`
+  margin-left: 8px;
+  color: #17293a;
+`;
+
 const StyledIconButton = styled(IconButton)`
   position: absolute;
   right: -36px;
@@ -93,6 +104,11 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
     setActiveBadge(badge);
   };
 
+  const handleAddBadge = () => {
+    setActiveBadge(undefined);
+    setBadgeModalOpen(true);
+  };
+
   const handleEditBadge = () => {
     setAnchorEl(null);
     setBadgeModalOpen(true);
@@ -116,7 +132,14 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
 
   return (
     <SkillsContainer>
-      <SkillSubtitle>Code school badges</SkillSubtitle>
+      <SubtitleContainer>
+        <SkillSubtitle>Code school badges</SkillSubtitle>
+        {isAdmin && (
+          <AddIconButton size="small" onClick={handleAddBadge}>
+            <Add />
+          </AddIconButton>
+        )}
+      </SubtitleContainer>
       <BadgesContainer>
         {badges.map((badge, index) => (
           <BadgeCard key={badge.name} href={badge.href} underline="none" target="_blank" rel="noopener noreferrer">
@@ -154,7 +177,7 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
               </MenuItem>
             </MenuList>
           </Menu>
-          <EditBadgeDialog
+          <BadgeFormDialog
             defaultValues={activeBadge}
             isOpen={badgeModalOpen}
             onClose={() => setBadgeModalOpen(false)}

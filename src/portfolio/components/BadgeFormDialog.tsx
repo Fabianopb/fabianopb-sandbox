@@ -23,7 +23,7 @@ const StyledInput = styled(TextField)`
   margin-top: 16px;
 `;
 
-const EditBadgeDialog = ({ defaultValues, isOpen, onClose }: Props) => {
+const BadgeFormDialog = ({ defaultValues, isOpen, onClose }: Props) => {
   const { register, handleSubmit, reset } = useForm<FormValues>({ defaultValues });
 
   useEffect(() => {
@@ -73,11 +73,11 @@ const EditBadgeDialog = ({ defaultValues, isOpen, onClose }: Props) => {
           Cancel
         </Button>
         <Button type="submit" variant="contained" onClick={handleSubmit(onSubmit)} disabled={isLoading}>
-          Confirm
+          Save
         </Button>
       </StyledDialogActions>
     </Dialog>
   );
 };
 
-export default EditBadgeDialog;
+export default BadgeFormDialog;
