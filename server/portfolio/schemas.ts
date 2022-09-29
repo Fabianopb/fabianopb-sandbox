@@ -18,6 +18,24 @@ export const portfolioSkillsSchema = {
   },
 };
 
+export const portfolioBadgesSchema = {
+  $jsonSchema: {
+    bsonType: 'object',
+    required: ['name', 'imageSrc', 'href'],
+    properties: {
+      name: {
+        bsonType: 'string',
+      },
+      imageSrc: {
+        bsonType: 'string',
+      },
+      href: {
+        bsonType: 'string',
+      },
+    },
+  },
+};
+
 export const portfolioUsersSchema = {
   $jsonSchema: {
     bsonType: 'object',
