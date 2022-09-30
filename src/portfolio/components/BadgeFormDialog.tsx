@@ -27,7 +27,7 @@ const BadgeFormDialog = ({ defaultValues, isOpen, onClose }: Props) => {
   const { register, handleSubmit, reset } = useForm<FormValues>({ defaultValues });
 
   useEffect(() => {
-    reset(defaultValues);
+    reset(defaultValues || { name: '', imageSrc: '', href: '' });
   }, [defaultValues, reset]);
 
   const onSubmit = (values: FormValues) => console.log(values);
