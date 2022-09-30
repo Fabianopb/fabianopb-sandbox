@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { addBadge } from '../../api';
+import { addBadge, editBadge } from '../../api';
 
-type FormValues = { name: string; imageSrc: string; href: string };
+type FormValues = { _id: string; name: string; imageSrc: string; href: string };
 
 type Props = {
   defaultValues?: FormValues;
@@ -36,10 +36,11 @@ const BadgeFormDialog = ({ defaultValues, isOpen, onClose, onSubmitSuccess }: Pr
 
   const { mutate, isLoading } = useMutation(
     async (values: FormValues) => {
+      const { _id: badgeId, ...payload } = values;
       if (defaultValues) {
-        // TODO: update
+        await editBadge(badgeId, payload);
       } else {
-        await addBadge(values);
+        await addBadge(payload);
       }
     },
     {

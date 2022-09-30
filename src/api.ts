@@ -32,3 +32,6 @@ export const deleteSkill = (skillId: string) => agent.delete(`/skills/${skillId}
 export const getBadges = () => agent.get<Badge[]>('/badges').then((r) => r.data);
 
 export const addBadge = (payload: BadgePayload) => agent.post('/badges', payload).then((res) => res.data);
+
+export const editBadge = (badgeId: string, payload: BadgePayload) =>
+  agent.put(`/badges/${badgeId}`, payload).then((res) => res.data);
