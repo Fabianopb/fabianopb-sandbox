@@ -181,6 +181,7 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
             defaultValues={activeBadge}
             isOpen={badgeModalOpen}
             onClose={() => setBadgeModalOpen(false)}
+            onSubmitSuccess={onSubmitSuccess}
           />
           <DeleteDialog
             title={`Delete "${activeBadge?.name}"?`}

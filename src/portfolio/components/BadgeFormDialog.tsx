@@ -1,7 +1,10 @@
 import { DialogActions, DialogTitle, TextField, Dialog, DialogContent, Button } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import { addBadge } from '../../api';
 
 type FormValues = { name: string; imageSrc: string; href: string };
 
@@ -9,6 +12,7 @@ type Props = {
   defaultValues?: FormValues;
   isOpen: boolean;
   onClose: () => void;
+  onSubmitSuccess: () => void;
 };
 
 const StyledDialogActions = styled(DialogActions)`
@@ -23,16 +27,32 @@ const StyledInput = styled(TextField)`
   margin-top: 16px;
 `;
 
-const BadgeFormDialog = ({ defaultValues, isOpen, onClose }: Props) => {
+const BadgeFormDialog = ({ defaultValues, isOpen, onClose, onSubmitSuccess }: Props) => {
   const { register, handleSubmit, reset } = useForm<FormValues>({ defaultValues });
 
   useEffect(() => {
     reset(defaultValues || { name: '', imageSrc: '', href: '' });
   }, [defaultValues, reset]);
 
-  const onSubmit = (values: FormValues) => console.log(values);
-
-  const isLoading = false;
+  const { mutate, isLoading } = useMutation(
+    async (values: FormValues) => {
+      if (defaultValues) {
+        // TODO: update
+      } else {
+        await addBadge(values);
+      }
+    },
+    {
+      onSuccess: () => {
+        onSubmitSuccess();
+        onClose();
+      },
+      onError: (error?: any) => {
+        const message = error?.response?.data?.message || error?.message;
+        toast(message || 'Unkown error!', { type: 'error' });
+      },
+    }
+  );
 
   return (
     <Dialog open={isOpen} onClose={onClose} disableEscapeKeyDown={isLoading}>
@@ -72,7 +92,12 @@ const BadgeFormDialog = ({ defaultValues, isOpen, onClose }: Props) => {
         <Button type="submit" variant="outlined" onClick={onClose} disabled={isLoading}>
           Cancel
         </Button>
-        <Button type="submit" variant="contained" onClick={handleSubmit(onSubmit)} disabled={isLoading}>
+        <Button
+          type="submit"
+          variant="contained"
+          onClick={handleSubmit((values) => mutate(values))}
+          disabled={isLoading}
+        >
           Save
         </Button>
       </StyledDialogActions>
