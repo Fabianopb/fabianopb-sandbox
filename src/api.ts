@@ -35,3 +35,5 @@ export const addBadge = (payload: BadgePayload) => agent.post('/badges', payload
 
 export const editBadge = (badgeId: string, payload: BadgePayload) =>
   agent.put(`/badges/${badgeId}`, payload).then((res) => res.data);
+
+export const deleteBadge = (badgeId: string) => agent.delete(`/badges/${badgeId}`).then((res) => res.data);

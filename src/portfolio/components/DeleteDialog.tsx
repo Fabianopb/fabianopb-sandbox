@@ -14,7 +14,7 @@ const StyledDialogActions = styled(DialogActions)`
 `;
 
 const StyledTitle = styled(DialogTitle)`
-  color: #8e8f98;
+  color: #555;
 `;
 
 const DeleteDialog = ({ title, isOpen, isLoading, onClose, onDelete }: Props) => {

@@ -7,6 +7,9 @@ import { isAdminAtom } from '../atoms';
 import { Badge } from '../types';
 import DeleteDialog from './DeleteDialog';
 import BadgeFormDialog from './BadgeFormDialog';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
+import { deleteBadge } from '../../api';
 
 type Props = {
   badges: Badge[];
@@ -130,6 +133,25 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
     setAnimatingBadges((prev) => prev.filter((badgeIndex) => badgeIndex !== index));
   };
 
+  const { mutate, isLoading: isDeleting } = useMutation(
+    async () => {
+      if (!activeBadge) {
+        throw new Error('Trying to delete without an active badge');
+      }
+      await deleteBadge(activeBadge._id);
+    },
+    {
+      onSuccess: () => {
+        onSubmitSuccess();
+        setDeleteModalOpen(false);
+      },
+      onError: (error?: any) => {
+        const message = error?.response?.data?.message || error?.message;
+        toast(message || 'Unkown error!', { type: 'error' });
+      },
+    }
+  );
+
   return (
     <SkillsContainer>
       <SubtitleContainer>
@@ -186,9 +208,9 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
           <DeleteDialog
             title={`Delete "${activeBadge?.name}"?`}
             isOpen={deleteModalOpen}
-            isLoading={false}
+            isLoading={isDeleting}
             onClose={() => setDeleteModalOpen(false)}
-            onDelete={() => {}}
+            onDelete={mutate}
           />
         </>
       )}
