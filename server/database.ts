@@ -1,6 +1,6 @@
 import { MongoClient, Db, Document } from 'mongodb';
-import { PORTFOLIO_SKILLS, PORTFOLIO_USERS } from './portfolio/collections';
-import { portfolioSkillsSchema, portfolioUsersSchema } from './portfolio/schemas';
+import { PORTFOLIO_BADGES, PORTFOLIO_SKILLS, PORTFOLIO_USERS } from './portfolio/collections';
+import { portfolioBadgesSchema, portfolioSkillsSchema, portfolioUsersSchema } from './portfolio/schemas';
 
 const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
 const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
@@ -12,13 +12,14 @@ const databaseName = process.env.MONGO_DB_NAME;
 let client: MongoClient;
 export let database: Db;
 
-const setupSchema = async (collectionName: string, validator: Document, exists: boolean) => {
-  if (exists) {
-    await database.command({ collMod: collectionName, validator });
-  } else {
-    await database.createCollection(collectionName, { validator });
-  }
-};
+const createSchemaSetter =
+  (existingCollectionNames: string[]) => async (collectionName: string, validator: Document) => {
+    if (existingCollectionNames.includes(collectionName)) {
+      await database.command({ collMod: collectionName, validator });
+    } else {
+      await database.createCollection(collectionName, { validator });
+    }
+  };
 
 export const init = async () => {
   if (!uri) {
@@ -34,9 +35,11 @@ export const init = async () => {
 
   const collections = await database.collections();
   const existingCollectionNames = collections.map((c) => c.collectionName);
+  const setupSchema = createSchemaSetter(existingCollectionNames);
 
-  await setupSchema(PORTFOLIO_SKILLS, portfolioSkillsSchema, existingCollectionNames.includes(PORTFOLIO_SKILLS));
-  await setupSchema(PORTFOLIO_USERS, portfolioUsersSchema, existingCollectionNames.includes(PORTFOLIO_USERS));
+  await setupSchema(PORTFOLIO_SKILLS, portfolioSkillsSchema);
+  await setupSchema(PORTFOLIO_USERS, portfolioUsersSchema);
+  await setupSchema(PORTFOLIO_BADGES, portfolioBadgesSchema);
 };
 
 export const close = () => {
