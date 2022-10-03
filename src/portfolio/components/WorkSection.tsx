@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { workData } from '../data';
+import { projectData } from '../data';
 
 const WorkContainer = styled.div`
   display: grid;
@@ -62,11 +62,11 @@ const WorkTag = styled.div`
 
 const WorkSection = () => (
   <WorkContainer>
-    {workData.map((work) => (
+    {projectData.map((work) => (
       <WorkCell key={work.title} to={`/portfolio/projects/${work.readableId}`}>
-        <WorkImage src={work.src} />
+        <WorkImage src={work.thumbnailSrc} />
         <ImageText>{work.title}</ImageText>
-        <WorkTag>{work.tag}</WorkTag>
+        <WorkTag>{work.category}</WorkTag>
       </WorkCell>
     ))}
   </WorkContainer>

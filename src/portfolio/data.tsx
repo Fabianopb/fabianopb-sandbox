@@ -1,74 +1,7 @@
-export const workData = [
-  {
-    readableId: 'computational-thinking',
-    title: 'Computational thinking and coding for kids',
-    tag: 'Business Design',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/2/work2.png',
-  },
-  {
-    readableId: 'water-purification',
-    title: 'Water purification in Tanzania',
-    tag: 'Business Design',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/3/work1.png',
-  },
-  {
-    readableId: 'facilitating-innovation',
-    title: 'Facilitating innovation workshops around the globe',
-    tag: 'Business Design',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/4/facil.png',
-  },
-  {
-    readableId: 'sharing-experience',
-    title: 'Sharing experience and knowledge',
-    tag: 'Business Design',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/5/work-speak.png',
-  },
-  {
-    readableId: 'finnish-game-jam',
-    title: '30 hours of intense coding and illustration',
-    tag: 'Software Development',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/6/work3.png',
-  },
-  {
-    readableId: 'dynamic-portfolio',
-    title: 'A dynamic portfolio developed using the latest frameworks',
-    tag: 'Software Development',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/7/work-site.png',
-  },
-  {
-    readableId: 'quit-paperwork',
-    title: 'Quit paperwork! This is the digital era...',
-    tag: 'Software Development',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/11/paperwork.png',
-  },
-  {
-    readableId: 'smart-home',
-    title: "Real-time diagnosis of your home's heating",
-    tag: 'Software Development',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/12/home.png',
-  },
-  {
-    readableId: 'industrial-troubleshooting',
-    title: 'A dynamic troubleshooting system for a big industrial company',
-    tag: 'Software Development',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/13/factory-thumb.png',
-  },
-  {
-    readableId: 'cloud-computing',
-    title: 'Use OpenOffice, Inkscape lightly in your Android device',
-    tag: 'Software Development',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/14/thumb1.png',
-  },
-  {
-    readableId: 'pepper-japan',
-    title: 'A friendly robot to make daily work more efficient',
-    tag: 'Software Development',
-    src: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/15/Screen_Shot_2017-05-15_at_8.43.09.png',
-  },
-];
-
 export const projectData = [
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/2/work2.png',
+    category: 'Business Design',
     readableId: 'computational-thinking',
     title: 'Hello Ruby',
     subtitle: 'Computational thinking and coding for kids',
@@ -92,6 +25,8 @@ export const projectData = [
     ],
   },
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/3/work1.png',
+    category: 'Business Design',
     readableId: 'water-purification',
     title: 'Nanomaji',
     subtitle: 'Water purification in Tanzania',
@@ -107,6 +42,8 @@ export const projectData = [
     videoLink: 'https://www.youtube.com/embed/0339As_1FW8',
   },
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/4/facil.png',
+    category: 'Business Design',
     readableId: 'facilitating-innovation',
     title: 'Facilitation',
     subtitle: 'Facilitating innovation workshops around the globe',
@@ -127,6 +64,8 @@ export const projectData = [
     ],
   },
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/5/work-speak.png',
+    category: 'Business Design',
     readableId: 'sharing-experience',
     title: 'Talks',
     subtitle: 'Sharing experience and knowledge',
@@ -148,6 +87,8 @@ export const projectData = [
     ],
   },
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/6/work3.png',
+    category: 'Software Development',
     readableId: 'finnish-game-jam',
     title: 'Game development',
     subtitle: '30 hours of intense coding and illustration',
@@ -163,6 +104,8 @@ export const projectData = [
     videoLink: 'https://www.youtube.com/embed/YYEJm36GZBw',
   },
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/7/work-site.png',
+    category: 'Software Development',
     readableId: 'dynamic-portfolio',
     title: 'This website',
     subtitle: 'A dynamic portfolio developed using the latest frameworks',
@@ -183,6 +126,8 @@ export const projectData = [
     ],
   },
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/11/paperwork.png',
+    category: 'Software Development',
     readableId: 'quit-paperwork',
     title: 'Project Management Web App',
     subtitle: 'Quit paperwork! This is the digital era...',
@@ -198,6 +143,8 @@ export const projectData = [
     tags: ['Ruby on Rails', 'AWS S3', 'Bootstrap', 'PostgreSQL', 'lovely RoR model relationships'],
   },
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/12/home.png',
+    category: 'Software Development',
     readableId: 'smart-home',
     title: 'Smart home application',
     subtitle: "Real-time diagnosis of your home's heating",
@@ -212,6 +159,8 @@ export const projectData = [
     tags: ['AngularJS', 'D3js', 'real-time data', 'responsive UI'],
   },
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/13/factory-thumb.png',
+    category: 'Software Development',
     readableId: 'industrial-troubleshooting',
     title: 'Troubleshooting for factories',
     subtitle: 'A dynamic troubleshooting system for a big industrial company',
@@ -226,6 +175,8 @@ export const projectData = [
     tags: ['AngularJS 1.5 components', 'TypeScript', 'Dynamic search'],
   },
   {
+    thumbnailSrc: 'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/14/thumb1.png',
+    category: 'Software Development',
     readableId: 'cloud-computing',
     title: 'Android Thin Client',
     subtitle: 'Use OpenOffice, Inkscape lightly in your Android device',
@@ -241,6 +192,9 @@ export const projectData = [
     tags: ['Google Cloud', 'Python', 'Java', 'VMs', 'MultiVNC'],
   },
   {
+    thumbnailSrc:
+      'https://fabianopb-production.s3.amazonaws.com/uploads/project/thumbnail/15/Screen_Shot_2017-05-15_at_8.43.09.png',
+    category: 'Software Development',
     readableId: 'pepper-japan',
     title: 'An office buddy made in Tokyo',
     subtitle: 'A friendly robot to make daily work more efficient',
