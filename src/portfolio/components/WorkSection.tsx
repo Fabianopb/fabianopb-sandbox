@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { projectData } from '../data';
+import { Project } from '../types';
+
+type Props = {
+  projects: Project[];
+  onSubmitSuccess: () => void;
+};
 
 const WorkContainer = styled.div`
   display: grid;
@@ -60,10 +65,10 @@ const WorkTag = styled.div`
   }
 `;
 
-const WorkSection = () => (
+const WorkSection = ({ projects, onSubmitSuccess }: Props) => (
   <WorkContainer>
-    {projectData.map((work) => (
-      <WorkCell key={work.title} to={`/portfolio/projects/${work.readableId}`}>
+    {projects.map((work) => (
+      <WorkCell key={work._id} to={`/portfolio/projects/${work.readableId}`}>
         <WorkImage src={work.thumbnailSrc} />
         <ImageText>{work.title}</ImageText>
         <WorkTag>{work.category}</WorkTag>

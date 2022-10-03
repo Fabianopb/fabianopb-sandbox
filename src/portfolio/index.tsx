@@ -2,7 +2,7 @@ import { Button, Divider, LinearProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useRef } from 'react';
 import styled from 'styled-components';
-import { getBadges, getSkills } from '../api';
+import { getBadges, getProjects, getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
 import LoginDialog from './components/LoginDialog';
@@ -105,6 +105,12 @@ const PortfolioView = () => {
     refetch: refetchBadges,
   } = useQuery(['portfolio', 'badges'], getBadges);
 
+  const {
+    data: projectsData,
+    isLoading: loadingProjects,
+    refetch: refetchProjects,
+  } = useQuery(['portfolio', 'all-projects'], getProjects);
+
   const skillTypeData = useMemo(() => skillsData?.filter((skill) => skill.type === 'skill'), [skillsData]);
   const toolTypeData = useMemo(() => skillsData?.filter((skill) => skill.type === 'tool'), [skillsData]);
 
@@ -159,7 +165,8 @@ const PortfolioView = () => {
 
       <Section ref={workSectionRef}>
         <SectionTitle>Selected Work</SectionTitle>
-        <WorkSection />
+        {loadingProjects && <LinearProgress />}
+        {projectsData && !loadingProjects && <WorkSection projects={projectsData} onSubmitSuccess={refetchProjects} />}
       </Section>
 
       <LoginDialog />
