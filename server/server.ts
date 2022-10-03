@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import badgesRouter from './portfolio/badges';
+import projectsRouter from './portfolio/projects';
 import skillsRouter from './portfolio/skills';
 import usersRouter from './portfolio/users';
 
@@ -13,7 +14,7 @@ export const init = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use('/api/v1/portfolio', [skillsRouter, usersRouter, badgesRouter]);
+  app.use('/api/v1/portfolio', [skillsRouter, usersRouter, badgesRouter, projectsRouter]);
 
   app.use(express.static(path.resolve('dist')));
 
