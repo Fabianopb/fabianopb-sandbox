@@ -52,9 +52,6 @@ export const portfolioProjectsSchema = {
       'thumbnailSrc',
     ],
     properties: {
-      readableId: {
-        bsonType: 'string',
-      },
       title: {
         bsonType: 'string',
       },
