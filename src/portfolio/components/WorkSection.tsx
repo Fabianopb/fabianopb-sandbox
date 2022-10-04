@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Project } from '../types';
 
 type Props = {
+  className?: string;
   projects: Project[];
   onSubmitSuccess: () => void;
 };
@@ -65,8 +66,8 @@ const WorkTag = styled.div`
   }
 `;
 
-const WorkSection = ({ projects, onSubmitSuccess }: Props) => (
-  <WorkContainer>
+const WorkSection = ({ className, projects, onSubmitSuccess }: Props) => (
+  <WorkContainer className={className}>
     {projects.map((work) => (
       <WorkCell key={work._id} to={`/portfolio/projects/${work._id}`}>
         <WorkImage src={work.thumbnailSrc} />

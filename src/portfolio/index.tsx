@@ -1,6 +1,6 @@
-import { Button, Divider, LinearProgress } from '@mui/material';
+import { Button, Divider, IconButton, LinearProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getBadges, getProjects, getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
@@ -10,6 +10,10 @@ import BadgesSubsection from './components/BadgesSubsection';
 import WorkSection from './components/WorkSection';
 import SkillsSubsection from './components/SkillsSubsection';
 import ToolsetSubsection from './components/ToolsetSubsection';
+import { useAtom } from 'jotai';
+import { isAdminAtom } from './atoms';
+import { Add } from '@mui/icons-material';
+import ProjectFormDialog from './components/ProjectFormDialog';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -83,15 +87,30 @@ const StyledDivider = styled(Divider)`
   margin: 24px auto;
 `;
 
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const SectionTitle = styled.h1`
   font-size: 40px;
   color: #8e8f98;
   font-weight: 800;
-  margin-bottom: 48px;
+`;
+
+const StyledWorkSection = styled(WorkSection)`
+  margin-top: 48px;
+`;
+
+const AddIconButton = styled(IconButton)`
+  margin-left: 8px;
+  color: #17293a;
 `;
 
 const PortfolioView = () => {
   const workSectionRef = useRef<HTMLDivElement>(null);
+  const [isAdmin] = useAtom(isAdminAtom);
+  const [newProjectModalOpen, setNewProjectModalOpen] = useState(false);
 
   const {
     data: skillsData,
@@ -164,12 +183,28 @@ const PortfolioView = () => {
       <StyledDivider variant="middle" />
 
       <Section ref={workSectionRef}>
-        <SectionTitle>Selected Work</SectionTitle>
+        <TitleContainer>
+          <SectionTitle>Selected Work</SectionTitle>
+          {isAdmin && (
+            <AddIconButton size="small" onClick={() => setNewProjectModalOpen(true)}>
+              <Add />
+            </AddIconButton>
+          )}
+        </TitleContainer>
         {loadingProjects && <LinearProgress />}
-        {projectsData && !loadingProjects && <WorkSection projects={projectsData} onSubmitSuccess={refetchProjects} />}
+        {projectsData && !loadingProjects && (
+          <StyledWorkSection projects={projectsData} onSubmitSuccess={refetchProjects} />
+        )}
       </Section>
 
       <LoginDialog />
+      {isAdmin && (
+        <ProjectFormDialog
+          isOpen={newProjectModalOpen}
+          onClose={() => setNewProjectModalOpen(false)}
+          onSubmitSuccess={() => {} /* TODO: */}
+        />
+      )}
     </MainWrapper>
   );
 };
