@@ -68,7 +68,7 @@ const WorkTag = styled.div`
 const WorkSection = ({ projects, onSubmitSuccess }: Props) => (
   <WorkContainer>
     {projects.map((work) => (
-      <WorkCell key={work._id} to={`/portfolio/projects/${work.readableId}`}>
+      <WorkCell key={work._id} to={`/portfolio/projects/${work._id}`}>
         <WorkImage src={work.thumbnailSrc} />
         <ImageText>{work.title}</ImageText>
         <WorkTag>{work.category}</WorkTag>
