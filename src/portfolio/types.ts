@@ -14,7 +14,6 @@ export type Badge = {
 
 export type Project = {
   _id: string;
-  readableId: string;
   title: string;
   subtitle: string;
   shortDescription: string;
@@ -24,4 +23,5 @@ export type Project = {
   tags: string[];
   category: string;
   thumbnailSrc: string;
+  videoLink?: string;
 };
