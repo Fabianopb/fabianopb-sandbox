@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { Button, LinearProgress } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { projectData } from '../data';
+import { getProjects } from '../../api';
 import ProjectNavigation from './ProjectNavigation';
 
 const Root = styled.div`
@@ -91,61 +93,102 @@ const YouTubeFrame = styled.iframe`
   position: absolute;
 `;
 
+const NotFound = styled.div`
+  margin: 96px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+`;
+
 const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const project = projectData.find((project) => project.readableId === id);
+
+  const { data, isLoading, isFetched } = useQuery(['portfolio', 'all-projects'], getProjects);
+
+  const project = useMemo(() => data?.find((p) => p._id === id), [id, data]);
+
+  console.log(project, isFetched);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  if (!project) {
-    return <div>redirect to 404</div>;
-  }
-
   const handleClickNextProject = () => {
-    const currentProjectIndex = projectData.findIndex((project) => project.readableId === id);
-    const nextProjectIndex = currentProjectIndex < projectData.length - 1 ? currentProjectIndex + 1 : 0;
-    navigate(`/portfolio/projects/${projectData[nextProjectIndex].readableId}`);
+    if (!data) {
+      return;
+    }
+    const currentProjectIndex = data.findIndex((project) => project._id === id);
+    const nextProjectIndex = currentProjectIndex < data.length - 1 ? currentProjectIndex + 1 : 0;
+    navigate(`/portfolio/projects/${data[nextProjectIndex]._id}`);
   };
 
   const handleClickPreviousProject = () => {
-    const currentProjectIndex = projectData.findIndex((project) => project.readableId === id);
-    const nextProjectIndex = currentProjectIndex === 0 ? projectData.length - 1 : currentProjectIndex - 1;
-    navigate(`/portfolio/projects/${projectData[nextProjectIndex].readableId}`);
+    if (!data) {
+      return;
+    }
+    const currentProjectIndex = data.findIndex((project) => project._id === id);
+    const nextProjectIndex = currentProjectIndex === 0 ? data.length - 1 : currentProjectIndex - 1;
+    navigate(`/portfolio/projects/${data[nextProjectIndex]._id}`);
   };
+
+  if (isFetched && !project) {
+    return (
+      <NotFound>
+        <div style={{ marginBottom: 48 }}>Oops! Nothing to see here...</div>
+        <iframe
+          src="https://giphy.com/embed/C87IXdLfJ44Zq"
+          width="480"
+          height="205"
+          frameBorder="0"
+          className="giphy-embed"
+          allowFullScreen
+        />
+        <p>
+          <a href="https://giphy.com/gifs/comment-downvoted-deleting-C87IXdLfJ44Zq" />
+        </p>
+        <Button onClick={() => navigate('/portfolio')}>Back to home</Button>
+      </NotFound>
+    );
+  }
 
   return (
     <Root>
-      <ProjectNavigation onClickPrevious={handleClickPreviousProject} onClickNext={handleClickNextProject} />
-      <Title>{project.title}</Title>
-      <Subtitle>{project.subtitle}</Subtitle>
-      <ShortDescription>{project.shortDescription}</ShortDescription>
-      <Dates>{project.dates}</Dates>
-      <ContentWrapper>
-        <ImagesContainer>
-          {project.images.map((src) => (
-            <Image key={src} src={src} />
-          ))}
-        </ImagesContainer>
-        <Text dangerouslySetInnerHTML={{ __html: project.innerHtml }} />
-      </ContentWrapper>
-      <TagCloud>{project.tags.join('  •  ')}</TagCloud>
-      {project.videoLink && (
-        <VideoContainer>
-          <YouTubeFrame
-            title="YouTube video player"
-            width="560"
-            height="315"
-            src={project.videoLink}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </VideoContainer>
+      {isLoading && <LinearProgress />}
+      {project && !isLoading && (
+        <>
+          <ProjectNavigation onClickPrevious={handleClickPreviousProject} onClickNext={handleClickNextProject} />
+          <Title>{project.title}</Title>
+          <Subtitle>{project.subtitle}</Subtitle>
+          <ShortDescription>{project.shortDescription}</ShortDescription>
+          <Dates>{project.dateRange}</Dates>
+          <ContentWrapper>
+            <ImagesContainer>
+              {project.images.map((src) => (
+                <Image key={src} src={src} />
+              ))}
+            </ImagesContainer>
+            <Text dangerouslySetInnerHTML={{ __html: project.longDescription }} />
+          </ContentWrapper>
+          <TagCloud>{project.tags.join('  •  ')}</TagCloud>
+          {project.videoLink && (
+            <VideoContainer>
+              <YouTubeFrame
+                title="YouTube video player"
+                width="560"
+                height="315"
+                src={project.videoLink}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </VideoContainer>
+          )}
+          <ProjectNavigation onClickPrevious={handleClickPreviousProject} onClickNext={handleClickNextProject} />
+        </>
       )}
-      <ProjectNavigation onClickPrevious={handleClickPreviousProject} onClickNext={handleClickNextProject} />
     </Root>
   );
 };
