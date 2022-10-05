@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { getBadges, getProjects, getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
-import LoginDialog from './components/LoginDialog';
 import BadgesSubsection from './components/BadgesSubsection';
 import WorkSection from './components/WorkSection';
 import SkillsSubsection from './components/SkillsSubsection';
@@ -197,7 +196,6 @@ const PortfolioView = () => {
         )}
       </Section>
 
-      <LoginDialog />
       {isAdmin && (
         <ProjectFormDialog
           isOpen={newProjectModalOpen}
