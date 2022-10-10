@@ -1,29 +1,15 @@
-import { Button, FormControlLabel, FormHelperText, LinearProgress, Radio, RadioGroup, TextField } from '@mui/material';
+import { Edit } from '@mui/icons-material';
+import { Button, LinearProgress } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { getProjects } from '../../api';
 import { isAdminAtom } from '../atoms';
+import ProjectDetailsForm, { FormValues } from './ProjectDetailsForm';
 import ProjectNavigation from './ProjectNavigation';
-
-type FormValues = {
-  _id: string;
-  title: string;
-  subtitle: string;
-  shortDescription: string;
-  dateRange: string;
-  image1: string;
-  image2: string;
-  longDescription: string;
-  tags: string;
-  category: string;
-  thumbnailSrc: string;
-  videoLink?: string;
-};
 
 const Root = styled.div`
   display: flex;
@@ -33,11 +19,23 @@ const Root = styled.div`
   margin: auto;
 `;
 
+const TitleContainer = styled.div`
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+`;
+
 const Title = styled.h1`
   color: #8e8f98;
   font-size: 40px;
   font-weight: 600;
-  margin-top: 48px;
+`;
+
+const EditIcon = styled(Edit)`
+  margin-left: 16px;
+  width: 20px;
+  fill: #17293a;
+  cursor: pointer;
 `;
 
 const Subtitle = styled.h2`
@@ -121,47 +119,7 @@ const NotFound = styled.div`
   font-size: 48px;
 `;
 
-const StyledInput = styled(TextField)`
-  margin-top: 16px;
-`;
-
-const FormBodyContainer = styled.div`
-  display: flex;
-`;
-
-const ImageFieldsContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-const DescriptionContainer = styled.div`
-  flex: 1;
-  margin-left: 16px;
-`;
-
-const FormActions = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 24px;
-`;
-
 const ADD_PROJECT = 'add-new';
-
-const emptyValues: Omit<FormValues, '_id'> = {
-  title: '',
-  subtitle: '',
-  shortDescription: '',
-  dateRange: '',
-  image1: '',
-  image2: '',
-  longDescription: '',
-  tags: '',
-  category: 'Business Design',
-  thumbnailSrc: '',
-  videoLink: '',
-};
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -202,7 +160,25 @@ const ProjectDetails = () => {
     navigate(`/portfolio/projects/${data[nextProjectIndex]._id}`);
   };
 
-  const { register, handleSubmit /*, reset */ } = useForm<FormValues>({ defaultValues: emptyValues });
+  const initialValues = useMemo(
+    () =>
+      project
+        ? {
+            title: project.title,
+            subtitle: project.subtitle,
+            shortDescription: project.shortDescription,
+            dateRange: project.dateRange,
+            image1: project.images[0],
+            image2: project.images[1],
+            longDescription: project.longDescription,
+            tags: project.tags.join('; '),
+            category: project.category,
+            thumbnailSrc: project.thumbnailSrc,
+            videoLink: project.videoLink,
+          }
+        : undefined,
+    [project]
+  );
 
   const { mutate, isLoading: isSubmitting } = useMutation(
     async (values: FormValues) => {
@@ -252,7 +228,10 @@ const ProjectDetails = () => {
       {project && !isLoading && !isEditing && (
         <>
           <ProjectNavigation onClickPrevious={handleClickPreviousProject} onClickNext={handleClickNextProject} />
-          <Title>{project.title}</Title>
+          <TitleContainer>
+            <Title>{project.title}</Title>
+            {isAdmin && <EditIcon onClick={() => setIsEditing(true)} />}
+          </TitleContainer>
           <Subtitle>{project.subtitle}</Subtitle>
           <ShortDescription>{project.shortDescription}</ShortDescription>
           <Dates>{project.dateRange}</Dates>
@@ -282,131 +261,12 @@ const ProjectDetails = () => {
         </>
       )}
       {isEditing && (
-        <form>
-          <Title>Add new project</Title>
-          <RadioGroup defaultValue={emptyValues.category} {...register('category')}>
-            <FormControlLabel value="Business Design" control={<Radio />} label="Business Design" />
-            <FormControlLabel value="Software Development" control={<Radio />} label="Software Development" />
-          </RadioGroup>
-          <StyledInput
-            label="Thumbnail link"
-            fullWidth
-            variant="outlined"
-            size="small"
-            disabled={isSubmitting}
-            defaultValue={emptyValues.thumbnailSrc}
-            {...register('thumbnailSrc')}
-          />
-          <StyledInput
-            label="Title"
-            fullWidth
-            variant="outlined"
-            size="small"
-            disabled={isSubmitting}
-            defaultValue={emptyValues.title}
-            {...register('title')}
-          />
-          <StyledInput
-            label="Subtitle"
-            fullWidth
-            variant="outlined"
-            size="small"
-            disabled={isSubmitting}
-            defaultValue={emptyValues.subtitle}
-            {...register('subtitle')}
-          />
-          <StyledInput
-            label="Short description"
-            fullWidth
-            variant="outlined"
-            size="small"
-            multiline
-            rows={2}
-            disabled={isSubmitting}
-            defaultValue={emptyValues.shortDescription}
-            {...register('shortDescription')}
-          />
-          <StyledInput
-            label="Date range"
-            variant="outlined"
-            size="small"
-            disabled={isSubmitting}
-            defaultValue={emptyValues.dateRange}
-            {...register('dateRange')}
-          />
-          <FormBodyContainer>
-            <ImageFieldsContainer>
-              <StyledInput
-                label="Image link 1"
-                fullWidth
-                variant="outlined"
-                size="small"
-                multiline
-                rows={2}
-                disabled={isSubmitting}
-                defaultValue={emptyValues.image1}
-                {...register('image1')}
-              />
-              <StyledInput
-                label="Image link 2"
-                fullWidth
-                variant="outlined"
-                size="small"
-                multiline
-                rows={2}
-                disabled={isSubmitting}
-                defaultValue={emptyValues.image2}
-                {...register('image2')}
-              />
-            </ImageFieldsContainer>
-            <DescriptionContainer>
-              <StyledInput
-                label="Long description"
-                fullWidth
-                variant="outlined"
-                size="small"
-                multiline
-                rows={8}
-                disabled={isSubmitting}
-                defaultValue={emptyValues.longDescription}
-                {...register('longDescription')}
-              />
-            </DescriptionContainer>
-          </FormBodyContainer>
-          <StyledInput
-            label="Tags"
-            fullWidth
-            variant="outlined"
-            size="small"
-            disabled={isSubmitting}
-            defaultValue={emptyValues.tags}
-            {...register('tags')}
-          />
-          <FormHelperText>Tags will be split by using semicolons</FormHelperText>
-          <StyledInput
-            label="Video link"
-            fullWidth
-            variant="outlined"
-            size="small"
-            disabled={isSubmitting}
-            defaultValue={emptyValues.videoLink}
-            {...register('videoLink')}
-          />
-          <FormActions>
-            <Button type="submit" variant="outlined" onClick={() => {}} disabled={isLoading}>
-              Cancel
-            </Button>
-            <Button
-              style={{ marginLeft: 16 }}
-              type="submit"
-              variant="contained"
-              onClick={handleSubmit((values) => mutate(values))}
-              disabled={isLoading}
-            >
-              Save
-            </Button>
-          </FormActions>
-        </form>
+        <ProjectDetailsForm
+          initialValues={initialValues}
+          isSubmitting={isSubmitting}
+          onCancel={() => setIsEditing(false)}
+          onSubmit={mutate}
+        />
       )}
     </Root>
   );
