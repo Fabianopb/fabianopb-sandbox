@@ -241,7 +241,7 @@ const ProjectDetails = () => {
     }
   );
 
-  if (isFetched && !project && id !== ADD_PROJECT) {
+  if ((isFetched && !project) || (id === ADD_PROJECT && !isAdmin)) {
     return (
       <NotFound>
         <div style={{ marginBottom: 48 }}>Oops! Nothing to see here...</div>
