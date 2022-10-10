@@ -1,5 +1,4 @@
-import { QuestionMark } from '@mui/icons-material';
-import { Button, FormControlLabel, LinearProgress, Radio, RadioGroup, TextField, Tooltip } from '@mui/material';
+import { Button, FormControlLabel, FormHelperText, LinearProgress, Radio, RadioGroup, TextField } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
@@ -130,20 +129,6 @@ const FormBodyContainer = styled.div`
   display: flex;
 `;
 
-const TagFieldContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const InfoIcon = styled(QuestionMark)`
-  margin: 16px 8px 0 0;
-  font-size: 16px;
-`;
-
-const TooltipText = styled.span`
-  font-size: 14px;
-`;
-
 const ImageFieldsContainer = styled.div`
   flex: 1;
   display: flex;
@@ -241,7 +226,7 @@ const ProjectDetails = () => {
     }
   );
 
-  if ((isFetched && !project) || (id === ADD_PROJECT && !isAdmin)) {
+  if ((isFetched && !project && id !== ADD_PROJECT) || (id === ADD_PROJECT && !isAdmin)) {
     return (
       <NotFound>
         <div style={{ marginBottom: 48 }}>Oops! Nothing to see here...</div>
@@ -388,20 +373,16 @@ const ProjectDetails = () => {
               />
             </DescriptionContainer>
           </FormBodyContainer>
-          <TagFieldContainer>
-            <Tooltip placement="top-start" title={<TooltipText>Separate tags using semicolons</TooltipText>}>
-              <InfoIcon fontSize="small" />
-            </Tooltip>
-            <StyledInput
-              label="Tags"
-              fullWidth
-              variant="outlined"
-              size="small"
-              disabled={isSubmitting}
-              defaultValue={emptyValues.tags}
-              {...register('tags')}
-            />
-          </TagFieldContainer>
+          <StyledInput
+            label="Tags"
+            fullWidth
+            variant="outlined"
+            size="small"
+            disabled={isSubmitting}
+            defaultValue={emptyValues.tags}
+            {...register('tags')}
+          />
+          <FormHelperText>Tags will be split by using semicolons</FormHelperText>
           <StyledInput
             label="Video link"
             fullWidth
