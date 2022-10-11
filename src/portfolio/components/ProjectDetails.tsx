@@ -6,8 +6,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { getProjects } from '../../api';
+import { addProject, editProject, getProjects } from '../../api';
 import { isAdminAtom } from '../atoms';
+import { Project } from '../types';
 import ProjectDetailsForm, { FormValues } from './ProjectDetailsForm';
 import ProjectNavigation from './ProjectNavigation';
 
@@ -121,15 +122,41 @@ const NotFound = styled.div`
 
 const ADD_PROJECT = 'add-new';
 
+const transformValuesToPayload = (values: FormValues): Omit<Project, '_id'> => ({
+  title: values.title,
+  subtitle: values.subtitle,
+  shortDescription: values.shortDescription,
+  dateRange: values.dateRange,
+  images: [values.image1, values.image2],
+  longDescription: values.longDescription,
+  tags: values.tags.split(';').map((tag) => tag.trim()),
+  category: values.category,
+  thumbnailSrc: values.thumbnailSrc,
+  videoLink: values.videoLink,
+});
+
+const transformProjectToForm = (project: Project): FormValues => ({
+  title: project.title,
+  subtitle: project.subtitle,
+  shortDescription: project.shortDescription,
+  dateRange: project.dateRange,
+  image1: project.images[0],
+  image2: project.images[1],
+  longDescription: project.longDescription,
+  tags: project.tags.join('; '),
+  category: project.category,
+  thumbnailSrc: project.thumbnailSrc,
+  videoLink: project.videoLink,
+});
+
 const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isAdmin] = useAtom(isAdminAtom);
 
   const [isEditing, setIsEditing] = useState(id === ADD_PROJECT && isAdmin);
-  console.log(id, isAdmin);
 
-  const { data, isLoading, isFetched } = useQuery(['portfolio', 'all-projects'], () =>
+  const { data, isLoading, isFetched, refetch } = useQuery(['portfolio', 'all-projects'], () =>
     id !== ADD_PROJECT ? getProjects() : undefined
   );
 
@@ -160,39 +187,23 @@ const ProjectDetails = () => {
     navigate(`/portfolio/projects/${data[nextProjectIndex]._id}`);
   };
 
-  const initialValues = useMemo(
-    () =>
-      project
-        ? {
-            title: project.title,
-            subtitle: project.subtitle,
-            shortDescription: project.shortDescription,
-            dateRange: project.dateRange,
-            image1: project.images[0],
-            image2: project.images[1],
-            longDescription: project.longDescription,
-            tags: project.tags.join('; '),
-            category: project.category,
-            thumbnailSrc: project.thumbnailSrc,
-            videoLink: project.videoLink,
-          }
-        : undefined,
-    [project]
-  );
+  const initialValues = useMemo(() => (project ? transformProjectToForm(project) : undefined), [project]);
 
   const { mutate, isLoading: isSubmitting } = useMutation(
     async (values: FormValues) => {
-      console.log(values);
-      // const { _id: badgeId, ...payload } = values;
-      // if (defaultValues) {
-      //   await editBadge(badgeId, payload);
-      // } else {
-      //   await addBadge(payload);
-      // }
+      if (!id) {
+        throw new Error('Project id not defined in the path, this should not happen!');
+      }
+      const payload = transformValuesToPayload(values);
+      if (id === ADD_PROJECT) {
+        await addProject(payload);
+      } else {
+        await editProject(id, payload);
+      }
     },
     {
       onSuccess: () => {
-        // onSubmitSuccess();
+        refetch();
         setIsEditing(false);
       },
       onError: (error?: any) => {
