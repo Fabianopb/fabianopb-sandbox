@@ -77,7 +77,7 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
 
   return (
     <form>
-      <Title>Add new project</Title>
+      <Title>{initialValues ? 'Edit project' : 'Add new project'}</Title>
       <RadioGroup defaultValue={defaultValues.category} {...register('category')}>
         <FormControlLabel value="Business Design" control={<Radio />} label="Business Design" />
         <FormControlLabel value="Software Development" control={<Radio />} label="Software Development" />
