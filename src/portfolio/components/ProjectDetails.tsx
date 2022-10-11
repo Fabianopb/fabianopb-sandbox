@@ -286,7 +286,7 @@ const ProjectDetails = () => {
         <ProjectDetailsForm
           initialValues={initialValues}
           isSubmitting={isSubmitting}
-          onCancel={() => setIsEditing(false)}
+          onCancel={() => (id === ADD_PROJECT_ID ? navigate('/portfolio') : setIsEditing(false))}
           onSubmit={mutate}
         />
       )}
