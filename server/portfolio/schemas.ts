@@ -40,7 +40,6 @@ export const portfolioProjectsSchema = {
   $jsonSchema: {
     bsonType: 'object',
     required: [
-      'readableId',
       'title',
       'subtitle',
       'shortDescription',
@@ -83,6 +82,9 @@ export const portfolioProjectsSchema = {
         bsonType: 'string',
       },
       thumbnailSrc: {
+        bsonType: 'string',
+      },
+      videoLink: {
         bsonType: 'string',
       },
     },
