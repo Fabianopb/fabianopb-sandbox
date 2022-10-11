@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import { StringParam, useQueryParam } from 'use-query-params';
 import { addProject, editProject, getProjects } from '../../api';
 import { isAdminAtom } from '../atoms';
 import { Project } from '../types';
@@ -154,8 +155,16 @@ const ProjectDetails = () => {
   const navigate = useNavigate();
   const [isAdmin] = useAtom(isAdminAtom);
   const queryClient = useQueryClient();
+  const [editParam, setEditParam] = useQueryParam('edit', StringParam);
 
   const [isEditing, setIsEditing] = useState(id === ADD_PROJECT_ID && isAdmin);
+
+  useEffect(() => {
+    if (editParam === 'true') {
+      setIsEditing(true);
+      setEditParam(undefined);
+    }
+  }, [editParam, setEditParam]);
 
   const { data, isLoading, isFetched, refetch } = useQuery(['portfolio', 'all-projects'], () =>
     id !== ADD_PROJECT_ID ? getProjects() : undefined
