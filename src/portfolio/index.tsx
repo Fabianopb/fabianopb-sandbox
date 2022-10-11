@@ -1,6 +1,6 @@
 import { Button, Divider, IconButton, LinearProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import { getBadges, getProjects, getSkills } from '../api';
 import bannerImageSrc from '../assets/banner.jpeg';
@@ -12,7 +12,8 @@ import ToolsetSubsection from './components/ToolsetSubsection';
 import { useAtom } from 'jotai';
 import { isAdminAtom } from './atoms';
 import { Add } from '@mui/icons-material';
-import ProjectFormDialog from './components/ProjectFormDialog';
+import { useNavigate } from 'react-router-dom';
+import { ADD_PROJECT_ID } from './components/ProjectDetails';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -109,7 +110,7 @@ const AddIconButton = styled(IconButton)`
 const PortfolioView = () => {
   const workSectionRef = useRef<HTMLDivElement>(null);
   const [isAdmin] = useAtom(isAdminAtom);
-  const [newProjectModalOpen, setNewProjectModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const {
     data: skillsData,
@@ -185,7 +186,7 @@ const PortfolioView = () => {
         <TitleContainer>
           <SectionTitle>Selected Work</SectionTitle>
           {isAdmin && (
-            <AddIconButton size="small" onClick={() => setNewProjectModalOpen(true)}>
+            <AddIconButton size="small" onClick={() => navigate(`/portfolio/projects/${ADD_PROJECT_ID}`)}>
               <Add />
             </AddIconButton>
           )}
@@ -195,14 +196,6 @@ const PortfolioView = () => {
           <StyledWorkSection projects={projectsData} onSubmitSuccess={refetchProjects} />
         )}
       </Section>
-
-      {isAdmin && (
-        <ProjectFormDialog
-          isOpen={newProjectModalOpen}
-          onClose={() => setNewProjectModalOpen(false)}
-          onSubmitSuccess={() => {} /* TODO: */}
-        />
-      )}
     </MainWrapper>
   );
 };
