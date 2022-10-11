@@ -1,6 +1,6 @@
 import { Edit } from '@mui/icons-material';
 import { Button, LinearProgress } from '@mui/material';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -120,7 +120,7 @@ const NotFound = styled.div`
   font-size: 48px;
 `;
 
-const ADD_PROJECT = 'add-new';
+export const ADD_PROJECT_ID = 'add-new';
 
 const transformValuesToPayload = (values: FormValues): Omit<Project, '_id'> => ({
   title: values.title,
@@ -153,17 +153,18 @@ const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isAdmin] = useAtom(isAdminAtom);
+  const queryClient = useQueryClient();
 
-  const [isEditing, setIsEditing] = useState(id === ADD_PROJECT && isAdmin);
+  const [isEditing, setIsEditing] = useState(id === ADD_PROJECT_ID && isAdmin);
 
   const { data, isLoading, isFetched, refetch } = useQuery(['portfolio', 'all-projects'], () =>
-    id !== ADD_PROJECT ? getProjects() : undefined
+    id !== ADD_PROJECT_ID ? getProjects() : undefined
   );
 
   const project = useMemo(() => data?.find((p) => p._id === id), [id, data]);
 
   useEffect(() => {
-    if (id === ADD_PROJECT && isAdmin) {
+    if (id === ADD_PROJECT_ID && isAdmin) {
       setIsEditing(true);
     }
     window.scrollTo(0, 0);
@@ -195,17 +196,18 @@ const ProjectDetails = () => {
         throw new Error('Project id not defined in the path, this should not happen!');
       }
       const payload = transformValuesToPayload(values);
-      if (id === ADD_PROJECT) {
-        await addProject(payload);
+      if (id === ADD_PROJECT_ID) {
+        const newProjectId = await addProject(payload);
+        await queryClient.invalidateQueries(['portfolio', 'all-projects']);
+        navigate(`/portfolio/projects/${newProjectId}`);
+        setIsEditing(false);
       } else {
         await editProject(id, payload);
+        await refetch();
+        setIsEditing(false);
       }
     },
     {
-      onSuccess: () => {
-        refetch();
-        setIsEditing(false);
-      },
       onError: (error?: any) => {
         const message = error?.response?.data?.message || error?.message;
         toast(message || 'Unkown error!', { type: 'error' });
@@ -213,7 +215,7 @@ const ProjectDetails = () => {
     }
   );
 
-  if ((isFetched && !project && id !== ADD_PROJECT) || (id === ADD_PROJECT && !isAdmin)) {
+  if ((isFetched && !project && id !== ADD_PROJECT_ID) || (id === ADD_PROJECT_ID && !isAdmin)) {
     return (
       <NotFound>
         <div style={{ marginBottom: 48 }}>Oops! Nothing to see here...</div>
