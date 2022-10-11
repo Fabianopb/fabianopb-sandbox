@@ -1,6 +1,6 @@
 import { TextField, RadioGroup, FormControlLabel, Radio, FormHelperText, Button } from '@mui/material';
 import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 export type FormValues = {
@@ -73,15 +73,22 @@ const emptyValues: FormValues = {
 const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }: Props) => {
   const defaultValues = useMemo(() => initialValues || emptyValues, [initialValues]);
 
-  const { register, handleSubmit } = useForm<FormValues>({ defaultValues });
+  const { register, handleSubmit, control } = useForm<FormValues>({ defaultValues });
 
   return (
     <form>
       <Title>{initialValues ? 'Edit project' : 'Add new project'}</Title>
-      <RadioGroup defaultValue={defaultValues.category} {...register('category')}>
-        <FormControlLabel value="Business Design" control={<Radio />} label="Business Design" />
-        <FormControlLabel value="Software Development" control={<Radio />} label="Software Development" />
-      </RadioGroup>
+      <Controller
+        name="category"
+        control={control}
+        defaultValue={defaultValues.category}
+        render={({ field }) => (
+          <RadioGroup {...field}>
+            <FormControlLabel value="Business Design" control={<Radio />} label="Business Design" />
+            <FormControlLabel value="Software Development" control={<Radio />} label="Software Development" />
+          </RadioGroup>
+        )}
+      />
       <StyledInput
         label="Thumbnail link"
         fullWidth
