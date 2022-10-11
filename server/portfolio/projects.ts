@@ -22,8 +22,8 @@ projectsRouter.post('/projects', auth, async (req, res, next) => {
   try {
     const collection = database.collection(PORTFOLIO_PROJECTS);
     const project = req.body;
-    await collection.insertOne(project);
-    return res.status(200).json('Items created');
+    const result = await collection.insertOne(project);
+    return res.status(200).json(result.insertedId);
   } catch (error) {
     next(error);
   }
