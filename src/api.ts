@@ -46,7 +46,7 @@ export const deleteBadge = (badgeId: string) => agent.delete(`/badges/${badgeId}
 // Projects endpoints
 export const getProjects = () => agent.get<Project[]>('/projects').then((r) => r.data);
 
-export const addProject = (payload: ProjectPayload) => agent.post('/projects', payload).then((res) => res.data);
+export const addProject = (payload: ProjectPayload) => agent.post<string>('/projects', payload).then((res) => res.data);
 
 export const editProject = (projectId: string, payload: ProjectPayload) =>
   agent.put(`/projects/${projectId}`, payload).then((res) => res.data);
