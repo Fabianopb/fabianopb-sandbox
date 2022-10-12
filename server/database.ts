@@ -1,6 +1,11 @@
 import { MongoClient, Db, Document } from 'mongodb';
-import { PORTFOLIO_BADGES, PORTFOLIO_SKILLS, PORTFOLIO_USERS } from './portfolio/collections';
-import { portfolioBadgesSchema, portfolioSkillsSchema, portfolioUsersSchema } from './portfolio/schemas';
+import { PORTFOLIO_BADGES, PORTFOLIO_PROJECTS, PORTFOLIO_SKILLS, PORTFOLIO_USERS } from './portfolio/collections';
+import {
+  portfolioBadgesSchema,
+  portfolioProjectsSchema,
+  portfolioSkillsSchema,
+  portfolioUsersSchema,
+} from './portfolio/schemas';
 
 const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
 const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
@@ -40,6 +45,7 @@ export const init = async () => {
   await setupSchema(PORTFOLIO_SKILLS, portfolioSkillsSchema);
   await setupSchema(PORTFOLIO_USERS, portfolioUsersSchema);
   await setupSchema(PORTFOLIO_BADGES, portfolioBadgesSchema);
+  await setupSchema(PORTFOLIO_PROJECTS, portfolioProjectsSchema);
 };
 
 export const close = () => {

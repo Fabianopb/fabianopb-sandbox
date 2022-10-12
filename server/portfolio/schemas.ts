@@ -36,6 +36,61 @@ export const portfolioBadgesSchema = {
   },
 };
 
+export const portfolioProjectsSchema = {
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'title',
+      'subtitle',
+      'shortDescription',
+      'dateRange',
+      'images',
+      'longDescription',
+      'tags',
+      'category',
+      'thumbnailSrc',
+    ],
+    properties: {
+      title: {
+        bsonType: 'string',
+      },
+      subtitle: {
+        bsonType: 'string',
+      },
+      shortDescription: {
+        bsonType: 'string',
+      },
+      dateRange: {
+        bsonType: 'string',
+      },
+      images: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'string',
+        },
+      },
+      longDescription: {
+        bsonType: 'string',
+      },
+      tags: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'string',
+        },
+      },
+      category: {
+        bsonType: 'string',
+      },
+      thumbnailSrc: {
+        bsonType: 'string',
+      },
+      videoLink: {
+        bsonType: 'string',
+      },
+    },
+  },
+};
+
 export const portfolioUsersSchema = {
   $jsonSchema: {
     bsonType: 'object',

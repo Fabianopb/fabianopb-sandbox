@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { isAdminAtom } from '../atoms';
 import { clearSession } from '../utils';
 import Footer from './Footer';
+import LoginDialog from './LoginDialog';
 
 const Topbar = styled.div`
   display: flex;
@@ -101,6 +102,8 @@ const Layout = () => {
       <FooterContainer ref={footerRef}>
         <Footer />
       </FooterContainer>
+
+      <LoginDialog />
     </>
   );
 };
