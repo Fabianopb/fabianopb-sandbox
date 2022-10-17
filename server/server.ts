@@ -16,10 +16,10 @@ export const init = () => {
 
   app.use('/api/v1/portfolio', [skillsRouter, usersRouter, badgesRouter, projectsRouter]);
 
-  app.use(express.static(path.resolve('dist')));
+  app.use(express.static(path.resolve('fpb-dist')));
 
   app.get('*', (_, response) => {
-    response.sendFile(path.resolve('dist', 'index.html'));
+    response.sendFile(path.resolve('fpb-dist', 'index.html'));
   });
 
   app.use((error: any, _1: Request, res: Response, _2: NextFunction) => {

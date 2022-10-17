@@ -10,14 +10,13 @@
     "start-server": "APP_ENV=development nodemon -r dotenv/config --exec ts-node server/index.ts",
     "start": "concurrently \"yarn start-server\" \"yarn start-client\"",
     "build-client": "tsc && vite build",
-    "build-server": "tsc server/index.ts --esModuleInterop --outDir dist",
+    "build-server": "tsc server/index.ts --esModuleInterop --outDir fpb-dist",
     "build": "yarn build-client && yarn build-server",
     "test": "jest",
     "lint": "eslint server src --ext .ts,.tsx",
     "lint-watch": "esw server src --ext .ts,.tsx --watch --color",
     "stylelint": "stylelint 'src/**/*.{ts,tsx}'",
     "preview": "vite preview",
-    "serve": "node dist/index.js",
     "prepare": "husky install"
   },
   "lint-staged": {

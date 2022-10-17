@@ -17,4 +17,7 @@ export default defineConfig({
       '^/api/.*': `http://localhost:${port}`,
     },
   },
+  build: {
+    outDir: 'fpb-dist',
+  },
 });
