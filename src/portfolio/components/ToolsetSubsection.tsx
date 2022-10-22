@@ -1,10 +1,11 @@
 import { Add, Clear, Edit } from '@mui/icons-material';
-import { Button, Rating, TextField } from '@mui/material';
+import { Button as MuiButton, Rating, TextField } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useMemo, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled from 'styled-components';
+import { Button } from '../../common/components';
 import { isAdminAtom } from '../atoms';
 import useSkillsManagement from '../hooks/useSkillsManagement';
 import { Skill } from '../types';
@@ -194,7 +195,7 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
               <ClearIcon onClick={() => remove(index)} />
             </FormRow>
           ))}
-          <Button
+          <MuiButton
             style={{ marginTop: 8 }}
             size="small"
             variant="text"
@@ -203,20 +204,15 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
             disabled={skillsMutation.isLoading}
           >
             Add field
-          </Button>
+          </MuiButton>
           <FormActions>
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={() => setIsEditing(false)}
-              disabled={skillsMutation.isLoading}
-            >
+            <Button size="small" variant="grey" onClick={() => setIsEditing(false)} disabled={skillsMutation.isLoading}>
               Cancel
             </Button>
             <Button
               style={{ marginLeft: 8 }}
               size="small"
-              variant="contained"
+              variant="blue"
               type="submit"
               onClick={handleSubmit((data) => skillsMutation.mutate(data.toolset))}
               disabled={skillsMutation.isLoading}
