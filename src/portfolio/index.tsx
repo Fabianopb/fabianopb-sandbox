@@ -25,6 +25,9 @@ const BannerContainer = styled.div`
   position: relative;
   height: 560px;
   background-color: ${colors.teal[900]};
+  @media (max-width: 768px) {
+    height: 420px;
+  }
 `;
 
 const ImageOverlay = styled.div`
