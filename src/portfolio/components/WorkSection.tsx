@@ -38,7 +38,7 @@ const ImageText = styled.div`
   width: 100%;
   height: 100%;
   padding: 12px;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 600;
   display: flex;
   justify-content: center;
@@ -60,7 +60,7 @@ const WorkTag = styled.div`
   background-color: ${colors.orange[100]};
   color: ${colors.grey[600]};
   padding: 0 8px 0 18px;
-  font-size: 14px;
+  font-size: 0.875rem;
   border-radius: 12px;
   :after {
     content: '';

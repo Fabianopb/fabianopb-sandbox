@@ -34,7 +34,7 @@ const SubtitleContainer = styled.div`
 `;
 
 const SkillSubtitle = styled.h2`
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
   color: ${colors.grey[600]};
@@ -54,7 +54,7 @@ const BadgeCard = styled(Link)`
 `;
 
 const BadgeName = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   color: ${colors.grey[600]};
 `;

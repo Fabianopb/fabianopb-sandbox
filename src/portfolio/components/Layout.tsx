@@ -25,7 +25,7 @@ const LeftContent = styled.div`
 `;
 
 const Logo = styled(RRDLink)`
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 400;
   color: white;
   text-decoration: none;
@@ -33,7 +33,7 @@ const Logo = styled(RRDLink)`
 
 const Admin = styled.div`
   margin-left: 24px;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: italic;
   color: ${colors.cyan[500]};
 `;

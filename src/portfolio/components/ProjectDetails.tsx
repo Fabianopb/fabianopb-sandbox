@@ -29,7 +29,7 @@ const TitleContainer = styled.div`
 
 const Title = styled.h1`
   color: ${colors.grey[800]};
-  font-size: 40px;
+  font-size: 2.5rem;
   font-weight: 600;
 `;
 
@@ -39,19 +39,19 @@ const EditIconButton = styled(IconButton)`
 
 const Subtitle = styled.h2`
   color: ${colors.grey[600]};
-  font-size: 26px;
+  font-size: 1.5rem;
   font-weight: 600;
 `;
 
 const ShortDescription = styled.h3`
   color: ${colors.grey[600]};
   font-weight: 300;
-  font-size: 20px;
+  font-size: 1.25rem;
 `;
 
 const Dates = styled.div`
   color: ${colors.grey[600]};
-  font-size: 16px;
+  font-size: 1rem;
 `;
 
 const ContentWrapper = styled.div`
@@ -73,7 +73,7 @@ const Image = styled.img`
 
 const Text = styled.div`
   color: ${colors.grey[600]};
-  font-size: 14px;
+  font-size: 0.875rem;
   margin-left: 24px;
   a,
   a:hover,
@@ -83,7 +83,7 @@ const Text = styled.div`
 `;
 
 const TagCloud = styled.div`
-  font-size: 32px;
+  font-size: 2rem;
   line-height: 1.2;
   margin-top: 48px;
   color: ${colors.lightGreen[400]};
@@ -115,7 +115,7 @@ const NotFound = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 48px;
+  font-size: 3rem;
 `;
 
 export const ADD_PROJECT_ID = 'add-new';

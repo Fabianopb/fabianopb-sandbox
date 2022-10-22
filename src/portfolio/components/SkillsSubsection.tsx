@@ -34,7 +34,7 @@ const EditIconButton = styled(IconButton)`
 const SkillLevel = styled.div`
   flex: 1;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: ${colors.grey[600]};
 `;
 

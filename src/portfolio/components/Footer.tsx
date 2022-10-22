@@ -15,13 +15,13 @@ const Root = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 800;
 `;
 
 const Email = styled(Link)`
   margin-top: 32px;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: white;
 `;
 
@@ -40,7 +40,7 @@ const SocialIcon = styled.img`
 
 const Copyright = styled.div`
   margin-top: 32px;
-  font-size: 12px;
+  font-size: 0.75rem;
 `;
 
 const Footer = ({ className }: { className?: string }) => (

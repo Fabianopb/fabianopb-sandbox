@@ -29,7 +29,7 @@ type Props = {
 
 const Title = styled.h1`
   color: ${colors.grey[600]};
-  font-size: 40px;
+  font-size: 2.5rem;
   font-weight: 600;
 `;
 
