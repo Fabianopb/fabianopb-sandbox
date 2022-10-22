@@ -52,6 +52,21 @@ const DescriptionContainer = styled.div`
   margin-left: 16px;
 `;
 
+const StyledQuill = styled(ReactQuill)`
+  margin-top: 16px;
+  .ql-toolbar.ql-snow {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  .ql-container.ql-snow {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    min-height: 100px;
+    max-height: 280px;
+    overflow: auto;
+  }
+`;
+
 const FormActions = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -150,7 +165,7 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
           />
         </ImageFieldsContainer>
         <DescriptionContainer>
-          <ReactQuill
+          <StyledQuill
             theme="snow"
             defaultValue={defaultValues.longDescription}
             onChange={(value) => setValue('longDescription', value)}
