@@ -1,5 +1,5 @@
 import { Edit } from '@mui/icons-material';
-import { Button, colors, LinearProgress } from '@mui/material';
+import { Button, colors, IconButton, LinearProgress } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
@@ -33,11 +33,8 @@ const Title = styled.h1`
   font-weight: 600;
 `;
 
-const EditIcon = styled(Edit)`
+const EditIconButton = styled(IconButton)`
   margin-left: 16px;
-  width: 20px;
-  fill: #17293a;
-  cursor: pointer;
 `;
 
 const Subtitle = styled.h2`
@@ -81,7 +78,7 @@ const Text = styled.div`
   a,
   a:hover,
   a:visited {
-    color: #53b5cc;
+    color: ${colors.cyan[600]};
   }
 `;
 
@@ -89,7 +86,7 @@ const TagCloud = styled.div`
   font-size: 32px;
   line-height: 1.2;
   margin-top: 48px;
-  color: #afc42f;
+  color: ${colors.lightGreen[400]};
   & + & {
     margin-left: 12px;
   }
@@ -252,7 +249,11 @@ const ProjectDetails = () => {
           <ProjectNavigation onClickPrevious={handleClickPreviousProject} onClickNext={handleClickNextProject} />
           <TitleContainer>
             <Title>{project.title}</Title>
-            {isAdmin && <EditIcon onClick={() => setIsEditing(true)} />}
+            {isAdmin && (
+              <EditIconButton color="primary" onClick={() => setIsEditing(true)}>
+                <Edit />
+              </EditIconButton>
+            )}
           </TitleContainer>
           <Subtitle>{project.subtitle}</Subtitle>
           <ShortDescription>{project.shortDescription}</ShortDescription>

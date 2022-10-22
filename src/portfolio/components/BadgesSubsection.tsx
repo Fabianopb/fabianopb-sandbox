@@ -76,22 +76,20 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
 
 const AddIconButton = styled(IconButton)`
   margin-left: 8px;
-  color: #17293a;
 `;
 
 const StyledIconButton = styled(IconButton)`
   position: absolute;
   right: -36px;
   top: 0;
-  color: #17293a;
 `;
 
 const DeleteIcon = styled(Delete)`
-  fill: #9b0000;
+  fill: ${colors.red[900]};
 `;
 
 const DeleteListItemText = styled(ListItemText)`
-  color: #9b0000;
+  color: ${colors.red[900]};
 `;
 
 const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
@@ -157,7 +155,7 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
       <SubtitleContainer>
         <SkillSubtitle>Code school badges</SkillSubtitle>
         {isAdmin && (
-          <AddIconButton size="small" onClick={handleAddBadge}>
+          <AddIconButton color="primary" size="small" onClick={handleAddBadge}>
             <Add />
           </AddIconButton>
         )}
@@ -173,7 +171,7 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
                 onMouseEnter={() => handleBadgeMouseEnter(index)}
               />
               {isAdmin && (
-                <StyledIconButton size="small" onClick={(e) => handleOpenMenu(e, badge)}>
+                <StyledIconButton color="secondary" size="small" onClick={(e) => handleOpenMenu(e, badge)}>
                   <MoreHoriz />
                 </StyledIconButton>
               )}

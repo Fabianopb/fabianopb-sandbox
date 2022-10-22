@@ -74,6 +74,7 @@ const theme = createTheme({
   palette: {
     primary: { main: colors.blueGrey[800] },
     secondary: { main: colors.grey[700] },
+    error: { main: colors.red[900] },
   },
 });
 

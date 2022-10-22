@@ -1,5 +1,5 @@
 import { Clear, Add, Edit } from '@mui/icons-material';
-import { TextField, Button, colors } from '@mui/material';
+import { TextField, Button, colors, IconButton } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useMemo, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -27,11 +27,8 @@ const SkillsHeader = styled.div`
   font-weight: bold;
 `;
 
-const EditIcon = styled(Edit)`
+const EditIconButton = styled(IconButton)`
   margin-left: 16px;
-  width: 20px;
-  fill: #17293a;
-  cursor: pointer;
 `;
 
 const SkillLevel = styled.div`
@@ -49,14 +46,14 @@ const SkillBar = styled.div<{ value: number }>`
   margin-top: 12px;
   padding: 0 8px;
   width: 100%;
-  background-color: #d1d0d7;
+  background-color: ${colors.teal[50]};
   height: 24px;
   border-radius: 4px;
   ::after {
     position: absolute;
     display: block;
     content: '';
-    background-color: #17293a;
+    background-color: ${colors.teal[900]};
     height: 100%;
     width: ${({ value }) => `${value}%`};
     left: 0;
@@ -68,7 +65,7 @@ const SkillBar = styled.div<{ value: number }>`
 
 const SkillBarValue = styled.div`
   position: relative;
-  color: #fff;
+  color: white;
   z-index: 1;
 `;
 
@@ -87,11 +84,8 @@ const StyledValueInput = styled(TextField)`
   flex: 1;
 `;
 
-const ClearIcon = styled(Clear)`
+const ClearIconButton = styled(IconButton)`
   margin-left: 8px;
-  width: 16px;
-  fill: #9b0000;
-  cursor: pointer;
 `;
 
 const SkillFormActions = styled.div`
@@ -121,7 +115,11 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
         <SkillLevel>BEGINNER</SkillLevel>
         <SkillLevel>PROFICIENT</SkillLevel>
         <SkillLevel>EXPERT</SkillLevel>
-        {isAdmin && <EditIcon onClick={() => setIsEditing((prev) => !prev)} />}
+        {isAdmin && (
+          <EditIconButton color="primary" size="small" onClick={() => setIsEditing((prev) => !prev)}>
+            <Edit />
+          </EditIconButton>
+        )}
       </SkillsHeader>
       {!isEditing &&
         skills.map((skill) => (
@@ -140,13 +138,16 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
                 size="small"
                 disabled={skillsMutation.isLoading}
               />
-              <ClearIcon onClick={() => remove(index)} />
+              <ClearIconButton color="error" size="small" onClick={() => remove(index)}>
+                <Clear />
+              </ClearIconButton>
             </SkillFormRow>
           ))}
           <Button
             style={{ marginTop: 8 }}
             size="small"
             variant="text"
+            color="primary"
             endIcon={<Add />}
             onClick={() => append({ id: new Date().valueOf().toString(), name: '', value: '' })}
             disabled={skillsMutation.isLoading}
@@ -157,6 +158,7 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
             <Button
               size="small"
               variant="outlined"
+              color="secondary"
               onClick={() => setIsEditing(false)}
               disabled={skillsMutation.isLoading}
             >
@@ -166,6 +168,7 @@ const SkillsSubsection = ({ skills, onSubmitSuccess }: Props) => {
               style={{ marginLeft: 8 }}
               size="small"
               variant="contained"
+              color="primary"
               type="submit"
               onClick={handleSubmit((data) => skillsMutation.mutate(data.skills))}
               disabled={skillsMutation.isLoading}

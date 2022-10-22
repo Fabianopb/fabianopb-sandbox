@@ -1,4 +1,4 @@
-import { TextField, RadioGroup, FormControlLabel, Radio, FormHelperText, Button } from '@mui/material';
+import { TextField, RadioGroup, FormControlLabel, Radio, FormHelperText, Button, colors } from '@mui/material';
 import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
@@ -25,7 +25,7 @@ type Props = {
 };
 
 const Title = styled.h1`
-  color: #8e8f98;
+  color: ${colors.grey[600]};
   font-size: 40px;
   font-weight: 600;
 `;

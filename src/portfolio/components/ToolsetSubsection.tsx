@@ -1,5 +1,5 @@
 import { Add, Clear, Edit } from '@mui/icons-material';
-import { Button, colors, Rating, TextField } from '@mui/material';
+import { Button, colors, IconButton, Rating, TextField } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useMemo, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -37,11 +37,8 @@ const Subtitle = styled.h2`
   color: ${colors.grey[600]};
 `;
 
-const EditIcon = styled(Edit)`
+const EditIconButton = styled(IconButton)`
   margin-left: 16px;
-  width: 20px;
-  fill: ${colors.blue[900]};
-  cursor: pointer;
 `;
 
 const ChartContainer = styled.div`
@@ -81,11 +78,8 @@ const StyledValueInput = styled(TextField)`
   flex: 1;
 `;
 
-const ClearIcon = styled(Clear)`
+const ClearIconButton = styled(IconButton)`
   margin-left: 8px;
-  width: 16px;
-  fill: ${colors.red[900]};
-  cursor: pointer;
 `;
 
 const FormActions = styled.div`
@@ -113,7 +107,11 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
     <ToolsetContainer>
       <Header>
         <Subtitle>Toolset</Subtitle>
-        {isAdmin && <EditIcon onClick={() => setIsEditing((prev) => !prev)} />}
+        {isAdmin && (
+          <EditIconButton color="primary" size="small" onClick={() => setIsEditing((prev) => !prev)}>
+            <Edit />
+          </EditIconButton>
+        )}
       </Header>
       {!isEditing && toolset.length > 0 && (
         <ChartContainer>
@@ -191,7 +189,9 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
                 size="small"
                 disabled={skillsMutation.isLoading}
               />
-              <ClearIcon onClick={() => remove(index)} />
+              <ClearIconButton color="error" size="small" onClick={() => remove(index)}>
+                <Clear />
+              </ClearIconButton>
             </FormRow>
           ))}
           <Button
