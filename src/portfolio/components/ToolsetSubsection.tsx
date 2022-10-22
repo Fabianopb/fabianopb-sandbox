@@ -21,6 +21,10 @@ type Props = {
 const ToolsetContainer = styled.div`
   width: 600px;
   margin: auto;
+  @media (max-width: 768px) {
+    width: initial;
+    margin: 12px 8px;
+  }
 `;
 
 const Header = styled.div`
