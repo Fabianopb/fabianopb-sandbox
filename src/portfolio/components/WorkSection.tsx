@@ -1,5 +1,5 @@
 import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
-import { Menu, MenuList, MenuItem, ListItemIcon, ListItemText, IconButton } from '@mui/material';
+import { Menu, MenuList, MenuItem, ListItemIcon, ListItemText, IconButton, colors } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
@@ -45,7 +45,7 @@ const ImageText = styled.div`
   align-items: center;
   text-align: center;
   color: #fff;
-  background-color: #555;
+  background-color: ${colors.grey[600]};
   opacity: 0;
   transition: opacity 500ms ease-in-out;
   :hover {
@@ -58,7 +58,7 @@ const WorkTag = styled.div`
   left: 12px;
   bottom: 12px;
   background-color: #fcfbe3;
-  color: #555;
+  color: ${colors.grey[600]};
   padding: 0 8px 0 18px;
   font-size: 14px;
   border-radius: 12px;

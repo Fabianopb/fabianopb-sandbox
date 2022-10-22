@@ -1,5 +1,5 @@
 import { Add, Delete, Edit, MoreHoriz } from '@mui/icons-material';
-import { IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, MenuList } from '@mui/material';
+import { colors, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, MenuList } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useState, MouseEvent } from 'react';
 import styled, { css, keyframes } from 'styled-components';
@@ -37,7 +37,7 @@ const SkillSubtitle = styled.h2`
   font-size: 24px;
   font-weight: 600;
   text-align: center;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const BadgesContainer = styled.div`
@@ -56,7 +56,7 @@ const BadgeCard = styled(Link)`
 const BadgeName = styled.div`
   font-size: 12px;
   font-weight: 600;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const ImageContainer = styled.div`

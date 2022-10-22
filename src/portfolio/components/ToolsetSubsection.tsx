@@ -1,5 +1,5 @@
 import { Add, Clear, Edit } from '@mui/icons-material';
-import { Button, Rating, TextField } from '@mui/material';
+import { Button, colors, Rating, TextField } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useMemo, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -34,13 +34,13 @@ const Subtitle = styled.h2`
   font-size: 24px;
   font-weight: 600;
   text-align: center;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const EditIcon = styled(Edit)`
   margin-left: 16px;
   width: 20px;
-  fill: #17293a;
+  fill: ${colors.blue[900]};
   cursor: pointer;
 `;
 
@@ -63,7 +63,7 @@ const RatingContainer = styled.div`
 
 const RatingLabel = styled.div`
   font-size: 12px;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const FormRow = styled.div`
@@ -84,7 +84,7 @@ const StyledValueInput = styled(TextField)`
 const ClearIcon = styled(Clear)`
   margin-left: 8px;
   width: 16px;
-  fill: #9b0000;
+  fill: ${colors.red[900]};
   cursor: pointer;
 `;
 
@@ -136,7 +136,7 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
                         outerRadius={outerRadius}
                         startAngle={startAngle}
                         endAngle={endAngle}
-                        fill="#00998a"
+                        fill={colors.teal.A200}
                       />
                     </>
                   );
@@ -170,7 +170,7 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
                     </g>
                   );
                 }}
-                fill="#00d6c1"
+                fill={colors.teal.A700}
                 onMouseEnter={(_, index) => setActivePieIndex(index)}
               />
             </PieChart>

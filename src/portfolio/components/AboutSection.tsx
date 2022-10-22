@@ -1,3 +1,4 @@
+import { colors } from '@mui/material';
 import styled from 'styled-components';
 import profileImageSrc from '../../assets/fabiano.jpeg';
 
@@ -14,7 +15,7 @@ const ProfilePicture = styled.img`
 const ProfileMotto = styled.div`
   margin-top: 16px;
   font-size: 18px;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const ProfileQuote = styled.div`
@@ -23,7 +24,7 @@ const ProfileQuote = styled.div`
   font-size: 18px;
   font-style: italic;
   text-align: right;
-  color: #555;
+  color: ${colors.grey[600]};
   ::before {
     content: '“';
     font-size: 36px;
@@ -35,7 +36,7 @@ const ProfileQuote = styled.div`
 
 const ProfileParagraph = styled.p`
   margin: 24px 40px 0 40px;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const AboutSection = () => (

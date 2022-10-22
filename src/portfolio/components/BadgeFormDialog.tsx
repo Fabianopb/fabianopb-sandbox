@@ -1,4 +1,4 @@
-import { DialogActions, DialogTitle, TextField, Dialog, DialogContent, Button } from '@mui/material';
+import { DialogActions, DialogTitle, TextField, Dialog, DialogContent, Button, colors } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,7 +20,7 @@ const StyledDialogActions = styled(DialogActions)`
 `;
 
 const StyledTitle = styled(DialogTitle)`
-  color: #8e8f98;
+  color: ${colors.grey[800]};
 `;
 
 const StyledInput = styled(TextField)`

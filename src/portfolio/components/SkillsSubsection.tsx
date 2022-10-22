@@ -1,5 +1,5 @@
 import { Clear, Add, Edit } from '@mui/icons-material';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, colors } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useMemo, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -38,7 +38,7 @@ const SkillLevel = styled.div`
   flex: 1;
   text-align: center;
   font-size: 12px;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const SkillBar = styled.div<{ value: number }>`

@@ -1,5 +1,5 @@
 import { Edit } from '@mui/icons-material';
-import { Button, LinearProgress } from '@mui/material';
+import { Button, colors, LinearProgress } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
@@ -28,7 +28,7 @@ const TitleContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  color: #8e8f98;
+  color: ${colors.grey[800]};
   font-size: 40px;
   font-weight: 600;
 `;
@@ -41,19 +41,19 @@ const EditIcon = styled(Edit)`
 `;
 
 const Subtitle = styled.h2`
-  color: #555;
+  color: ${colors.grey[600]};
   font-size: 26px;
   font-weight: 600;
 `;
 
 const ShortDescription = styled.h3`
-  color: #555;
+  color: ${colors.grey[600]};
   font-weight: 300;
   font-size: 20px;
 `;
 
 const Dates = styled.div`
-  color: #555;
+  color: ${colors.grey[600]};
   font-size: 16px;
 `;
 
@@ -75,7 +75,7 @@ const Image = styled.img`
 `;
 
 const Text = styled.div`
-  color: #555;
+  color: ${colors.grey[600]};
   font-size: 14px;
   margin-left: 24px;
   a,

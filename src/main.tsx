@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createGlobalStyle } from 'styled-components';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { colors, createTheme, ThemeProvider } from '@mui/material';
 
 import nunitoWoff from './assets/nunito-v25-latin-regular.woff';
 import nunitoWoff2 from './assets/nunito-v25-latin-regular.woff2';
@@ -11,7 +11,6 @@ import App from './App';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
-import colors from './common/colors';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -40,8 +39,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 24px;
     font-weight: 400;
 
-    color: ${colors.black100};
-    background-color: ${colors.white100};
+    color: ${colors.grey[900]};
 
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -74,8 +72,8 @@ const theme = createTheme({
     },
   },
   palette: {
-    primary: { main: colors.blue100 },
-    secondary: { main: colors.grey100 },
+    primary: { main: colors.blueGrey[800] },
+    secondary: { main: colors.grey[700] },
   },
 });
 
