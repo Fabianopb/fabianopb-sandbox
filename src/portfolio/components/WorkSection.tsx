@@ -1,5 +1,5 @@
 import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
-import { Menu, MenuList, MenuItem, ListItemIcon, ListItemText, IconButton } from '@mui/material';
+import { Menu, MenuList, MenuItem, ListItemIcon, ListItemText, IconButton, colors } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
@@ -44,8 +44,8 @@ const ImageText = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #fff;
-  background-color: #555;
+  color: white;
+  background-color: ${colors.grey[600]};
   opacity: 0;
   transition: opacity 500ms ease-in-out;
   :hover {
@@ -57,8 +57,8 @@ const WorkTag = styled.div`
   position: absolute;
   left: 12px;
   bottom: 12px;
-  background-color: #fcfbe3;
-  color: #555;
+  background-color: ${colors.orange[100]};
+  color: ${colors.grey[600]};
   padding: 0 8px 0 18px;
   font-size: 14px;
   border-radius: 12px;
@@ -71,7 +71,7 @@ const WorkTag = styled.div`
     width: 6px;
     height: 6px;
     border-radius: 3px;
-    background-color: #cfcd7d;
+    background-color: ${colors.orange.A700};
   }
 `;
 
@@ -79,15 +79,14 @@ const StyledIconButton = styled(IconButton)`
   position: absolute;
   right: 0;
   top: 0;
-  color: #17293a;
 `;
 
 const DeleteIcon = styled(Delete)`
-  fill: #9b0000;
+  fill: ${colors.red[900]};
 `;
 
 const DeleteListItemText = styled(ListItemText)`
-  color: #9b0000;
+  color: ${colors.red[900]};
 `;
 
 const WorkSection = ({ className, projects, onSubmitSuccess }: Props) => {
@@ -136,6 +135,7 @@ const WorkSection = ({ className, projects, onSubmitSuccess }: Props) => {
           {isAdmin && (
             <StyledIconButton
               size="small"
+              color="secondary"
               onClick={(e) => {
                 e.preventDefault();
                 setAnchorEl(e.currentTarget);

@@ -1,5 +1,5 @@
 import { Add, Delete, Edit, MoreHoriz } from '@mui/icons-material';
-import { IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, MenuList } from '@mui/material';
+import { colors, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, MenuList } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useState, MouseEvent } from 'react';
 import styled, { css, keyframes } from 'styled-components';
@@ -37,7 +37,7 @@ const SkillSubtitle = styled.h2`
   font-size: 24px;
   font-weight: 600;
   text-align: center;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const BadgesContainer = styled.div`
@@ -56,7 +56,7 @@ const BadgeCard = styled(Link)`
 const BadgeName = styled.div`
   font-size: 12px;
   font-weight: 600;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const ImageContainer = styled.div`
@@ -76,22 +76,20 @@ const BadgeImage = styled.img<{ shouldAnimate: boolean }>`
 
 const AddIconButton = styled(IconButton)`
   margin-left: 8px;
-  color: #17293a;
 `;
 
 const StyledIconButton = styled(IconButton)`
   position: absolute;
   right: -36px;
   top: 0;
-  color: #17293a;
 `;
 
 const DeleteIcon = styled(Delete)`
-  fill: #9b0000;
+  fill: ${colors.red[900]};
 `;
 
 const DeleteListItemText = styled(ListItemText)`
-  color: #9b0000;
+  color: ${colors.red[900]};
 `;
 
 const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
@@ -157,7 +155,7 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
       <SubtitleContainer>
         <SkillSubtitle>Code school badges</SkillSubtitle>
         {isAdmin && (
-          <AddIconButton size="small" onClick={handleAddBadge}>
+          <AddIconButton color="primary" size="small" onClick={handleAddBadge}>
             <Add />
           </AddIconButton>
         )}
@@ -173,7 +171,7 @@ const BadgesSubsection = ({ badges, onSubmitSuccess }: Props) => {
                 onMouseEnter={() => handleBadgeMouseEnter(index)}
               />
               {isAdmin && (
-                <StyledIconButton size="small" onClick={(e) => handleOpenMenu(e, badge)}>
+                <StyledIconButton color="secondary" size="small" onClick={(e) => handleOpenMenu(e, badge)}>
                   <MoreHoriz />
                 </StyledIconButton>
               )}

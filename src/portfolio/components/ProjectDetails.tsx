@@ -1,5 +1,5 @@
 import { Edit } from '@mui/icons-material';
-import { Button, LinearProgress } from '@mui/material';
+import { Button, colors, IconButton, LinearProgress } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
@@ -28,32 +28,29 @@ const TitleContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  color: #8e8f98;
+  color: ${colors.grey[800]};
   font-size: 40px;
   font-weight: 600;
 `;
 
-const EditIcon = styled(Edit)`
+const EditIconButton = styled(IconButton)`
   margin-left: 16px;
-  width: 20px;
-  fill: #17293a;
-  cursor: pointer;
 `;
 
 const Subtitle = styled.h2`
-  color: #555;
+  color: ${colors.grey[600]};
   font-size: 26px;
   font-weight: 600;
 `;
 
 const ShortDescription = styled.h3`
-  color: #555;
+  color: ${colors.grey[600]};
   font-weight: 300;
   font-size: 20px;
 `;
 
 const Dates = styled.div`
-  color: #555;
+  color: ${colors.grey[600]};
   font-size: 16px;
 `;
 
@@ -75,13 +72,13 @@ const Image = styled.img`
 `;
 
 const Text = styled.div`
-  color: #555;
+  color: ${colors.grey[600]};
   font-size: 14px;
   margin-left: 24px;
   a,
   a:hover,
   a:visited {
-    color: #53b5cc;
+    color: ${colors.cyan[600]};
   }
 `;
 
@@ -89,7 +86,7 @@ const TagCloud = styled.div`
   font-size: 32px;
   line-height: 1.2;
   margin-top: 48px;
-  color: #afc42f;
+  color: ${colors.lightGreen[400]};
   & + & {
     margin-left: 12px;
   }
@@ -252,7 +249,11 @@ const ProjectDetails = () => {
           <ProjectNavigation onClickPrevious={handleClickPreviousProject} onClickNext={handleClickNextProject} />
           <TitleContainer>
             <Title>{project.title}</Title>
-            {isAdmin && <EditIcon onClick={() => setIsEditing(true)} />}
+            {isAdmin && (
+              <EditIconButton color="primary" onClick={() => setIsEditing(true)}>
+                <Edit />
+              </EditIconButton>
+            )}
           </TitleContainer>
           <Subtitle>{project.subtitle}</Subtitle>
           <ShortDescription>{project.shortDescription}</ShortDescription>

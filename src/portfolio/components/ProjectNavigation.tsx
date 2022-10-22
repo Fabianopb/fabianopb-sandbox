@@ -13,18 +13,14 @@ const Root = styled.div`
   justify-content: space-between;
 `;
 
-const NavigationButton = styled(Button)`
-  color: #53b5cc;
-`;
-
 const ProjectNavigation = ({ onClickPrevious, onClickNext }: Props) => (
   <Root>
-    <NavigationButton variant="text" size="small" startIcon={<ChevronLeft />} onClick={onClickPrevious}>
+    <Button color="secondary" variant="text" size="small" startIcon={<ChevronLeft />} onClick={onClickPrevious}>
       Previous project
-    </NavigationButton>
-    <NavigationButton variant="text" size="small" endIcon={<ChevronRight />} onClick={onClickNext}>
+    </Button>
+    <Button color="secondary" variant="text" size="small" endIcon={<ChevronRight />} onClick={onClickNext}>
       Next project
-    </NavigationButton>
+    </Button>
   </Root>
 );
 

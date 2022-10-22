@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createGlobalStyle } from 'styled-components';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { colors, createTheme, ThemeProvider } from '@mui/material';
 
 import nunitoWoff from './assets/nunito-v25-latin-regular.woff';
 import nunitoWoff2 from './assets/nunito-v25-latin-regular.woff2';
@@ -39,8 +39,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 24px;
     font-weight: 400;
 
-    color: #242424;
-    background-color: #fff;
+    color: ${colors.grey[900]};
 
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -56,6 +55,11 @@ const theme = createTheme({
     fontFamily: 'Nunito, sans-serif',
   },
   components: {
+    MuiButton: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: `
         @font-face {
@@ -66,6 +70,11 @@ const theme = createTheme({
         }
       `,
     },
+  },
+  palette: {
+    primary: { main: colors.blueGrey[800] },
+    secondary: { main: colors.grey[700] },
+    error: { main: colors.red[900] },
   },
 });
 

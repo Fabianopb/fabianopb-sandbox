@@ -1,4 +1,4 @@
-import { Button, Divider, IconButton, LinearProgress } from '@mui/material';
+import { Button, colors, Divider, IconButton, LinearProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useRef } from 'react';
 import styled from 'styled-components';
@@ -24,7 +24,7 @@ const BannerContainer = styled.div`
   display: flex;
   position: relative;
   height: 560px;
-  background-color: #17293a;
+  background-color: ${colors.teal[900]};
 `;
 
 const ImageOverlay = styled.div`
@@ -50,7 +50,7 @@ const BannerText = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  color: #fff;
+  color: white;
   text-align: center;
   z-index: 1;
 `;
@@ -68,10 +68,10 @@ const BannerBody = styled.div`
 `;
 
 const BannerButton = styled(Button)`
-  color: #fff;
-  border-color: #fff;
+  color: white;
+  border-color: white;
   &:hover {
-    border-color: #fff;
+    border-color: white;
   }
 `;
 
@@ -94,7 +94,7 @@ const TitleContainer = styled.div`
 
 const SectionTitle = styled.h1`
   font-size: 40px;
-  color: #8e8f98;
+  color: ${colors.grey[600]};
   font-weight: 800;
 `;
 
@@ -104,7 +104,7 @@ const StyledWorkSection = styled(WorkSection)`
 
 const AddIconButton = styled(IconButton)`
   margin-left: 8px;
-  color: #17293a;
+  color: ${colors.blue[900]};
 `;
 
 const PortfolioView = () => {

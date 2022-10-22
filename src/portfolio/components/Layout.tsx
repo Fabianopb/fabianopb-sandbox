@@ -1,5 +1,5 @@
 import { Logout } from '@mui/icons-material';
-import { Link } from '@mui/material';
+import { colors, Link } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useRef } from 'react';
 import { Outlet, Link as RRDLink } from 'react-router-dom';
@@ -15,8 +15,8 @@ const Topbar = styled.div`
   align-items: center;
   height: 64px;
   padding: 0 32px;
-  background-color: #17293a;
-  color: #fff;
+  background-color: ${colors.blueGrey[900]};
+  color: white;
 `;
 
 const LeftContent = styled.div`
@@ -27,7 +27,7 @@ const LeftContent = styled.div`
 const Logo = styled(RRDLink)`
   font-size: 24px;
   font-weight: 400;
-  color: #fff;
+  color: white;
   text-decoration: none;
 `;
 
@@ -35,13 +35,13 @@ const Admin = styled.div`
   margin-left: 24px;
   font-size: 12px;
   font-style: italic;
-  color: #53b5cc;
+  color: ${colors.cyan[500]};
 `;
 
 const LogoutIcon = styled(Logout)`
   margin-left: 12px;
   width: 18px;
-  fill: #53b5cc;
+  fill: ${colors.cyan[500]};
   cursor: pointer;
 `;
 
@@ -51,7 +51,7 @@ const Navigation = styled.div`
 `;
 
 const ContactLink = styled.div`
-  color: #fff;
+  color: white;
   text-decoration: none;
   &:hover {
     text-decoration: underline;
@@ -59,7 +59,7 @@ const ContactLink = styled.div`
 `;
 
 const BlogLink = styled(Link)`
-  color: #fff;
+  color: white;
   margin-left: 24px;
 `;
 

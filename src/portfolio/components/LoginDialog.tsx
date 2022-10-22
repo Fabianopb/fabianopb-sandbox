@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, colors } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ const StyledDialogActions = styled(DialogActions)`
 `;
 
 const StyledTitle = styled(DialogTitle)`
-  color: #8e8f98;
+  color: ${colors.grey[600]};
 `;
 
 const StyledInput = styled(TextField)`
@@ -84,7 +84,12 @@ const LoginDialog = () => {
         />
       </DialogContent>
       <StyledDialogActions>
-        <Button variant="outlined" onClick={() => mutate()} disabled={isLoading || !username || !password}>
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={() => mutate()}
+          disabled={isLoading || !username || !password}
+        >
           Confirm
         </Button>
       </StyledDialogActions>

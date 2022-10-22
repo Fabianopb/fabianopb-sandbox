@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import twitterIcon from '../../assets/twitter.svg';
 import linkedinIcon from '../../assets/linkedin.svg';
 import githubIcon from '../../assets/github.svg';
-import { Link } from '@mui/material';
+import { colors, Link } from '@mui/material';
 
 const Root = styled.div`
-  background-color: #284865;
+  background-color: ${colors.blueGrey[700]};
   padding: 24px;
-  color: #fff;
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@ const Title = styled.div`
 const Email = styled(Link)`
   margin-top: 32px;
   font-size: 14px;
-  color: #fff;
+  color: white;
 `;
 
 const Social = styled.div`

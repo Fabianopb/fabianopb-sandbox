@@ -1,5 +1,5 @@
 import { Add, Clear, Edit } from '@mui/icons-material';
-import { Button, Rating, TextField } from '@mui/material';
+import { Button, colors, IconButton, Rating, TextField } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useMemo, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -34,14 +34,11 @@ const Subtitle = styled.h2`
   font-size: 24px;
   font-weight: 600;
   text-align: center;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
-const EditIcon = styled(Edit)`
+const EditIconButton = styled(IconButton)`
   margin-left: 16px;
-  width: 20px;
-  fill: #17293a;
-  cursor: pointer;
 `;
 
 const ChartContainer = styled.div`
@@ -63,7 +60,7 @@ const RatingContainer = styled.div`
 
 const RatingLabel = styled.div`
   font-size: 12px;
-  color: #555;
+  color: ${colors.grey[600]};
 `;
 
 const FormRow = styled.div`
@@ -81,11 +78,8 @@ const StyledValueInput = styled(TextField)`
   flex: 1;
 `;
 
-const ClearIcon = styled(Clear)`
+const ClearIconButton = styled(IconButton)`
   margin-left: 8px;
-  width: 16px;
-  fill: #9b0000;
-  cursor: pointer;
 `;
 
 const FormActions = styled.div`
@@ -113,7 +107,11 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
     <ToolsetContainer>
       <Header>
         <Subtitle>Toolset</Subtitle>
-        {isAdmin && <EditIcon onClick={() => setIsEditing((prev) => !prev)} />}
+        {isAdmin && (
+          <EditIconButton color="primary" size="small" onClick={() => setIsEditing((prev) => !prev)}>
+            <Edit />
+          </EditIconButton>
+        )}
       </Header>
       {!isEditing && toolset.length > 0 && (
         <ChartContainer>
@@ -136,7 +134,7 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
                         outerRadius={outerRadius}
                         startAngle={startAngle}
                         endAngle={endAngle}
-                        fill="#00998a"
+                        fill={colors.teal.A200}
                       />
                     </>
                   );
@@ -170,7 +168,7 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
                     </g>
                   );
                 }}
-                fill="#00d6c1"
+                fill={colors.teal.A700}
                 onMouseEnter={(_, index) => setActivePieIndex(index)}
               />
             </PieChart>
@@ -191,7 +189,9 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
                 size="small"
                 disabled={skillsMutation.isLoading}
               />
-              <ClearIcon onClick={() => remove(index)} />
+              <ClearIconButton color="error" size="small" onClick={() => remove(index)}>
+                <Clear />
+              </ClearIconButton>
             </FormRow>
           ))}
           <Button
@@ -208,6 +208,7 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
             <Button
               size="small"
               variant="outlined"
+              color="secondary"
               onClick={() => setIsEditing(false)}
               disabled={skillsMutation.isLoading}
             >
@@ -217,6 +218,7 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
               style={{ marginLeft: 8 }}
               size="small"
               variant="contained"
+              color="primary"
               type="submit"
               onClick={handleSubmit((data) => skillsMutation.mutate(data.toolset))}
               disabled={skillsMutation.isLoading}
