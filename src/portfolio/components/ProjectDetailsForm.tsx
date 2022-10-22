@@ -1,7 +1,10 @@
 import { TextField, RadioGroup, FormControlLabel, Radio, FormHelperText, Button, colors } from '@mui/material';
 import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import ReactQuill from 'react-quill';
 import styled from 'styled-components';
+
+import 'react-quill/dist/quill.snow.css';
 
 export type FormValues = {
   title: string;
@@ -73,7 +76,7 @@ const emptyValues: FormValues = {
 const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }: Props) => {
   const defaultValues = useMemo(() => initialValues || emptyValues, [initialValues]);
 
-  const { register, handleSubmit, control } = useForm<FormValues>({ defaultValues });
+  const { register, handleSubmit, control, setValue } = useForm<FormValues>({ defaultValues });
 
   return (
     <form>
@@ -147,14 +150,10 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
           />
         </ImageFieldsContainer>
         <DescriptionContainer>
-          <StyledInput
-            label="Long description"
-            fullWidth
-            multiline
-            rows={8}
-            disabled={isSubmitting}
+          <ReactQuill
+            theme="snow"
             defaultValue={defaultValues.longDescription}
-            {...register('longDescription')}
+            onChange={(value) => setValue('longDescription', value)}
           />
         </DescriptionContainer>
       </FormBodyContainer>
