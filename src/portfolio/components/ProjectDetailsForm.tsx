@@ -30,7 +30,7 @@ const Title = styled.h1`
   font-weight: 600;
 `;
 
-const StyledInput = styled(TextField)`
+const StyledInput = styled(TextField).attrs({ variant: 'outlined', size: 'small' })`
   margin-top: 16px;
 `;
 
@@ -92,8 +92,6 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
       <StyledInput
         label="Thumbnail link"
         fullWidth
-        variant="outlined"
-        size="small"
         disabled={isSubmitting}
         defaultValue={defaultValues.thumbnailSrc}
         {...register('thumbnailSrc')}
@@ -101,8 +99,6 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
       <StyledInput
         label="Title"
         fullWidth
-        variant="outlined"
-        size="small"
         disabled={isSubmitting}
         defaultValue={defaultValues.title}
         {...register('title')}
@@ -110,8 +106,6 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
       <StyledInput
         label="Subtitle"
         fullWidth
-        variant="outlined"
-        size="small"
         disabled={isSubmitting}
         defaultValue={defaultValues.subtitle}
         {...register('subtitle')}
@@ -119,8 +113,6 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
       <StyledInput
         label="Short description"
         fullWidth
-        variant="outlined"
-        size="small"
         multiline
         rows={2}
         disabled={isSubmitting}
@@ -129,8 +121,6 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
       />
       <StyledInput
         label="Date range"
-        variant="outlined"
-        size="small"
         disabled={isSubmitting}
         defaultValue={defaultValues.dateRange}
         {...register('dateRange')}
@@ -140,8 +130,6 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
           <StyledInput
             label="Image link 1"
             fullWidth
-            variant="outlined"
-            size="small"
             multiline
             rows={2}
             disabled={isSubmitting}
@@ -151,8 +139,6 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
           <StyledInput
             label="Image link 2"
             fullWidth
-            variant="outlined"
-            size="small"
             multiline
             rows={2}
             disabled={isSubmitting}
@@ -164,8 +150,6 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
           <StyledInput
             label="Long description"
             fullWidth
-            variant="outlined"
-            size="small"
             multiline
             rows={8}
             disabled={isSubmitting}
@@ -177,8 +161,6 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
       <StyledInput
         label="Tags"
         fullWidth
-        variant="outlined"
-        size="small"
         disabled={isSubmitting}
         defaultValue={defaultValues.tags}
         {...register('tags')}
@@ -187,19 +169,18 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
       <StyledInput
         label="Video link"
         fullWidth
-        variant="outlined"
-        size="small"
         disabled={isSubmitting}
         defaultValue={defaultValues.videoLink}
         {...register('videoLink')}
       />
       <FormActions>
-        <Button variant="outlined" onClick={onCancel} disabled={isSubmitting}>
+        <Button color="secondary" variant="outlined" onClick={onCancel} disabled={isSubmitting}>
           Cancel
         </Button>
         <Button
           style={{ marginLeft: 16 }}
           variant="contained"
+          color="primary"
           onClick={handleSubmit((values) => onSubmit(values))}
           disabled={isSubmitting}
         >

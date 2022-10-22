@@ -46,7 +46,7 @@ const SkillBar = styled.div<{ value: number }>`
   margin-top: 12px;
   padding: 0 8px;
   width: 100%;
-  background-color: ${colors.teal[50]};
+  background-color: ${colors.blueGrey[100]};
   height: 24px;
   border-radius: 4px;
   ::after {

@@ -84,7 +84,12 @@ const LoginDialog = () => {
         />
       </DialogContent>
       <StyledDialogActions>
-        <Button variant="outlined" onClick={() => mutate()} disabled={isLoading || !username || !password}>
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={() => mutate()}
+          disabled={isLoading || !username || !password}
+        >
           Confirm
         </Button>
       </StyledDialogActions>

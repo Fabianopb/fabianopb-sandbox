@@ -23,7 +23,7 @@ const StyledTitle = styled(DialogTitle)`
   color: ${colors.grey[800]};
 `;
 
-const StyledInput = styled(TextField)`
+const StyledInput = styled(TextField).attrs({ fullWidth: true, variant: 'outlined', size: 'small' })`
   margin-top: 16px;
 `;
 
@@ -60,29 +60,15 @@ const BadgeFormDialog = ({ defaultValues, isOpen, onClose, onSubmitSuccess }: Pr
       <StyledTitle>{defaultValues ? 'Edit badge' : 'Add badge'}</StyledTitle>
       <DialogContent>
         <form>
-          <StyledInput
-            label="Name"
-            fullWidth
-            variant="outlined"
-            size="small"
-            disabled={isLoading}
-            defaultValue={defaultValues?.name}
-            {...register('name')}
-          />
+          <StyledInput label="Name" disabled={isLoading} defaultValue={defaultValues?.name} {...register('name')} />
           <StyledInput
             label="Image link"
-            fullWidth
-            variant="outlined"
-            size="small"
             disabled={isLoading}
             defaultValue={defaultValues?.imageSrc}
             {...register('imageSrc')}
           />
           <StyledInput
             label="External link"
-            fullWidth
-            variant="outlined"
-            size="small"
             disabled={isLoading}
             defaultValue={defaultValues?.href}
             {...register('href')}
@@ -90,7 +76,7 @@ const BadgeFormDialog = ({ defaultValues, isOpen, onClose, onSubmitSuccess }: Pr
         </form>
       </DialogContent>
       <StyledDialogActions>
-        <Button type="submit" variant="outlined" onClick={onClose} disabled={isLoading}>
+        <Button color="secondary" type="submit" variant="outlined" onClick={onClose} disabled={isLoading}>
           Cancel
         </Button>
         <Button
