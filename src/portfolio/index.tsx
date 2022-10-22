@@ -84,7 +84,7 @@ const Section = styled.div`
   width: 800px;
   margin: 24px auto;
   @media (max-width: 848px) {
-    width: 100%;
+    width: initial;
     margin: 12px 8px;
   }
 `;
