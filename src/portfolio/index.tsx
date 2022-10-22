@@ -83,11 +83,19 @@ const Section = styled.div`
   flex-direction: column;
   width: 800px;
   margin: 24px auto;
+  @media (max-width: 848px) {
+    width: 100%;
+    margin: 12px 8px;
+  }
 `;
 
 const StyledDivider = styled(Divider)`
   width: 800px;
   margin: 24px auto;
+  @media (max-width: 848px) {
+    width: inherit;
+    margin: 12px 8px;
+  }
 `;
 
 const TitleContainer = styled.div`

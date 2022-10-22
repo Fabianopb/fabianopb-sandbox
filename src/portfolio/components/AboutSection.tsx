@@ -5,6 +5,9 @@ import profileImageSrc from '../../assets/fabiano.jpeg';
 const AboutMeHeader = styled.div`
   display: flex;
   margin: 0 40px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const ProfilePicture = styled.img`
