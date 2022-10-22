@@ -1,7 +1,10 @@
 import { TextField, RadioGroup, FormControlLabel, Radio, FormHelperText, Button, colors } from '@mui/material';
 import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import ReactQuill from 'react-quill';
 import styled from 'styled-components';
+
+import 'react-quill/dist/quill.snow.css';
 
 export type FormValues = {
   title: string;
@@ -49,6 +52,21 @@ const DescriptionContainer = styled.div`
   margin-left: 16px;
 `;
 
+const StyledQuill = styled(ReactQuill)`
+  margin-top: 16px;
+  .ql-toolbar.ql-snow {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  .ql-container.ql-snow {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    min-height: 100px;
+    max-height: 280px;
+    overflow: auto;
+  }
+`;
+
 const FormActions = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -73,7 +91,7 @@ const emptyValues: FormValues = {
 const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }: Props) => {
   const defaultValues = useMemo(() => initialValues || emptyValues, [initialValues]);
 
-  const { register, handleSubmit, control } = useForm<FormValues>({ defaultValues });
+  const { register, handleSubmit, control, setValue } = useForm<FormValues>({ defaultValues });
 
   return (
     <form>
@@ -147,14 +165,10 @@ const ProjectDetailsForm = ({ initialValues, isSubmitting, onCancel, onSubmit }:
           />
         </ImageFieldsContainer>
         <DescriptionContainer>
-          <StyledInput
-            label="Long description"
-            fullWidth
-            multiline
-            rows={8}
-            disabled={isSubmitting}
+          <StyledQuill
+            theme="snow"
             defaultValue={defaultValues.longDescription}
-            {...register('longDescription')}
+            onChange={(value) => setValue('longDescription', value)}
           />
         </DescriptionContainer>
       </FormBodyContainer>
