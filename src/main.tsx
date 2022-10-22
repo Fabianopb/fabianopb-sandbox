@@ -11,6 +11,7 @@ import App from './App';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import colors from './common/colors';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -39,8 +40,8 @@ const GlobalStyle = createGlobalStyle`
     line-height: 24px;
     font-weight: 400;
 
-    color: #242424;
-    background-color: #fff;
+    color: ${colors.black100};
+    background-color: ${colors.white100};
 
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -56,6 +57,11 @@ const theme = createTheme({
     fontFamily: 'Nunito, sans-serif',
   },
   components: {
+    MuiButton: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: `
         @font-face {
@@ -66,6 +72,10 @@ const theme = createTheme({
         }
       `,
     },
+  },
+  palette: {
+    primary: { main: colors.blue100 },
+    secondary: { main: colors.grey100 },
   },
 });
 
