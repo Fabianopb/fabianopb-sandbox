@@ -22,7 +22,7 @@ const DeleteDialog = ({ title, isOpen, isLoading, onClose, onDelete }: Props) =>
     <Dialog open={isOpen} onClose={onClose} disableEscapeKeyDown={isLoading}>
       <StyledTitle>{title}</StyledTitle>
       <StyledDialogActions>
-        <Button type="submit" variant="outlined" onClick={onClose} disabled={isLoading}>
+        <Button color="secondary" type="submit" variant="outlined" onClick={onClose} disabled={isLoading}>
           Cancel
         </Button>
         <Button type="submit" variant="contained" color="error" onClick={onDelete} disabled={isLoading}>
