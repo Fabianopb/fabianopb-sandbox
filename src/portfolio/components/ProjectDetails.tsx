@@ -57,6 +57,9 @@ const Dates = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   margin-top: 32px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const ImagesContainer = styled.div`
@@ -69,6 +72,9 @@ const Image = styled.img`
   &:not(:first-child) {
     margin-top: 24px;
   }
+  @media (max-width: 768px) {
+    max-width: initial;
+  }
 `;
 
 const Text = styled.div`
@@ -79,6 +85,10 @@ const Text = styled.div`
   a:hover,
   a:visited {
     color: ${colors.cyan[600]};
+  }
+  @media (max-width: 768px) {
+    margin-top: 16px;
+    margin-left: 0;
   }
 `;
 
