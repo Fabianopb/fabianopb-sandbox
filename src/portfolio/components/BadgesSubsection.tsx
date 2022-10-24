@@ -24,6 +24,10 @@ const rotate = keyframes`
 const SkillsContainer = styled.div`
   width: 600px;
   margin: auto;
+  @media (max-width: 768px) {
+    width: initial;
+    margin: 12px 8px;
+  }
 `;
 
 const SubtitleContainer = styled.div`
@@ -34,7 +38,7 @@ const SubtitleContainer = styled.div`
 `;
 
 const SkillSubtitle = styled.h2`
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
   color: ${colors.grey[600]};
@@ -43,6 +47,12 @@ const SkillSubtitle = styled.h2`
 const BadgesContainer = styled.div`
   display: grid;
   grid-template-columns: auto auto auto;
+  @media (max-width: 600px) {
+    grid-template-columns: auto auto;
+  }
+  @media (max-width: 400px) {
+    grid-template-columns: auto;
+  }
 `;
 
 const BadgeCard = styled(Link)`
@@ -54,7 +64,7 @@ const BadgeCard = styled(Link)`
 `;
 
 const BadgeName = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   color: ${colors.grey[600]};
 `;

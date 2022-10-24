@@ -21,19 +21,28 @@ const Topbar = styled.div`
 
 const LeftContent = styled.div`
   display: flex;
-  align-items: center; ;
+  align-items: center;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const Logo = styled(RRDLink)`
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 400;
+  margin-right: 24px;
   color: white;
   text-decoration: none;
 `;
 
+const AdminWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Admin = styled.div`
-  margin-left: 24px;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: italic;
   color: ${colors.cyan[500]};
 `;
@@ -76,7 +85,7 @@ const Layout = () => {
         <LeftContent>
           <Logo to="/portfolio">Fabiano Brito</Logo>
           {isAdmin && (
-            <>
+            <AdminWrapper>
               <Admin>Admin session</Admin>
               <LogoutIcon
                 onClick={() => {
@@ -84,7 +93,7 @@ const Layout = () => {
                   setIsAdmin(false);
                 }}
               />
-            </>
+            </AdminWrapper>
           )}
         </LeftContent>
         <Navigation>

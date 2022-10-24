@@ -26,6 +26,10 @@ const GlobalStyle = createGlobalStyle`
 
   html {
     height: 100%;
+    font-size: 16px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
   }
 
   body {
@@ -35,7 +39,6 @@ const GlobalStyle = createGlobalStyle`
 
   #root {
     font-family: 'Nunito', sans-serif;
-    font-size: 16px;
     line-height: 24px;
     font-weight: 400;
 

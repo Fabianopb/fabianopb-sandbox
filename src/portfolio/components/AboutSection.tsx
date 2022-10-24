@@ -5,6 +5,9 @@ import profileImageSrc from '../../assets/fabiano.jpeg';
 const AboutMeHeader = styled.div`
   display: flex;
   margin: 0 40px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const ProfilePicture = styled.img`
@@ -14,20 +17,20 @@ const ProfilePicture = styled.img`
 
 const ProfileMotto = styled.div`
   margin-top: 16px;
-  font-size: 18px;
+  font-size: 1.2rem;
   color: ${colors.grey[600]};
 `;
 
 const ProfileQuote = styled.div`
   position: relative;
   margin-top: 24px;
-  font-size: 18px;
+  font-size: 1.2rem;
   font-style: italic;
   text-align: right;
   color: ${colors.grey[600]};
   ::before {
     content: '“';
-    font-size: 36px;
+    font-size: 2.25rem;
   }
   ::after {
     content: '”';

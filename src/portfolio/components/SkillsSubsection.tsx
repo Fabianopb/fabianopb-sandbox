@@ -20,6 +20,10 @@ type Props = {
 const SkillsContainer = styled.div`
   width: 600px;
   margin: auto;
+  @media (max-width: 768px) {
+    width: initial;
+    margin: 12px 8px;
+  }
 `;
 
 const SkillsHeader = styled.div`
@@ -34,7 +38,7 @@ const EditIconButton = styled(IconButton)`
 const SkillLevel = styled.div`
   flex: 1;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: ${colors.grey[600]};
 `;
 

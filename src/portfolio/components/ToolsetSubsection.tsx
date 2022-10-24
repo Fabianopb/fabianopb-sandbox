@@ -21,6 +21,10 @@ type Props = {
 const ToolsetContainer = styled.div`
   width: 600px;
   margin: auto;
+  @media (max-width: 768px) {
+    width: initial;
+    margin: 12px 8px;
+  }
 `;
 
 const Header = styled.div`
@@ -31,7 +35,7 @@ const Header = styled.div`
 `;
 
 const Subtitle = styled.h2`
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
   color: ${colors.grey[600]};
@@ -59,7 +63,7 @@ const RatingContainer = styled.div`
 `;
 
 const RatingLabel = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   color: ${colors.grey[600]};
 `;
 

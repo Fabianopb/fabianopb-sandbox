@@ -25,6 +25,9 @@ const BannerContainer = styled.div`
   position: relative;
   height: 560px;
   background-color: ${colors.teal[900]};
+  @media (max-width: 768px) {
+    height: 420px;
+  }
 `;
 
 const ImageOverlay = styled.div`
@@ -55,14 +58,14 @@ const BannerText = styled.div`
   z-index: 1;
 `;
 
-const BannerTitle = styled.div`
-  font-size: 28px;
+const BannerTitle = styled.p`
+  font-size: 1.75rem;
   font-weight: 600;
   margin-bottom: 32px;
 `;
 
 const BannerBody = styled.div`
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1.4;
   margin-bottom: 32px;
 `;
@@ -80,11 +83,19 @@ const Section = styled.div`
   flex-direction: column;
   width: 800px;
   margin: 24px auto;
+  @media (max-width: 848px) {
+    width: initial;
+    margin: 12px 8px;
+  }
 `;
 
 const StyledDivider = styled(Divider)`
   width: 800px;
   margin: 24px auto;
+  @media (max-width: 848px) {
+    width: inherit;
+    margin: 12px 8px;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -93,7 +104,7 @@ const TitleContainer = styled.div`
 `;
 
 const SectionTitle = styled.h1`
-  font-size: 40px;
+  font-size: 2.5rem;
   color: ${colors.grey[600]};
   font-weight: 800;
 `;
