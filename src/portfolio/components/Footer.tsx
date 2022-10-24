@@ -41,6 +41,7 @@ const SocialIcon = styled.img`
 const Copyright = styled.div`
   margin-top: 32px;
   font-size: 0.75rem;
+  text-align: center;
 `;
 
 const Footer = ({ className }: { className?: string }) => (
