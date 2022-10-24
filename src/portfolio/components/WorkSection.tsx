@@ -20,13 +20,19 @@ type Props = {
 const WorkContainer = styled.div`
   display: grid;
   grid-template-columns: auto auto auto;
+  @media (max-width: 800px) {
+    grid-template-columns: auto auto;
+  }
+  @media (max-width: 600px) {
+    grid-template-columns: auto;
+  }
 `;
 
 const WorkCell = styled(Link)`
   position: relative;
   width: 250px;
   height: 250px;
-  margin-bottom: 16px;
+  margin: 0 auto 16px auto;
 `;
 
 const WorkImage = styled.img``;
