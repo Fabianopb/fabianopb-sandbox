@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
+import psStoreRouter from './playstation/psStore';
 import badgesRouter from './portfolio/badges';
 import projectsRouter from './portfolio/projects';
 import skillsRouter from './portfolio/skills';
@@ -15,6 +16,7 @@ export const init = () => {
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use('/api/v1/portfolio', [skillsRouter, usersRouter, badgesRouter, projectsRouter]);
+  app.use('/api/v1/playstation', [psStoreRouter]);
 
   app.use(express.static(path.resolve('fpb-dist')));
 
