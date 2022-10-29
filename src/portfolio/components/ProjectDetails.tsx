@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { addProject, editProject, getProjects } from '../../api';
+import { addProject, editProject, getProjects } from '../api';
 import { isAdminAtom } from '../atoms';
 import { Project } from '../types';
 import ProjectDetailsForm, { FormValues } from './ProjectDetailsForm';
