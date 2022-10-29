@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { addSkills, deleteSkill, editSkill } from '../../api';
+import { addSkills, deleteSkill, editSkill } from '../api';
 import { isAdminAtom } from '../atoms';
 import { Skill } from '../types';
 
