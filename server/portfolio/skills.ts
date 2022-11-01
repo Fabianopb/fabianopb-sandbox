@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { ObjectId } from 'mongodb';
 import { database } from '../database';
 import { NotFoundError } from '../utils';
-import auth from './auth';
+import auth from '../auth';
 import { PORTFOLIO_SKILLS } from './collections';
 
 type Skill = {
@@ -12,6 +12,8 @@ type Skill = {
 };
 
 const skillsRouter = Router();
+
+const authorize = auth(['portfolio_admin']);
 
 skillsRouter.get('/skills', async (_, res, next) => {
   try {
@@ -24,7 +26,7 @@ skillsRouter.get('/skills', async (_, res, next) => {
   }
 });
 
-skillsRouter.post('/skills', auth, async (req, res, next) => {
+skillsRouter.post('/skills', authorize, async (req, res, next) => {
   try {
     const collection = database.collection(PORTFOLIO_SKILLS);
     const skills = req.body;
@@ -35,7 +37,7 @@ skillsRouter.post('/skills', auth, async (req, res, next) => {
   }
 });
 
-skillsRouter.put('/skills/:skillId', auth, async (req, res, next) => {
+skillsRouter.put('/skills/:skillId', authorize, async (req, res, next) => {
   try {
     const { skillId } = req.params;
     const skill = req.body;
@@ -51,7 +53,7 @@ skillsRouter.put('/skills/:skillId', auth, async (req, res, next) => {
   }
 });
 
-skillsRouter.delete('/skills/:skillId', auth, async (req, res, next) => {
+skillsRouter.delete('/skills/:skillId', authorize, async (req, res, next) => {
   try {
     const { skillId } = req.params;
     const collection = database.collection(PORTFOLIO_SKILLS);

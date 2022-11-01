@@ -2,8 +2,10 @@ import { Router } from 'express';
 import { ObjectId } from 'mongodb';
 import { database } from '../database';
 import { NotFoundError } from '../utils';
-import auth from './auth';
+import auth from '../auth';
 import { PORTFOLIO_BADGES } from './collections';
+
+const authorize = auth(['portfolio_admin']);
 
 type Badge = {
   name: string;
@@ -24,7 +26,7 @@ badgesRouter.get('/badges', async (_, res, next) => {
   }
 });
 
-badgesRouter.post('/badges', auth, async (req, res, next) => {
+badgesRouter.post('/badges', authorize, async (req, res, next) => {
   try {
     const collection = database.collection(PORTFOLIO_BADGES);
     const badge = req.body;
@@ -35,7 +37,7 @@ badgesRouter.post('/badges', auth, async (req, res, next) => {
   }
 });
 
-badgesRouter.put('/badges/:badgeId', auth, async (req, res, next) => {
+badgesRouter.put('/badges/:badgeId', authorize, async (req, res, next) => {
   try {
     const { badgeId } = req.params;
     const badge = req.body as Badge;
@@ -51,7 +53,7 @@ badgesRouter.put('/badges/:badgeId', auth, async (req, res, next) => {
   }
 });
 
-badgesRouter.delete('/badges/:badgeId', auth, async (req, res, next) => {
+badgesRouter.delete('/badges/:badgeId', authorize, async (req, res, next) => {
   try {
     const { badgeId } = req.params;
     const collection = database.collection(PORTFOLIO_BADGES);
