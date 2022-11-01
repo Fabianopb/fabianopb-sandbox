@@ -2,14 +2,9 @@ import bcrypt from 'bcryptjs';
 import { Router } from 'express';
 import { database } from '../database';
 import { PORTFOLIO_USERS } from './collections';
-import { generateJwt } from './auth';
+import { generateJwt } from '../auth';
 import { BadRequestError, UnauthorizedError } from '../utils';
-
-type User = {
-  _id?: string;
-  username: string;
-  password: string;
-};
+import { User } from '../types';
 
 const usersRouter = Router();
 
@@ -39,7 +34,7 @@ usersRouter.route('/users/register-admin').post(async (req, res, next) => {
     const { username, password } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
-    await collection.insertOne({ username, password: hashPassword });
+    await collection.insertOne({ username, password: hashPassword, role: 'portfolio_admin' });
     return res.status(200).json('Admin user created!');
   } catch (error) {
     next(error);
