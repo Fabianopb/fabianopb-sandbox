@@ -1,11 +1,8 @@
 import { MongoClient, Db, Document } from 'mongodb';
-import { PORTFOLIO_BADGES, PORTFOLIO_PROJECTS, PORTFOLIO_SKILLS, PORTFOLIO_USERS } from './portfolio/collections';
-import {
-  portfolioBadgesSchema,
-  portfolioProjectsSchema,
-  portfolioSkillsSchema,
-  portfolioUsersSchema,
-} from './portfolio/schemas';
+import { PORTFOLIO_BADGES, PORTFOLIO_PROJECTS, PORTFOLIO_SKILLS } from './portfolio/collections';
+import { portfolioBadgesSchema, portfolioProjectsSchema, portfolioSkillsSchema } from './portfolio/schemas';
+import { USERS } from './root/collections';
+import { usersSchema } from './root/schemas';
 
 const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
 const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
@@ -42,8 +39,9 @@ export const init = async () => {
   const existingCollectionNames = collections.map((c) => c.collectionName);
   const setupSchema = createSchemaSetter(existingCollectionNames);
 
+  await setupSchema(USERS, usersSchema);
+
   await setupSchema(PORTFOLIO_SKILLS, portfolioSkillsSchema);
-  await setupSchema(PORTFOLIO_USERS, portfolioUsersSchema);
   await setupSchema(PORTFOLIO_BADGES, portfolioBadgesSchema);
   await setupSchema(PORTFOLIO_PROJECTS, portfolioProjectsSchema);
 };

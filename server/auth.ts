@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import { sign } from 'jsonwebtoken';
 import { database } from './database';
-import { PORTFOLIO_USERS } from './portfolio/collections';
+import { USERS } from './root/collections';
 import passport from 'passport';
 import { UnauthorizedError } from './utils';
 import { Role, User } from './types';
@@ -25,7 +25,7 @@ const opts = {
 passport.use(
   new JwtStrategy(opts, async (payload, done) => {
     try {
-      const collection = database.collection<User>(PORTFOLIO_USERS);
+      const collection = database.collection<User>(USERS);
       const user = await collection.findOne({ id: payload.sub });
       if (!user) {
         return done(null, false);
