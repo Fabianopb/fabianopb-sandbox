@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { addBadge, editBadge } from '../api';
+import { addBadge, editBadge } from '../../apis/portfolio';
 
 type FormValues = { _id: string; name: string; imageSrc: string; href: string };
 

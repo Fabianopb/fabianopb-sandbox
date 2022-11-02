@@ -9,7 +9,7 @@ import DeleteDialog from './DeleteDialog';
 import BadgeFormDialog from './BadgeFormDialog';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { deleteBadge } from '../api';
+import { deleteBadge } from '../../apis/portfolio';
 
 type Props = {
   badges: Badge[];

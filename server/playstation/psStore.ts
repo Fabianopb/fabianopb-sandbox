@@ -23,4 +23,6 @@ psStoreRouter.get('/ps-store/:gameId', async (req, res, next) => {
   }
 });
 
+// TODO: lift portfolio users to root server users
+
 export default psStoreRouter;

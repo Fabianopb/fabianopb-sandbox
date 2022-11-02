@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Badge, Project, Skill } from './types';
-import { getToken } from './utils';
+import { Badge, Project, Skill } from '../portfolio/types';
+import { getToken } from '../portfolio/utils';
 
 const agent = axios.create({ baseURL: '/api/v1/portfolio' });
 
@@ -18,10 +18,6 @@ type SkillPayload = Omit<Skill, '_id'>;
 type BadgePayload = Omit<Badge, '_id'>;
 
 type ProjectPayload = Omit<Project, '_id'>;
-
-// User endpoints
-export const login = (payload: { username: string; password: string }) =>
-  agent.post<{ token: string }>('/users/login', payload).then((res) => res.data);
 
 // Skills endpoints
 export const getSkills = () => agent.get<Skill[]>('/skills').then((r) => r.data);
