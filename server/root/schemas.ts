@@ -10,7 +10,10 @@ export const usersSchema = {
         bsonType: 'string',
       },
       role: {
-        bsonType: 'string',
+        enum: ['portfolio_admin', 'playstation_user'],
+      },
+      psStoreHash: {
+        bsonType: ['null', 'string'],
       },
     },
   },
