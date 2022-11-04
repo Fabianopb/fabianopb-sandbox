@@ -24,6 +24,7 @@ usersRouter.route('/users/login').post(async (req, res, next) => {
   }
 });
 
+// TODO: add tests
 usersRouter.route('/users/register').post(async (req, res, next) => {
   try {
     const { username, password, role, psStoreHash } = req.body as User;
