@@ -13,8 +13,8 @@ export const generateJwt = (user: User) => {
   if (!tokenSecretOrKey) {
     throw new Error('JWT_SECRET_OR_KEY is not defined in the environment');
   }
-
-  const token = sign({ user }, tokenSecretOrKey, { expiresIn: '7 days' });
+  const { password, ...rest } = user;
+  const token = sign({ user: rest }, tokenSecretOrKey, { expiresIn: '7 days' });
   return token;
 };
 
