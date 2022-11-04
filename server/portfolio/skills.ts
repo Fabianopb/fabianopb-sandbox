@@ -13,7 +13,7 @@ type Skill = {
 
 const skillsRouter = Router();
 
-const authorize = auth(['portfolio_admin']);
+const authorize = auth('portfolio_admin');
 
 skillsRouter.get('/skills', async (_, res, next) => {
   try {

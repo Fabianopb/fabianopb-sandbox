@@ -1,7 +1,7 @@
 export const usersSchema = {
   $jsonSchema: {
     bsonType: 'object',
-    required: ['username', 'password', 'role'],
+    required: ['username', 'password', 'roles'],
     properties: {
       username: {
         bsonType: 'string',
@@ -9,8 +9,11 @@ export const usersSchema = {
       password: {
         bsonType: 'string',
       },
-      role: {
-        enum: ['portfolio_admin', 'playstation_user'],
+      roles: {
+        bsonType: 'array',
+        items: {
+          enum: ['portfolio_admin', 'playstation_user'],
+        },
       },
       psStoreHash: {
         bsonType: ['null', 'string'],

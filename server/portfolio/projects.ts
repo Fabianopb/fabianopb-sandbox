@@ -5,7 +5,7 @@ import { NotFoundError } from '../utils';
 import auth from '../auth';
 import { PORTFOLIO_PROJECTS } from './collections';
 
-const authorize = auth(['portfolio_admin']);
+const authorize = auth('portfolio_admin');
 
 const projectsRouter = Router();
 

@@ -37,9 +37,9 @@ passport.use(
   })
 );
 
-const auth = (roles: Role[]) => (req: Request, res: Response, next: NextFunction) =>
+const auth = (role: Role) => (req: Request, res: Response, next: NextFunction) =>
   passport.authenticate('jwt', { session: false }, (a, user: User | false) => {
-    if (user !== false && roles.includes(user.role)) {
+    if (user !== false && user.roles.includes(role)) {
       next();
     } else {
       next(new UnauthorizedError('Request not authorized'));

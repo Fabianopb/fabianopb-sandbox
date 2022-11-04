@@ -27,11 +27,11 @@ usersRouter.route('/users/login').post(async (req, res, next) => {
 // TODO: add tests
 usersRouter.route('/users/register').post(async (req, res, next) => {
   try {
-    const { username, password, role, psStoreHash } = req.body as User;
+    const { username, password, roles, psStoreHash } = req.body as User;
     const collection = database.collection<User>(USERS);
 
-    if (role === 'portfolio_admin') {
-      const cursor = await collection.find({ role });
+    if (roles.includes('portfolio_admin')) {
+      const cursor = await collection.find({ roles: 'portfolio_admin' });
       const adminUsers = await cursor.toArray();
       if (adminUsers.length > 0) {
         throw new BadRequestError('Cannot create another admin user');
@@ -43,13 +43,13 @@ usersRouter.route('/users/register').post(async (req, res, next) => {
       throw new BadRequestError(`User "${username}" already exists`);
     }
 
-    if (role === 'playstation_user' && !psStoreHash) {
+    if (roles.includes('playstation_user') && !psStoreHash) {
       throw new BadRequestError("'psStoreHash' is required for 'playstation_user' role");
     }
 
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
-    await collection.insertOne({ username, password: hashPassword, role, psStoreHash });
+    await collection.insertOne({ username, password: hashPassword, roles, psStoreHash });
     return res.status(200).json('User created!');
   } catch (error) {
     next(error);

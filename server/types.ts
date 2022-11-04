@@ -4,6 +4,6 @@ export type User = {
   _id?: string;
   username: string;
   password: string;
-  role: Role;
+  roles: Role[];
   psStoreHash?: string;
 };
