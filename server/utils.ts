@@ -4,7 +4,7 @@ export class BadRequestError extends Error {
 }
 
 export class UnauthorizedError extends Error {
-  statusCode = 402;
+  statusCode = 401;
   name = 'UnauthorizedError';
 }
 

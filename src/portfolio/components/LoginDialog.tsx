@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useQueryParam, StringParam } from 'use-query-params';
-import { login } from '../api';
+import { login } from '../../apis/root';
 import { isAdminAtom } from '../atoms';
 import { clearSession, isSessionValid, setSession } from '../utils';
 

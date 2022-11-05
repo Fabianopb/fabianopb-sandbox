@@ -2,7 +2,7 @@ import { Button, colors, Divider, IconButton, LinearProgress } from '@mui/materi
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useRef } from 'react';
 import styled from 'styled-components';
-import { getBadges, getProjects, getSkills } from './api';
+import { getBadges, getProjects, getSkills } from '../apis/portfolio';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
 import BadgesSubsection from './components/BadgesSubsection';

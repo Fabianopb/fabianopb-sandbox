@@ -6,7 +6,7 @@ import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { deleteProject } from '../api';
+import { deleteProject } from '../../apis/portfolio';
 import { isAdminAtom } from '../atoms';
 import { Project } from '../types';
 import DeleteDialog from './DeleteDialog';

@@ -2,8 +2,10 @@ import { Router } from 'express';
 import { ObjectId } from 'mongodb';
 import { database } from '../database';
 import { NotFoundError } from '../utils';
-import auth from './auth';
+import auth from '../auth';
 import { PORTFOLIO_PROJECTS } from './collections';
+
+const authorize = auth('portfolio_admin');
 
 const projectsRouter = Router();
 
@@ -18,7 +20,7 @@ projectsRouter.get('/projects', async (_, res, next) => {
   }
 });
 
-projectsRouter.post('/projects', auth, async (req, res, next) => {
+projectsRouter.post('/projects', authorize, async (req, res, next) => {
   try {
     const collection = database.collection(PORTFOLIO_PROJECTS);
     const project = req.body;
@@ -29,7 +31,7 @@ projectsRouter.post('/projects', auth, async (req, res, next) => {
   }
 });
 
-projectsRouter.put('/projects/:projectId', auth, async (req, res, next) => {
+projectsRouter.put('/projects/:projectId', authorize, async (req, res, next) => {
   try {
     const { projectId } = req.params;
     const project = req.body;
@@ -45,7 +47,7 @@ projectsRouter.put('/projects/:projectId', auth, async (req, res, next) => {
   }
 });
 
-projectsRouter.delete('/projects/:projectId', auth, async (req, res, next) => {
+projectsRouter.delete('/projects/:projectId', authorize, async (req, res, next) => {
   try {
     const { projectId } = req.params;
     const collection = database.collection(PORTFOLIO_PROJECTS);

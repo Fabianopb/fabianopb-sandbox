@@ -2,7 +2,7 @@ import { Button, colors, LinearProgress, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { getPs4Games } from './api';
+import { getPs4Games } from '../apis/playstation';
 
 const Root = styled.div`
   width: 100%;

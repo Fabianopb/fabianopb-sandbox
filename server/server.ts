@@ -5,7 +5,7 @@ import psStoreRouter from './playstation/psStore';
 import badgesRouter from './portfolio/badges';
 import projectsRouter from './portfolio/projects';
 import skillsRouter from './portfolio/skills';
-import usersRouter from './portfolio/users';
+import usersRouter from './root/users';
 
 const port = process.env.PORT || 9000;
 
@@ -15,7 +15,8 @@ export const init = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use('/api/v1/portfolio', [skillsRouter, usersRouter, badgesRouter, projectsRouter]);
+  app.use('/api/v1/root', [usersRouter]);
+  app.use('/api/v1/portfolio', [skillsRouter, badgesRouter, projectsRouter]);
   app.use('/api/v1/playstation', [psStoreRouter]);
 
   app.use(express.static(path.resolve('fpb-dist')));

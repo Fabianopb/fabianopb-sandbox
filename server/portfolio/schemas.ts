@@ -90,18 +90,3 @@ export const portfolioProjectsSchema = {
     },
   },
 };
-
-export const portfolioUsersSchema = {
-  $jsonSchema: {
-    bsonType: 'object',
-    required: ['username', 'password'],
-    properties: {
-      username: {
-        bsonType: 'string',
-      },
-      password: {
-        bsonType: 'string',
-      },
-    },
-  },
-};
