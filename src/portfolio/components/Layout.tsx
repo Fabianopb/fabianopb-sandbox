@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { Outlet, Link as RRDLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { isAdminAtom } from '../atoms';
-import { clearSession } from '../utils';
+import { clearSession } from '../../common/session';
 import Footer from './Footer';
 import LoginDialog from './LoginDialog';
 

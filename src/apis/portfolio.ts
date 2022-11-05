@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Badge, Project, Skill } from '../portfolio/types';
-import { getToken } from '../portfolio/utils';
+import { getToken } from '../common/session';
 
 const agent = axios.create({ baseURL: '/api/v1/portfolio' });
 

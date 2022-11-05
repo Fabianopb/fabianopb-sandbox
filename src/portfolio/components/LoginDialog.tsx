@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { login } from '../../apis/root';
 import { isAdminAtom } from '../atoms';
-import { clearSession, isSessionValid, setSession } from '../utils';
+import { clearSession, isSessionValid, setSession } from '../../common/session';
 
 const StyledDialogActions = styled(DialogActions)`
   padding: 8px 24px 24px;

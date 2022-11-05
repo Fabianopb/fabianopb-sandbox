@@ -1,17 +1,19 @@
 import jwtDecode from 'jwt-decode';
 
-export const getToken = () => localStorage.getItem('portfolio_token');
+const TOKEN_STORAGE_KEY = 'fabianopb_token';
+
+export const getToken = () => localStorage.getItem(TOKEN_STORAGE_KEY);
 
 export const setSession = (token: string) => {
-  localStorage.setItem('portfolio_token', token);
+  localStorage.setItem(TOKEN_STORAGE_KEY, token);
 };
 
 export const clearSession = () => {
-  localStorage.removeItem('portfolio_token');
+  localStorage.removeItem(TOKEN_STORAGE_KEY);
 };
 
 export const isSessionValid = () => {
-  const token = localStorage.getItem('portfolio_token');
+  const token = localStorage.getItem(TOKEN_STORAGE_KEY);
   if (!token) {
     return false;
   }
