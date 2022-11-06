@@ -1,5 +1,5 @@
 import { Button, colors, LinearProgress, TextField } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { getPs4Games } from '../apis/playstation';
@@ -33,14 +33,14 @@ const Form = styled.div`
 
 const PlaystationView = () => {
   const [value, setValue] = useState('');
-  const { data, mutate, isLoading } = useMutation(() => getPs4Games(value));
+  const { data, isLoading } = useQuery(['playstation', 'wishlist'], () => getPs4Games());
   return (
     <Root>
       <TopBar>🤍 PlayStation Wishlist</TopBar>
       <Content>
         <Form>
           <TextField variant="outlined" size="small" value={value} onChange={(e) => setValue(e.target.value)} />
-          <Button style={{ marginLeft: 16 }} variant="contained" color="primary" onClick={() => mutate()}>
+          <Button style={{ marginLeft: 16 }} variant="contained" color="primary">
             Get!
           </Button>
         </Form>
