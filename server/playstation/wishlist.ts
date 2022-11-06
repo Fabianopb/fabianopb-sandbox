@@ -14,7 +14,7 @@ const agent = axios.create({ baseURL: 'https://web.np.playstation.com/api/graphq
 agent.defaults.headers.get['x-psn-store-locale-override'] = 'en-FI';
 
 const getPsStoreRequestParams = (gameId: string, sha256Hash: string) => ({
-  operationName: 'queryRetrieveTelemetryDataPDPProduct',
+  operationName: 'productRetrieveForCtasWithPrice',
   variables: { conceptId: null, productId: gameId },
   extensions: {
     persistedQuery: { version: 1, sha256Hash },
