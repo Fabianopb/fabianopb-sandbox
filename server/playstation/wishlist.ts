@@ -1,18 +1,22 @@
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
+import jwtDecode from 'jwt-decode';
 import { database } from '../database';
 import { NotFoundError } from '../utils';
 import auth from '../auth';
 import { PLAYSTATION_WISHLIST } from './collections';
+import { User } from '../types';
 
 const authorize = auth('playstation_user');
 
 const wishlistRouter = Router();
 
-wishlistRouter.get('/wishlist', authorize, async (_, res, next) => {
+wishlistRouter.get('/wishlist', authorize, async (req, res, next) => {
   try {
+    const { authorization } = req.headers as { authorization: string };
+    const { user } = jwtDecode<{ user: User }>(authorization.replace('Bearer ', ''));
     const collection = database.collection(PLAYSTATION_WISHLIST);
-    const cursor = collection.find();
+    const cursor = collection.find({ userId: user._id });
     const wishlist = await cursor.toArray();
     return res.status(200).json(wishlist);
   } catch (error) {
@@ -22,8 +26,10 @@ wishlistRouter.get('/wishlist', authorize, async (_, res, next) => {
 
 wishlistRouter.post('/wishlist', authorize, async (req, res, next) => {
   try {
+    const { authorization } = req.headers as { authorization: string };
+    const { user } = jwtDecode<{ user: User }>(authorization.replace('Bearer ', ''));
     const collection = database.collection(PLAYSTATION_WISHLIST);
-    const wishItem = req.body;
+    const wishItem = { ...req.body, userId: user._id };
     await collection.insertOne(wishItem);
     return res.status(200).json('Items created');
   } catch (error) {
