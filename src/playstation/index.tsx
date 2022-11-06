@@ -62,7 +62,11 @@ const Actions = styled.div`
 // TODO: show wishlist table
 
 const PlaystationView = () => {
-  const { register, handleSubmit, reset: resetForm } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    reset: resetForm,
+  } = useForm<FormValues>({ defaultValues: { gameId: '', name: '', imageSrc: '' } });
 
   const { data, isLoading, refetch: refetchList } = useQuery(['playstation', 'wishlist'], () => getPs4Games());
 
