@@ -1,13 +1,25 @@
+import axios from 'axios';
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
 import jwtDecode from 'jwt-decode';
 import { database } from '../database';
-import { NotFoundError } from '../utils';
+import { BadRequestError, NotFoundError } from '../utils';
 import auth from '../auth';
 import { PLAYSTATION_WISHLIST } from './collections';
 import { User } from '../types';
 
 const authorize = auth('playstation_user');
+
+const agent = axios.create({ baseURL: 'https://web.np.playstation.com/api/graphql/v1//op' });
+agent.defaults.headers.get['x-psn-store-locale-override'] = 'en-FI';
+
+const getPsStoreRequestParams = (gameId: string, sha256Hash: string) => ({
+  operationName: 'queryRetrieveTelemetryDataPDPProduct',
+  variables: { conceptId: null, productId: gameId },
+  extensions: {
+    persistedQuery: { version: 1, sha256Hash },
+  },
+});
 
 const wishlistRouter = Router();
 
@@ -26,12 +38,18 @@ wishlistRouter.get('/wishlist', authorize, async (req, res, next) => {
 
 wishlistRouter.post('/wishlist', authorize, async (req, res, next) => {
   try {
+    const { gameId } = req.body;
     const { authorization } = req.headers as { authorization: string };
     const { user } = jwtDecode<{ user: User }>(authorization.replace('Bearer ', ''));
+    if (!user.psStoreHash) {
+      throw new BadRequestError(`User ${user._id} has no psStoreHash`);
+    }
+    const requestParams = getPsStoreRequestParams(gameId, user.psStoreHash);
+    const resource = await agent.get('', { params: requestParams });
     const collection = database.collection(PLAYSTATION_WISHLIST);
-    const wishItem = { ...req.body, userId: user._id };
+    const wishItem = { ...req.body, userId: user._id, data: resource.data.data };
     await collection.insertOne(wishItem);
-    return res.status(200).json('Items created');
+    return res.status(200).json('Item created');
   } catch (error) {
     next(error);
   }
