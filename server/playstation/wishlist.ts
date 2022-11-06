@@ -47,7 +47,7 @@ wishlistRouter.post('/wishlist', authorize, async (req, res, next) => {
     const requestParams = getPsStoreRequestParams(gameId, user.psStoreHash);
     const resource = await agent.get('', { params: requestParams });
     const collection = database.collection(PLAYSTATION_WISHLIST);
-    const wishItem = { ...req.body, userId: user._id, data: resource.data.data };
+    const wishItem = { ...req.body, userId: user._id, data: resource.data.data, updatedAt: new Date().valueOf() };
     await collection.insertOne(wishItem);
     return res.status(200).json('Item created');
   } catch (error) {

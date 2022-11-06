@@ -1,7 +1,7 @@
 export const playstationWishlistSchema = {
   $jsonSchema: {
     bsonType: 'object',
-    required: ['gameId', 'userId', 'name', 'data'],
+    required: ['gameId', 'userId', 'name', 'data', 'updatedAt'],
     properties: {
       gameId: {
         bsonType: 'string',
@@ -14,6 +14,9 @@ export const playstationWishlistSchema = {
       },
       data: {
         bsonType: 'object',
+      },
+      updatedAt: {
+        bsonType: 'int',
       },
       imageSrc: {
         bsonType: ['null', 'string'],
