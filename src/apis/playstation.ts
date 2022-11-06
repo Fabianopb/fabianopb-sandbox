@@ -12,4 +12,7 @@ agent.interceptors.request.use((config) => {
   return config;
 });
 
-export const getPs4Games = () => agent.get(`/wishlist`).then((res) => res.data);
+export const getPs4Games = () => agent.get('/wishlist').then((res) => res.data);
+
+export const addPs4Game = (payload: { gameId: string; name: string; imageSrc?: string }) =>
+  agent.post('/wishlist', payload);
