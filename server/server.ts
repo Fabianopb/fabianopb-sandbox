@@ -1,7 +1,6 @@
 import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
-import psStoreRouter from './playstation/psStore';
 import wishlistRouter from './playstation/wishlist';
 import badgesRouter from './portfolio/badges';
 import projectsRouter from './portfolio/projects';
@@ -18,7 +17,7 @@ export const init = () => {
 
   app.use('/api/v1/root', [usersRouter]);
   app.use('/api/v1/portfolio', [skillsRouter, badgesRouter, projectsRouter]);
-  app.use('/api/v1/playstation', [psStoreRouter, wishlistRouter]);
+  app.use('/api/v1/playstation', [wishlistRouter]);
 
   app.use(express.static(path.resolve('fpb-dist')));
 
