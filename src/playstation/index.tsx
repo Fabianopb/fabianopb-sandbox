@@ -1,4 +1,4 @@
-import { Button, colors, LinearProgress, TextField } from '@mui/material';
+import { Button, colors, LinearProgress, TextField, Table, TableHead, TableRow, TableCell } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -116,7 +116,18 @@ const PlaystationView = () => {
           </Form>
         )}
         {isLoading && <LinearProgress />}
-        <pre>{JSON.stringify(data?.data, null, 4)}</pre>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Original price</TableCell>
+              <TableCell>Discount price</TableCell>
+              <TableCell>Discount</TableCell>
+              <TableCell>Valid until</TableCell>
+            </TableRow>
+          </TableHead>
+        </Table>
+        <pre>{JSON.stringify(data, null, 4)}</pre>
       </Content>
     </Root>
   );

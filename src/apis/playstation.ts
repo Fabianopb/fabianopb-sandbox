@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getToken } from '../common/session';
+import { WishlistItem } from '../playstation/types';
 
 const agent = axios.create({ baseURL: '/api/v1/playstation' });
 
@@ -12,7 +13,7 @@ agent.interceptors.request.use((config) => {
   return config;
 });
 
-export const getPs4Games = () => agent.get('/wishlist').then((res) => res.data);
+export const getPs4Games = () => agent.get<WishlistItem[]>('/wishlist').then((res) => res.data);
 
 export const addPs4Game = (payload: { gameId: string; name: string; imageSrc?: string }) =>
   agent.post('/wishlist', payload);
