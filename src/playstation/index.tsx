@@ -1,8 +1,20 @@
-import { Button, colors, LinearProgress, TextField, Table, TableHead, TableRow, TableCell } from '@mui/material';
+import {
+  Button,
+  colors,
+  LinearProgress,
+  TextField,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import { DateTime } from 'luxon';
 import { addPs4Game, getPs4Games } from '../apis/playstation';
 import { isSessionValid } from '../common/session';
 
@@ -59,8 +71,6 @@ const Actions = styled.div`
   justify-content: flex-end;
 `;
 
-// TODO: show wishlist table
-
 const PlaystationView = () => {
   const {
     register,
@@ -80,6 +90,27 @@ const PlaystationView = () => {
       toast(message || 'Unkown error!', { type: 'error' });
     },
   });
+
+  const tableRows = useMemo(() => {
+    if (!data) {
+      return undefined;
+    }
+    const validItems = data.filter((item) => item.data.productRetrieve !== null);
+    return validItems.map((item) => {
+      const cta = item.data.productRetrieve?.webctas.find((webcta) => webcta.type === 'ADD_TO_CART');
+      return {
+        id: item._id,
+        name: item.data.productRetrieve?.name || '',
+        originalPrice: cta?.price.basePrice || '',
+        discountPrice: cta?.price.discountedPrice || '',
+        discount: cta?.price.discountText || '',
+        validUntil: cta?.price.endTime
+          ? DateTime.fromMillis(Number(cta.price.endTime)).toLocaleString(DateTime.DATETIME_SHORT)
+          : '-',
+      };
+    });
+  }, [data]);
+
   return (
     <Root>
       <TopBar>🤍 PlayStation Wishlist</TopBar>
@@ -115,7 +146,6 @@ const PlaystationView = () => {
             </Actions>
           </Form>
         )}
-        {isLoading && <LinearProgress />}
         <Table>
           <TableHead>
             <TableRow>
@@ -126,8 +156,21 @@ const PlaystationView = () => {
               <TableCell>Valid until</TableCell>
             </TableRow>
           </TableHead>
+          {tableRows && (
+            <TableBody>
+              {tableRows.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.originalPrice}</TableCell>
+                  <TableCell>{item.discountPrice}</TableCell>
+                  <TableCell>{item.discount}</TableCell>
+                  <TableCell>{item.validUntil}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
-        <pre>{JSON.stringify(data, null, 4)}</pre>
+        {isLoading && <LinearProgress />}
       </Content>
     </Root>
   );
