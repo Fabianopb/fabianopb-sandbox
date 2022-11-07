@@ -8,6 +8,8 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Alert,
+  AlertTitle,
 } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
@@ -77,6 +79,10 @@ const TableContent = styled.div`
   flex-direction: column;
 `;
 
+const StyledAlert = styled(Alert)`
+  margin-top: 32px;
+`;
+
 const PlaystationView = () => {
   const {
     register,
@@ -106,16 +112,18 @@ const PlaystationView = () => {
       const cta = item.data.productRetrieve?.webctas.find((webcta) => webcta.type === 'ADD_TO_CART');
       return {
         id: item._id,
-        name: item.data.productRetrieve?.name || '',
-        originalPrice: cta?.price.basePrice || '',
-        discountPrice: cta?.price.discountedPrice || '',
-        discount: cta?.price.discountText || '',
+        name: item.data.productRetrieve?.name || '-',
+        originalPrice: cta?.price.basePrice || '-',
+        discountPrice: cta?.price.discountedPrice || '-',
+        discount: cta?.price.discountText || '-',
         validUntil: cta?.price.endTime
           ? DateTime.fromMillis(Number(cta.price.endTime)).toLocaleString(DateTime.DATETIME_SHORT)
           : '-',
       };
     });
   }, [data]);
+
+  const invalidRows = useMemo(() => data?.filter((item) => item.data.productRetrieve === null), [data]);
 
   return (
     <Root>
@@ -177,6 +185,16 @@ const PlaystationView = () => {
               </TableBody>
             )}
           </Table>
+          {invalidRows && (
+            <StyledAlert severity="warning">
+              <AlertTitle>Failed to retrieve the following items:</AlertTitle>
+              <ul>
+                {invalidRows.map((item) => (
+                  <li key={item._id}>{`${item.gameId}: ${item.name}`}</li>
+                ))}
+              </ul>
+            </StyledAlert>
+          )}
           {isLoading && <LinearProgress />}
         </TableContent>
       </Content>
