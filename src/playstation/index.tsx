@@ -71,6 +71,12 @@ const Actions = styled.div`
   justify-content: flex-end;
 `;
 
+const TableContent = styled.div`
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+`;
+
 const PlaystationView = () => {
   const {
     register,
@@ -146,31 +152,33 @@ const PlaystationView = () => {
             </Actions>
           </Form>
         )}
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Original price</TableCell>
-              <TableCell>Discount price</TableCell>
-              <TableCell>Discount</TableCell>
-              <TableCell>Valid until</TableCell>
-            </TableRow>
-          </TableHead>
-          {tableRows && (
-            <TableBody>
-              {tableRows.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.originalPrice}</TableCell>
-                  <TableCell>{item.discountPrice}</TableCell>
-                  <TableCell>{item.discount}</TableCell>
-                  <TableCell>{item.validUntil}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          )}
-        </Table>
-        {isLoading && <LinearProgress />}
+        <TableContent>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Original price</TableCell>
+                <TableCell>Discount price</TableCell>
+                <TableCell>Discount</TableCell>
+                <TableCell>Valid until</TableCell>
+              </TableRow>
+            </TableHead>
+            {tableRows && (
+              <TableBody>
+                {tableRows.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.originalPrice}</TableCell>
+                    <TableCell>{item.discountPrice}</TableCell>
+                    <TableCell>{item.discount}</TableCell>
+                    <TableCell>{item.validUntil}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
+          </Table>
+          {isLoading && <LinearProgress />}
+        </TableContent>
       </Content>
     </Root>
   );
