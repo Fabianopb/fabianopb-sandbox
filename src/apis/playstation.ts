@@ -1,5 +1,19 @@
 import axios from 'axios';
+import { getToken } from '../common/session';
+import { WishlistItem } from '../playstation/types';
 
 const agent = axios.create({ baseURL: '/api/v1/playstation' });
 
-export const getPs4Games = (gameId: string) => agent.get(`ps-store/${gameId}`).then((res) => res.data);
+agent.interceptors.request.use((config) => {
+  const token = getToken();
+  if (token && config.headers) {
+    // eslint-disable-next-line dot-notation
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export const getPs4Games = () => agent.get<WishlistItem[]>('/wishlist').then((res) => res.data);
+
+export const addPs4Game = (payload: { gameId: string; name: string; imageSrc?: string }) =>
+  agent.post('/wishlist', payload);

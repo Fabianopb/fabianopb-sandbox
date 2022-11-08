@@ -1,8 +1,32 @@
-import { Button, colors, LinearProgress, TextField } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import {
+  Button,
+  colors,
+  LinearProgress,
+  TextField,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Alert,
+  AlertTitle,
+  IconButton,
+} from '@mui/material';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { getPs4Games } from '../apis/playstation';
+import { DateTime } from 'luxon';
+import { addPs4Game, getPs4Games } from '../apis/playstation';
+import { isSessionValid } from '../common/session';
+import { OpenInNew } from '@mui/icons-material';
+
+type FormValues = {
+  gameId: string;
+  name: string;
+  imageSrc?: string;
+};
 
 const Root = styled.div`
   width: 100%;
@@ -21,31 +45,209 @@ const TopBar = styled.div`
 `;
 
 const Content = styled.div`
+  width: 100%;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
-  margin: 24px;
+  margin: 24px auto;
 `;
 
 const Form = styled.div`
   display: flex;
+  flex-direction: column;
+`;
+
+const FormRow = styled.div`
+  margin-top: 16px;
+  display: flex;
   align-items: center;
 `;
 
+const StyledInput = styled(TextField).attrs({ fullWidth: true, variant: 'outlined', size: 'small' })`
+  :not(:first-child) {
+    margin-left: 16px;
+  }
+`;
+
+const Actions = styled.div`
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const TableContent = styled.div`
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledAlert = styled(Alert)`
+  margin-top: 32px;
+`;
+
+const ItemImage = styled.img`
+  width: 86px;
+  height: 86px;
+  border-radius: 4px;
+  object-fit: cover;
+`;
+
+const ImagePlaceholder = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 86px;
+  height: 86px;
+  border-radius: 4px;
+  border: 1px solid ${colors.deepPurple[200]};
+  background-color: ${colors.deepPurple[100]};
+  color: ${colors.deepPurple[300]};
+`;
+
+/** TODO:
+ * split form, table and alert into different components
+ * button to clear invalid products
+ * actions to remove, archive as acquired
+ * sorting
+ * filtering: all, discounted, acquired
+ */
+
 const PlaystationView = () => {
-  const [value, setValue] = useState('');
-  const { data, mutate, isLoading } = useMutation(() => getPs4Games(value));
+  const {
+    register,
+    handleSubmit,
+    reset: resetForm,
+  } = useForm<FormValues>({ defaultValues: { gameId: '', name: '', imageSrc: '' } });
+
+  const { data, isLoading, refetch: refetchList } = useQuery(['playstation', 'wishlist'], () => getPs4Games());
+
+  const { mutate, isLoading: isSaving } = useMutation((values: FormValues) => addPs4Game(values), {
+    onSuccess: () => {
+      resetForm();
+      refetchList();
+    },
+    onError: (error?: any) => {
+      const message = error?.response?.data?.message || error?.message;
+      toast(message || 'Unkown error!', { type: 'error' });
+    },
+  });
+
+  const tableRows = useMemo(() => {
+    if (!data) {
+      return undefined;
+    }
+    const validItems = data.filter((item) => item.data.productRetrieve !== null);
+    return validItems.map((item) => {
+      const cta = item.data.productRetrieve?.webctas.find((webcta) => webcta.type === 'ADD_TO_CART');
+      return {
+        id: item._id,
+        gameId: item.gameId,
+        imageSrc: item.imageSrc,
+        name: item.data.productRetrieve?.name || '-',
+        originalPrice: cta?.price.basePrice || '-',
+        discountPrice: cta?.price.discountedPrice || '-',
+        discount: cta?.price.discountText || '-',
+        validUntil: cta?.price.endTime
+          ? DateTime.fromMillis(Number(cta.price.endTime)).toLocaleString(DateTime.DATETIME_SHORT)
+          : '-',
+      };
+    });
+  }, [data]);
+
+  const invalidRows = useMemo(() => data?.filter((item) => item.data.productRetrieve === null), [data]);
+
   return (
     <Root>
       <TopBar>🤍 PlayStation Wishlist</TopBar>
       <Content>
-        <Form>
-          <TextField variant="outlined" size="small" value={value} onChange={(e) => setValue(e.target.value)} />
-          <Button style={{ marginLeft: 16 }} variant="contained" color="primary" onClick={() => mutate()}>
-            Get!
-          </Button>
-        </Form>
-        {isLoading && <LinearProgress />}
-        <pre>{JSON.stringify(data?.data, null, 4)}</pre>
+        {isSessionValid() && (
+          <Form>
+            <FormRow>
+              <StyledInput label="Game ID" disabled={isSaving} {...register('gameId')} />
+              <StyledInput label="Name" disabled={isSaving} {...register('name')} />
+            </FormRow>
+            <FormRow>
+              <StyledInput label="Image Link" disabled={isSaving} {...register('imageSrc')} />
+            </FormRow>
+            <Actions>
+              <Button
+                style={{ marginLeft: 16 }}
+                variant="outlined"
+                color="secondary"
+                disabled={isSaving}
+                onClick={() => resetForm()}
+              >
+                Clear
+              </Button>
+              <Button
+                style={{ marginLeft: 16 }}
+                variant="contained"
+                color="primary"
+                disabled={isSaving}
+                onClick={handleSubmit((values) => mutate(values))}
+              >
+                Save
+              </Button>
+            </Actions>
+          </Form>
+        )}
+        <TableContent>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Image</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Original price</TableCell>
+                <TableCell>Discount price</TableCell>
+                <TableCell>Discount</TableCell>
+                <TableCell>Valid until</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            {tableRows && (
+              <TableBody>
+                {tableRows.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      {item.imageSrc ? <ItemImage src={item.imageSrc} /> : <ImagePlaceholder>N/A</ImagePlaceholder>}
+                    </TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.originalPrice}</TableCell>
+                    <TableCell>{item.discountPrice}</TableCell>
+                    <TableCell>{item.discount}</TableCell>
+                    <TableCell>{item.validUntil}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        color="primary"
+                        size="small"
+                        onClick={() =>
+                          window.open(
+                            `https://store.playstation.com/fi-fi/product/${item.gameId}`,
+                            '_blank',
+                            'noopener noreferrer'
+                          )
+                        }
+                      >
+                        <OpenInNew />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
+          </Table>
+          {invalidRows && (
+            <StyledAlert severity="warning">
+              <AlertTitle>Failed to retrieve the following items:</AlertTitle>
+              <ul>
+                {invalidRows.map((item) => (
+                  <li key={item._id}>{`${item.gameId}: ${item.name}`}</li>
+                ))}
+              </ul>
+            </StyledAlert>
+          )}
+          {isLoading && <LinearProgress />}
+        </TableContent>
       </Content>
     </Root>
   );
