@@ -10,6 +10,7 @@ import {
   TableBody,
   Alert,
   AlertTitle,
+  IconButton,
 } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
@@ -19,6 +20,7 @@ import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { addPs4Game, getPs4Games } from '../apis/playstation';
 import { isSessionValid } from '../common/session';
+import { OpenInNew } from '@mui/icons-material';
 
 type FormValues = {
   gameId: string;
@@ -105,7 +107,7 @@ const ImagePlaceholder = styled.div`
 /** TODO:
  * split form, table and alert into different components
  * button to clear invalid products
- * actions to remove, open in PS store, archive as acquired
+ * actions to remove, archive as acquired
  * sorting
  * filtering: all, discounted, acquired
  */
@@ -139,6 +141,7 @@ const PlaystationView = () => {
       const cta = item.data.productRetrieve?.webctas.find((webcta) => webcta.type === 'ADD_TO_CART');
       return {
         id: item._id,
+        gameId: item.gameId,
         imageSrc: item.imageSrc,
         name: item.data.productRetrieve?.name || '-',
         originalPrice: cta?.price.basePrice || '-',
@@ -198,6 +201,7 @@ const PlaystationView = () => {
                 <TableCell>Discount price</TableCell>
                 <TableCell>Discount</TableCell>
                 <TableCell>Valid until</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             {tableRows && (
@@ -212,6 +216,21 @@ const PlaystationView = () => {
                     <TableCell>{item.discountPrice}</TableCell>
                     <TableCell>{item.discount}</TableCell>
                     <TableCell>{item.validUntil}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        color="primary"
+                        size="small"
+                        onClick={() =>
+                          window.open(
+                            `https://store.playstation.com/fi-fi/product/${item.gameId}`,
+                            '_blank',
+                            'noopener noreferrer'
+                          )
+                        }
+                      >
+                        <OpenInNew />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
