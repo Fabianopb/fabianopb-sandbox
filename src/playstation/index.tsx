@@ -83,6 +83,33 @@ const StyledAlert = styled(Alert)`
   margin-top: 32px;
 `;
 
+const ItemImage = styled.img`
+  width: 86px;
+  height: 86px;
+  border-radius: 4px;
+  object-fit: cover;
+`;
+
+const ImagePlaceholder = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 86px;
+  height: 86px;
+  border-radius: 4px;
+  border: 1px solid ${colors.deepPurple[200]};
+  background-color: ${colors.deepPurple[100]};
+  color: ${colors.deepPurple[300]};
+`;
+
+/** TODO:
+ * split form, table and alert into different components
+ * button to clear invalid products
+ * actions to remove, open in PS store, archive as acquired
+ * sorting
+ * filtering: all, discounted, acquired
+ */
+
 const PlaystationView = () => {
   const {
     register,
@@ -112,6 +139,7 @@ const PlaystationView = () => {
       const cta = item.data.productRetrieve?.webctas.find((webcta) => webcta.type === 'ADD_TO_CART');
       return {
         id: item._id,
+        imageSrc: item.imageSrc,
         name: item.data.productRetrieve?.name || '-',
         originalPrice: cta?.price.basePrice || '-',
         discountPrice: cta?.price.discountedPrice || '-',
@@ -164,6 +192,7 @@ const PlaystationView = () => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Image</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Original price</TableCell>
                 <TableCell>Discount price</TableCell>
@@ -175,6 +204,9 @@ const PlaystationView = () => {
               <TableBody>
                 {tableRows.map((item) => (
                   <TableRow key={item.id}>
+                    <TableCell>
+                      {item.imageSrc ? <ItemImage src={item.imageSrc} /> : <ImagePlaceholder>N/A</ImagePlaceholder>}
+                    </TableCell>
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.originalPrice}</TableCell>
                     <TableCell>{item.discountPrice}</TableCell>
