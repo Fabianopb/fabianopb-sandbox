@@ -29,7 +29,7 @@ export const init = () => {
     const statusCode = error.statusCode || 500;
     const name = error.name || 'Unknown error!';
     const message = error.message || 'Unknown error!';
-    res.status(statusCode).json({ statusCode, name, message });
+    res.status(statusCode).json({ statusCode, name, message, fullError: error });
   });
 
   app.listen(port);
