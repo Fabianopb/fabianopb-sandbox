@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
+import morgan from 'morgan';
 import wishlistRouter from './playstation/wishlist';
 import badgesRouter from './portfolio/badges';
 import projectsRouter from './portfolio/projects';
@@ -11,6 +12,8 @@ const port = process.env.PORT || 9000;
 
 export const init = () => {
   const app = express();
+
+  app.use(morgan('common'));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
