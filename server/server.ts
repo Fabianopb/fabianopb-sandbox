@@ -13,7 +13,7 @@ const port = process.env.PORT || 9000;
 export const init = () => {
   const app = express();
 
-  app.use(morgan('tiny'));
+  app.use(morgan('common'));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
