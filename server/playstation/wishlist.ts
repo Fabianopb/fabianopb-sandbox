@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
 import jwtDecode from 'jwt-decode';
@@ -8,19 +7,9 @@ import { BadRequestError, NotFoundError } from '../utils';
 import auth from '../auth';
 import { PLAYSTATION_WISHLIST } from './collections';
 import { User } from '../../types/root';
+import { agent, getPsStoreRequestParams } from './utils';
 
 const authorize = auth('playstation_user');
-
-const agent = axios.create({ baseURL: 'https://web.np.playstation.com/api/graphql/v1//op' });
-agent.defaults.headers.get['x-psn-store-locale-override'] = 'en-FI';
-
-const getPsStoreRequestParams = (gameId: string, sha256Hash: string) => ({
-  operationName: 'productRetrieveForCtasWithPrice',
-  variables: { conceptId: null, productId: gameId },
-  extensions: {
-    persistedQuery: { version: 1, sha256Hash },
-  },
-});
 
 const wishlistRouter = Router();
 
