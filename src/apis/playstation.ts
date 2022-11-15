@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getToken } from '../common/session';
-import { WishlistItem } from '../playstation/types';
+import { WishlistItem } from '../../types/playstation';
 
 const agent = axios.create({ baseURL: '/api/v1/playstation' });
 

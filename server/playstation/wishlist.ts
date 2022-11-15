@@ -2,11 +2,12 @@ import axios from 'axios';
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
 import jwtDecode from 'jwt-decode';
+
 import { database } from '../database';
 import { BadRequestError, NotFoundError } from '../utils';
 import auth from '../auth';
 import { PLAYSTATION_WISHLIST } from './collections';
-import { User } from '../types';
+import { User } from '../../types/root';
 
 const authorize = auth('playstation_user');
 

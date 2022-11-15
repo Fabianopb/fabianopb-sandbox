@@ -4,7 +4,7 @@ import { database } from '../database';
 import { USERS } from './collections';
 import { generateJwt } from '../auth';
 import { BadRequestError, UnauthorizedError } from '../utils';
-import { User } from '../types';
+import { User } from '../../types/root';
 
 const usersRouter = Router();
 
