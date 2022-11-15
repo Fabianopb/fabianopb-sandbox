@@ -2,11 +2,13 @@ import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import morgan from 'morgan';
+
 import wishlistRouter from './playstation/wishlist';
 import badgesRouter from './portfolio/badges';
 import projectsRouter from './portfolio/projects';
 import skillsRouter from './portfolio/skills';
 import usersRouter from './root/users';
+import * as playstationCronJobs from './playstation/cronJobs';
 
 const port = process.env.PORT || 9000;
 
@@ -36,6 +38,7 @@ export const init = () => {
   });
 
   app.listen(port);
-
   console.log(`Server up and running on :${port}`);
+
+  playstationCronJobs.init();
 };
