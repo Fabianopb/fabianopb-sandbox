@@ -6,16 +6,17 @@ import { User } from '../../types/root';
 import { database } from '../database';
 import { USERS } from '../root/collections';
 import { PLAYSTATION_WISHLIST } from './collections';
+import { agent, getPsStoreRequestParams } from './utils';
 
 export const init = () => {
   cron.schedule(
     // '5 2 * * *',
-    '49 21 * * *',
+    '02 22 * * *',
     async () => {
       const now = new Date();
       console.log(`Updating all wishlist items at ${now.toLocaleString()}`);
 
-      const wishlistCol = database.collection<WishlistItem>(PLAYSTATION_WISHLIST);
+      const wishlistCol = database.collection<Omit<WishlistItem, '_id'>>(PLAYSTATION_WISHLIST);
       const wishlistCursor = wishlistCol.find({
         'data.productRetrieve.webctas': {
           $elemMatch: {
@@ -42,7 +43,28 @@ export const init = () => {
         items: wishlistItems.filter((item) => new ObjectId(item.userId).equals(user._id)),
       }));
 
-      console.log(wishlistItemsPerUser);
+      for (const { user, items } of wishlistItemsPerUser) {
+        console.log(`Updating ${items.length} items for user ${user._id}...`);
+        for (const item of items) {
+          if (user.psStoreHash) {
+            const requestParams = getPsStoreRequestParams(item.gameId, user.psStoreHash);
+            const resource = await agent.get('', { params: requestParams });
+            const replaceDocument = {
+              ...item,
+              data: resource.data.data,
+              updatedAt: new Date().valueOf(),
+            };
+            const result = await wishlistCol.replaceOne({ _id: new ObjectId(replaceDocument._id) }, replaceDocument);
+            if (result.matchedCount === 0) {
+              console.log(`Error: Wishlist item '${replaceDocument._id}' not found!`);
+            } else {
+              console.log(`Update successful for '${replaceDocument._id}'!`);
+            }
+          } else {
+            console.log(`Error while updating user '${user._id}' wishlist! No PS Store Hash found!`);
+          }
+        }
+      }
     },
     {
       scheduled: true,
