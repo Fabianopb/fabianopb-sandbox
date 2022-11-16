@@ -1,4 +1,4 @@
-type GameData = {
+export type GameData = {
   productRetrieve: {
     // __typename: string;
     // concept: {

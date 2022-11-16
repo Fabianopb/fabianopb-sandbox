@@ -5,7 +5,7 @@ import { database } from './database';
 import { USERS } from './root/collections';
 import passport from 'passport';
 import { UnauthorizedError } from './utils';
-import { Role, User } from './types';
+import { User, Role } from '../types/root';
 
 const tokenSecretOrKey = process.env.JWT_SECRET_OR_KEY;
 
