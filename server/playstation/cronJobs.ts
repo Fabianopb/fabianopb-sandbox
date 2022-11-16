@@ -10,8 +10,7 @@ import { agent, getPsStoreRequestParams } from './utils';
 
 export const init = () => {
   cron.schedule(
-    // '5 2 * * *',
-    '02 22 * * *',
+    '5 2 * * *',
     async () => {
       const now = new Date();
       console.log(`Updating all wishlist items at ${now.toLocaleString()}`);
