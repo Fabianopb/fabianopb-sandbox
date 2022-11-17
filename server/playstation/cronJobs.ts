@@ -9,8 +9,6 @@ import { PLAYSTATION_WISHLIST } from './collections';
 import { agent, getPsStoreRequestParams } from './utils';
 
 export const init = () => {
-  cron.schedule('*/10 * * * *', () => console.log(`Cron job at: ${new Date().toLocaleString()}`));
-
   cron.schedule(
     '5 2 * * *',
     async () => {
