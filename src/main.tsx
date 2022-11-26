@@ -11,6 +11,9 @@ import App from './App';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { Settings } from 'luxon';
+
+Settings.defaultLocale = 'fi';
 
 const GlobalStyle = createGlobalStyle`
   * {
