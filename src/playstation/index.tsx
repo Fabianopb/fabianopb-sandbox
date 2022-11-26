@@ -20,7 +20,7 @@ import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { addPs4Game, getPs4Games } from '../apis/playstation';
 import { isSessionValid } from '../common/session';
-import { OpenInNew } from '@mui/icons-material';
+import { OpenInNew, Verified } from '@mui/icons-material';
 
 type FormValues = {
   gameId: string;
@@ -81,6 +81,11 @@ const TableContent = styled.div`
   flex-direction: column;
 `;
 
+const InlineData = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const StyledAlert = styled(Alert)`
   margin-top: 32px;
 `;
@@ -104,11 +109,16 @@ const ImagePlaceholder = styled.div`
   color: ${colors.deepPurple[300]};
 `;
 
+const NoData = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 16px;
+`;
+
 /** TODO:
  * split form, table and alert into different components
  * button to clear invalid products
  * actions to remove, archive as acquired
- * sorting
  * filtering: all, discounted, acquired
  */
 
@@ -137,7 +147,7 @@ const PlaystationView = () => {
       return undefined;
     }
     const validItems = data.filter((item) => item.data.productRetrieve !== null);
-    return validItems.map((item) => {
+    const rowItems = validItems.map((item) => {
       const cta = item.data.productRetrieve?.webctas.find((webcta) => webcta.type === 'ADD_TO_CART');
       return {
         id: item._id,
@@ -151,6 +161,14 @@ const PlaystationView = () => {
           ? DateTime.fromMillis(Number(cta.price.endTime)).toLocaleString(DateTime.DATETIME_SHORT)
           : '-',
       };
+    });
+    return rowItems.sort((a, b) => {
+      const aDiscount = parseInt(a.discount);
+      const bDiscount = parseInt(b.discount);
+      if (isNaN(aDiscount) || isNaN(bDiscount)) {
+        return 0;
+      }
+      return aDiscount - bDiscount;
     });
   }, [data]);
 
@@ -214,7 +232,12 @@ const PlaystationView = () => {
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.originalPrice}</TableCell>
                     <TableCell>{item.discountPrice}</TableCell>
-                    <TableCell>{item.discount}</TableCell>
+                    <TableCell>
+                      <InlineData>
+                        {!isNaN(parseInt(item.discount)) && <Verified style={{ marginRight: 8 }} color="success" />}
+                        {item.discount}
+                      </InlineData>
+                    </TableCell>
                     <TableCell>{item.validUntil}</TableCell>
                     <TableCell>
                       <IconButton
@@ -236,7 +259,8 @@ const PlaystationView = () => {
               </TableBody>
             )}
           </Table>
-          {invalidRows && (
+          {tableRows && tableRows.length === 0 && <NoData>No data to show</NoData>}
+          {invalidRows && invalidRows.length > 0 && (
             <StyledAlert severity="warning">
               <AlertTitle>Failed to retrieve the following items:</AlertTitle>
               <ul>
