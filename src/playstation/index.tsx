@@ -165,8 +165,11 @@ const PlaystationView = () => {
     return rowItems.sort((a, b) => {
       const aDiscount = parseInt(a.discount);
       const bDiscount = parseInt(b.discount);
-      if (isNaN(aDiscount) || isNaN(bDiscount)) {
-        return 0;
+      if (isNaN(aDiscount)) {
+        return 1;
+      }
+      if (isNaN(bDiscount)) {
+        return -1;
       }
       return aDiscount - bDiscount;
     });
