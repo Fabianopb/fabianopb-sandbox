@@ -81,6 +81,10 @@ const TableContent = styled.div`
   flex-direction: column;
 `;
 
+const StyledTableRow = styled(TableRow)<{ discounted: boolean }>`
+  background-color: ${({ discounted }) => (discounted ? colors.green[50] : 'transparent')};
+`;
+
 const StyledAlert = styled(Alert)`
   margin-top: 32px;
 `;
@@ -143,7 +147,7 @@ const PlaystationView = () => {
       return undefined;
     }
     const validItems = data.filter((item) => item.data.productRetrieve !== null);
-    return validItems.map((item) => {
+    const rowItems = validItems.map((item) => {
       const cta = item.data.productRetrieve?.webctas.find((webcta) => webcta.type === 'ADD_TO_CART');
       return {
         id: item._id,
@@ -157,6 +161,14 @@ const PlaystationView = () => {
           ? DateTime.fromMillis(Number(cta.price.endTime)).toLocaleString(DateTime.DATETIME_SHORT)
           : '-',
       };
+    });
+    return rowItems.sort((a, b) => {
+      const aDiscount = parseInt(a.discount);
+      const bDiscount = parseInt(b.discount);
+      if (isNaN(aDiscount) || isNaN(bDiscount)) {
+        return 0;
+      }
+      return aDiscount - bDiscount;
     });
   }, [data]);
 
@@ -213,7 +225,7 @@ const PlaystationView = () => {
             {tableRows && (
               <TableBody>
                 {tableRows.map((item) => (
-                  <TableRow key={item.id}>
+                  <StyledTableRow key={item.id} discounted={!isNaN(parseInt(item.discount))}>
                     <TableCell>
                       {item.imageSrc ? <ItemImage src={item.imageSrc} /> : <ImagePlaceholder>N/A</ImagePlaceholder>}
                     </TableCell>
@@ -237,7 +249,7 @@ const PlaystationView = () => {
                         <OpenInNew />
                       </IconButton>
                     </TableCell>
-                  </TableRow>
+                  </StyledTableRow>
                 ))}
               </TableBody>
             )}
