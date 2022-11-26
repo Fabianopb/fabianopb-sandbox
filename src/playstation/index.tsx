@@ -20,7 +20,7 @@ import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { addPs4Game, getPs4Games } from '../apis/playstation';
 import { isSessionValid } from '../common/session';
-import { OpenInNew } from '@mui/icons-material';
+import { OpenInNew, Verified } from '@mui/icons-material';
 
 type FormValues = {
   gameId: string;
@@ -81,8 +81,9 @@ const TableContent = styled.div`
   flex-direction: column;
 `;
 
-const StyledTableRow = styled(TableRow)<{ discounted: boolean }>`
-  background-color: ${({ discounted }) => (discounted ? colors.green[50] : 'transparent')};
+const InlineData = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const StyledAlert = styled(Alert)`
@@ -118,7 +119,6 @@ const NoData = styled.div`
  * split form, table and alert into different components
  * button to clear invalid products
  * actions to remove, archive as acquired
- * sorting
  * filtering: all, discounted, acquired
  */
 
@@ -225,14 +225,19 @@ const PlaystationView = () => {
             {tableRows && (
               <TableBody>
                 {tableRows.map((item) => (
-                  <StyledTableRow key={item.id} discounted={!isNaN(parseInt(item.discount))}>
+                  <TableRow key={item.id}>
                     <TableCell>
                       {item.imageSrc ? <ItemImage src={item.imageSrc} /> : <ImagePlaceholder>N/A</ImagePlaceholder>}
                     </TableCell>
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.originalPrice}</TableCell>
                     <TableCell>{item.discountPrice}</TableCell>
-                    <TableCell>{item.discount}</TableCell>
+                    <TableCell>
+                      <InlineData>
+                        {!isNaN(parseInt(item.discount)) && <Verified style={{ marginRight: 8 }} color="success" />}
+                        {item.discount}
+                      </InlineData>
+                    </TableCell>
                     <TableCell>{item.validUntil}</TableCell>
                     <TableCell>
                       <IconButton
@@ -249,7 +254,7 @@ const PlaystationView = () => {
                         <OpenInNew />
                       </IconButton>
                     </TableCell>
-                  </StyledTableRow>
+                  </TableRow>
                 ))}
               </TableBody>
             )}
