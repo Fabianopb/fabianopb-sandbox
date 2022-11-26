@@ -104,6 +104,12 @@ const ImagePlaceholder = styled.div`
   color: ${colors.deepPurple[300]};
 `;
 
+const NoData = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 16px;
+`;
+
 /** TODO:
  * split form, table and alert into different components
  * button to clear invalid products
@@ -236,7 +242,8 @@ const PlaystationView = () => {
               </TableBody>
             )}
           </Table>
-          {invalidRows && (
+          {tableRows && tableRows.length === 0 && <NoData>No data to show</NoData>}
+          {invalidRows && invalidRows.length > 0 && (
             <StyledAlert severity="warning">
               <AlertTitle>Failed to retrieve the following items:</AlertTitle>
               <ul>
