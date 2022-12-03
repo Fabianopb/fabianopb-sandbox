@@ -9,10 +9,12 @@ const uri = `mongodb${cloudServer}://${user}:${password}@${cluster}/?retryWrites
 
 export const init = () => {
   // TODO: run weekly
-  cron.schedule('36 15 * * *', async () => {
+  cron.schedule('30 23 17 * * *', async () => {
     const now = new Date();
     console.log(`Backing up Mongo data ${now.toLocaleString()}`);
 
-    execSync(`mongodump --out=mongodb-backups-${now.toISOString()} --uri=${uri}`);
+    const archive = `mongodb-backup-${now.toISOString().split('T')[0]}.gzip`;
+
+    execSync(`mongodump --archive=${archive} --gzip --uri=${uri}`);
   });
 };
