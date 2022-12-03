@@ -13,6 +13,7 @@ dist-ssr
 fpb-dist
 *.local
 .env
+mongodb-backups-*
 
 # Editor directories and files
 .vscode/*
