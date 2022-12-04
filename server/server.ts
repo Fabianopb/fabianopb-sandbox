@@ -9,6 +9,7 @@ import projectsRouter from './portfolio/projects';
 import skillsRouter from './portfolio/skills';
 import usersRouter from './root/users';
 import * as playstationCronJobs from './playstation/cronJobs';
+import * as rootCronJobs from './root/cronJobs';
 
 const port = process.env.PORT || 9000;
 
@@ -41,4 +42,5 @@ export const init = () => {
   console.log(`Server up and running on :${port}`);
 
   playstationCronJobs.init();
+  rootCronJobs.init();
 };
