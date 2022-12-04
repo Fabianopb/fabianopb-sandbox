@@ -18,11 +18,11 @@ const cloudServer = process.env.APP_ENV !== 'production' ? '' : '+srv';
 const user = encodeURIComponent(process.env.MONGO_USERNAME || '');
 const password = encodeURIComponent(process.env.MONGO_PASSWORD || '');
 const cluster = process.env.MONGO_CLUSTER;
-const uri = `mongodb${cloudServer}://${user}:${password}@${cluster}/?retryWrites=true&w=majority`;
+const uri = `mongodb${cloudServer}://${user}:${password}@${cluster}`;
 
 export const init = async () => {
-  // TODO: run weekly
-  cron.schedule('15 7 13 * * *', async () => {
+  // Run every Sunday 3AM GMT
+  cron.schedule('0 3 * * Sunday', async () => {
     try {
       const now = new Date();
       console.log(`Backing up Mongo data ${now.toLocaleString()}`);
@@ -37,9 +37,8 @@ export const init = async () => {
         Body: dumpBuffer,
       };
 
-      const data = await s3Client.send(new PutObjectCommand(uploadParams));
-      console.log('Success', data);
-      return data; // For unit tests.
+      await s3Client.send(new PutObjectCommand(uploadParams));
+      console.log('Mongo dump successfully created!');
     } catch (err) {
       console.error('Backup Error!', err);
     }
