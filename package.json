@@ -27,6 +27,7 @@
     ]
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.223.0",
     "@mui/icons-material": "^5.10.2",
     "@mui/material": "^5.10.1",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
