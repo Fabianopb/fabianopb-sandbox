@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 export class BadRequestError extends Error {
   statusCode = 400;
   name = 'BadRequestError';
@@ -17,3 +19,5 @@ export class NotFoundError extends Error {
   statusCode = 404;
   name = 'NotFoundError';
 }
+
+export const getGMTTimestamp = () => DateTime.utc().toFormat('dd/LLL/yyyy:HH:mm:ss +0000');

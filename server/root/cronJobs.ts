@@ -3,6 +3,7 @@ import cron from 'node-cron';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { readFileSync, unlinkSync } from 'fs';
 import path from 'path';
+import { getGMTTimestamp } from '../utils';
 
 if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
   throw new Error('AWS credentials not defined!');
@@ -27,7 +28,7 @@ export const init = async () => {
   cron.schedule('0 3 * * Sunday', async () => {
     try {
       const now = new Date();
-      console.log(`Backing up Mongo data ${now.toLocaleString()}`);
+      console.log(`[${getGMTTimestamp()}] Backing up Mongo data`);
 
       const archiveName = `mongodb-backup-${now.toISOString().split('T')[0]}.gzip`;
       const archivePath = path.join(__dirname, archiveName);
@@ -45,9 +46,9 @@ export const init = async () => {
       await s3Client.send(new PutObjectCommand(uploadParams));
 
       await unlinkSync(archivePath);
-      console.log('Mongo dump successfully created!');
+      console.log(`[${getGMTTimestamp()}] Mongo dump successfully created!`);
     } catch (err) {
-      console.error('Backup Error!', err);
+      console.error(`[${getGMTTimestamp()}] Backup Error!`, err);
     }
   });
 };

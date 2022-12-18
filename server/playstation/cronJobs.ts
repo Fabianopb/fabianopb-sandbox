@@ -5,6 +5,7 @@ import { User } from '../../types/root';
 
 import { database } from '../database';
 import { USERS } from '../root/collections';
+import { getGMTTimestamp } from '../utils';
 import { PLAYSTATION_WISHLIST } from './collections';
 import { agent, getPsStoreRequestParams } from './utils';
 
@@ -12,7 +13,7 @@ export const init = () => {
   // Runs 1:05 CET, which is 2:05 EET. Cannot set timezone due to memory leak in node-cron
   cron.schedule('5 1 * * *', async () => {
     const now = new Date();
-    console.log(`Updating all wishlist items at ${now.toLocaleString()}`);
+    console.log(`[${getGMTTimestamp()}] Updating all wishlist items`);
 
     const wishlistCol = database.collection<Omit<WishlistItem, '_id'>>(PLAYSTATION_WISHLIST);
     const wishlistCursor = wishlistCol.find({
@@ -42,7 +43,7 @@ export const init = () => {
     }));
 
     for (const { user, items } of wishlistItemsPerUser) {
-      console.log(`Updating ${items.length} items for user ${user._id}...`);
+      console.log(`[${getGMTTimestamp()}] Updating ${items.length} items for user ${user._id}...`);
       for (const item of items) {
         if (user.psStoreHash) {
           const requestParams = getPsStoreRequestParams(item.gameId, user.psStoreHash);
@@ -54,12 +55,14 @@ export const init = () => {
           };
           const result = await wishlistCol.replaceOne({ _id: new ObjectId(replaceDocument._id) }, replaceDocument);
           if (result.matchedCount === 0) {
-            console.log(`Error: Wishlist item '${replaceDocument._id}' not found!`);
+            console.log(`[${getGMTTimestamp()}] Error: Wishlist item '${replaceDocument._id}' not found!`);
           } else {
-            console.log(`Update successful for '${replaceDocument._id}'!`);
+            console.log(`[${getGMTTimestamp()}] Update successful for '${replaceDocument._id}'!`);
           }
         } else {
-          console.log(`Error while updating user '${user._id}' wishlist! No PS Store Hash found!`);
+          console.log(
+            `[${getGMTTimestamp()}] Error while updating user '${user._id}' wishlist! No PS Store Hash found!`
+          );
         }
       }
     }
