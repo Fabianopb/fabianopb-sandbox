@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
 import cron from 'node-cron';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { readFileSync, unlinkSync } from 'fs';
 import path from 'path';
 import { getGMTTimestamp } from '../utils';
@@ -25,30 +25,40 @@ const uri = `mongodb${cloudServer}://${user}:${password}@${cluster}`;
 
 export const init = async () => {
   // Run every Sunday 3AM GMT
-  cron.schedule('0 3 * * Sunday', async () => {
+  cron.schedule('0,5,10 3 * * Sunday,Monday', async () => {
     try {
       const now = new Date();
-      console.log(`[${getGMTTimestamp()}] Backing up Mongo data`);
+      console.log(`[${getGMTTimestamp()}] Starting Mongo backup process`);
 
       const archiveName = `mongodb-backup-${now.toISOString().split('T')[0]}.gzip`;
-      const archivePath = path.join(__dirname, archiveName);
 
-      execSync(`mongodump --archive=${archivePath} --gzip --uri=${uri}`);
+      const objectParams = { Bucket: process.env.S3_BACKUP_BUCKET_NAME, Key: archiveName };
 
-      const fileBuffer = readFileSync(archivePath);
+      const shouldBackup = await s3Client
+        .send(new GetObjectCommand(objectParams))
+        .then(() => {
+          console.log(`[${getGMTTimestamp()}] Backup already found for today, all good!`);
+          return false;
+        })
+        .catch(() => {
+          console.log(`[${getGMTTimestamp()}] Backup not found for today, trying to backup`);
+          return true;
+        });
 
-      const uploadParams = {
-        Bucket: process.env.S3_BACKUP_BUCKET_NAME,
-        Key: archiveName,
-        Body: fileBuffer,
-      };
+      if (shouldBackup) {
+        const archivePath = path.join(__dirname, archiveName);
 
-      await s3Client.send(new PutObjectCommand(uploadParams));
+        execSync(`mongodump --archive=${archivePath} --gzip --uri=${uri}`);
 
-      await unlinkSync(archivePath);
-      console.log(`[${getGMTTimestamp()}] Mongo dump successfully created!`);
-    } catch (err) {
-      console.error(`[${getGMTTimestamp()}] Backup Error!`, err);
+        const fileBuffer = readFileSync(archivePath);
+
+        await s3Client.send(new PutObjectCommand({ ...objectParams, Body: fileBuffer }));
+
+        await unlinkSync(archivePath);
+        console.log(`[${getGMTTimestamp()}] Mongo dump successfully created!`);
+      }
+    } catch (backupError) {
+      console.error(`[${getGMTTimestamp()}] Backup Error!`, backupError);
     }
   });
 };
