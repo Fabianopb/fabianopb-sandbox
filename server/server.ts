@@ -10,13 +10,14 @@ import skillsRouter from './portfolio/skills';
 import usersRouter from './root/users';
 import * as playstationCronJobs from './playstation/cronJobs';
 import * as rootCronJobs from './root/cronJobs';
+import { getGMTTimestamp } from './utils';
 
 const port = process.env.PORT || 9000;
 
 export const init = () => {
   const app = express();
 
-  app.use(morgan('common'));
+  app.use(morgan('[:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length]'));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,7 +40,7 @@ export const init = () => {
   });
 
   app.listen(port);
-  console.log(`Server up and running on :${port}`);
+  console.log(`[${getGMTTimestamp()}] Server up and running on :${port}`);
 
   playstationCronJobs.init();
   rootCronJobs.init();
