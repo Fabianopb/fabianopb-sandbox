@@ -25,7 +25,8 @@ const uri = `mongodb${cloudServer}://${user}:${password}@${cluster}`;
 
 export const init = async () => {
   // Run every Sunday 3AM GMT
-  cron.schedule('0,5,10 3 * * Sunday,Monday', async () => {
+  // cron.schedule('0,5,10 3 * * Sunday,Monday', async () => {
+  cron.schedule('0,5,10 3 * * *', async () => {
     try {
       const now = new Date();
       console.log(`[${getGMTTimestamp()}] Starting Mongo backup process`);
