@@ -9,7 +9,6 @@ import projectsRouter from './portfolio/projects';
 import skillsRouter from './portfolio/skills';
 import usersRouter from './root/users';
 import * as playstationCronJobs from './playstation/cronJobs';
-import * as rootCronJobs from './root/cronJobs';
 import { getGMTTimestamp } from './utils';
 import internalRouter from './root/internal';
 
@@ -45,5 +44,4 @@ export const init = () => {
   console.log(`[${getGMTTimestamp()}] Server up and running on :${port}`);
 
   playstationCronJobs.init();
-  rootCronJobs.init();
 };
