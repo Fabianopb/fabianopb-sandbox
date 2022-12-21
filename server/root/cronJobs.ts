@@ -2,7 +2,6 @@ import { execSync } from 'child_process';
 import cron from 'node-cron';
 import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { readFileSync, unlinkSync } from 'fs';
-import path from 'path';
 import { getGMTTimestamp } from '../utils';
 
 if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
@@ -47,16 +46,17 @@ export const init = async () => {
         });
 
       if (shouldBackup) {
-        const archivePath = path.join(__dirname, archiveName);
-        console.log(`[${getGMTTimestamp()}] creating dump into "${archivePath}"`);
+        console.log(`[${getGMTTimestamp()}] creating dump into "${archiveName}"`);
 
-        execSync(`mongodump --archive=${archivePath} --gzip --uri=${uri}`);
+        execSync(`mongodump --archive=${archiveName} --gzip --uri=${uri}`, { stdio: 'inherit' });
 
-        const fileBuffer = readFileSync(archivePath);
+        const fileBuffer = readFileSync(archiveName);
 
+        console.log(`[${getGMTTimestamp()}] uploading "${archiveName}"`);
         await s3Client.send(new PutObjectCommand({ ...objectParams, Body: fileBuffer }));
 
-        await unlinkSync(archivePath);
+        console.log(`[${getGMTTimestamp()}] deleting "${archiveName}"`);
+        await unlinkSync(archiveName);
         console.log(`[${getGMTTimestamp()}] Mongo dump successfully created!`);
       }
     } catch (backupError) {
