@@ -48,7 +48,7 @@ export const init = async () => {
       if (shouldBackup) {
         console.log(`[${getGMTTimestamp()}] creating dump into "${archiveName}"`);
 
-        execSync(`mongodump --archive=${archiveName} --gzip --uri=${uri}`, { stdio: 'inherit' });
+        execSync(`mongodump --archive=${archiveName} --gzip --uri=${uri}`);
 
         const fileBuffer = readFileSync(archiveName);
 
