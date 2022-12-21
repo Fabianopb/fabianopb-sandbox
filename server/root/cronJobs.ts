@@ -48,6 +48,7 @@ export const init = async () => {
 
       if (shouldBackup) {
         const archivePath = path.join(__dirname, archiveName);
+        console.log(`[${getGMTTimestamp()}] creating dump into "${archivePath}"`);
 
         execSync(`mongodump --archive=${archivePath} --gzip --uri=${uri}`);
 

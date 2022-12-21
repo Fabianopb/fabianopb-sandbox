@@ -11,6 +11,7 @@ import usersRouter from './root/users';
 import * as playstationCronJobs from './playstation/cronJobs';
 import * as rootCronJobs from './root/cronJobs';
 import { getGMTTimestamp } from './utils';
+import internalRouter from './root/internal';
 
 const port = process.env.PORT || 9000;
 
@@ -25,6 +26,7 @@ export const init = () => {
   app.use('/api/v1/root', [usersRouter]);
   app.use('/api/v1/portfolio', [skillsRouter, badgesRouter, projectsRouter]);
   app.use('/api/v1/playstation', [wishlistRouter]);
+  app.use('/api/internal', [internalRouter]);
 
   app.use(express.static(path.resolve('fpb-dist')));
 
