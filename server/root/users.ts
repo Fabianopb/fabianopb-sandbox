@@ -30,13 +30,13 @@ usersRouter.route('/users/session').get(async (req, res, next) => {
   try {
     const { authorization } = req.headers;
     if (!authorization) {
-      throw new UnauthorizedError('The session is not valid');
+      throw new UnauthorizedError('This session has no token');
     }
     const currentToken = authorization.replace('Bearer ', '');
     const { user, exp, iat } = jwtDecode<{ user: User; exp: number; iat: number }>(currentToken);
     const now = DateTime.now();
     if (now.valueOf() > exp * 1000) {
-      throw new UnauthorizedError('The session is not valid');
+      throw new UnauthorizedError('This session has expired');
     }
     if (now > DateTime.fromMillis(iat * 1000).plus({ hours: 24 })) {
       const newToken = generateJwt(user);
