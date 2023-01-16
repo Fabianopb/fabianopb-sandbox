@@ -5,6 +5,8 @@ import { USERS } from './collections';
 import { generateJwt } from '../auth';
 import { BadRequestError, UnauthorizedError } from '../utils';
 import { User } from '../../types/root';
+import jwtDecode from 'jwt-decode';
+import { DateTime } from 'luxon';
 
 const usersRouter = Router();
 
@@ -19,6 +21,28 @@ usersRouter.route('/users/login').post(async (req, res, next) => {
     }
     const token = generateJwt(user);
     return res.status(200).json({ token });
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.route('/users/session').get(async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      throw new UnauthorizedError('The session is not valid');
+    }
+    const currentToken = authorization.replace('Bearer ', '');
+    const { user, exp, iat } = jwtDecode<{ user: User; exp: number; iat: number }>(currentToken);
+    const now = DateTime.now();
+    if (now.valueOf() > exp * 1000) {
+      throw new UnauthorizedError('The session is not valid');
+    }
+    if (now > DateTime.fromMillis(iat * 1000).plus({ hours: 24 })) {
+      const newToken = generateJwt(user);
+      return res.status(200).json({ token: newToken });
+    }
+    return res.status(200).json({ token: currentToken });
   } catch (error) {
     next(error);
   }
