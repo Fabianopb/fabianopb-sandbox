@@ -18,9 +18,9 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
-import { addPs4Game, getPs4Games } from '../apis/playstation';
+import { addPs4Game, editPsGame, getPs4Games } from '../apis/playstation';
 import { isSessionValid } from '../common/session';
-import { OpenInNew, Verified } from '@mui/icons-material';
+import { AttachMoney, Done, OpenInNew, Verified } from '@mui/icons-material';
 
 type FormValues = {
   gameId: string;
@@ -69,6 +69,17 @@ const StyledInput = styled(TextField).attrs({ fullWidth: true, variant: 'outline
   }
 `;
 
+const StyledTable = styled(Table)`
+  margin-bottom: 32px;
+`;
+
+const TableTitle = styled.p`
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: ${colors.deepPurple[600]};
+`;
+
 const Actions = styled.div`
   margin-top: 16px;
   display: flex;
@@ -109,6 +120,11 @@ const ImagePlaceholder = styled.div`
   color: ${colors.deepPurple[300]};
 `;
 
+const IconRow = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const NoData = styled.div`
   width: 100%;
   text-align: center;
@@ -142,11 +158,56 @@ const PlaystationView = () => {
     },
   });
 
+  const { mutate: markAsOwned } = useMutation(
+    async (itemId: string) => {
+      const item = data?.find((entry) => entry._id === itemId);
+      if (!item) {
+        throw new Error('Item not found!');
+      }
+      const { _id, ...rest } = item;
+      const payload = { ...rest, isOwned: true };
+      await editPsGame(itemId, payload);
+    },
+    {
+      onSuccess: () => {
+        refetchList();
+      },
+      onError: (error?: any) => {
+        const message = error?.response?.data?.message || error?.message;
+        toast(message || 'Unkown error!', { type: 'error' });
+      },
+    }
+  );
+
+  const { mutate: markAsPlayed } = useMutation(
+    async (itemId: string) => {
+      const item = data?.find((entry) => entry._id === itemId);
+      if (!item) {
+        throw new Error('Item not found!');
+      }
+      const { _id, ...rest } = item;
+      const payload = { ...rest, isPlayed: true };
+      await editPsGame(itemId, payload);
+    },
+    {
+      onSuccess: () => {
+        refetchList();
+      },
+      onError: (error?: any) => {
+        const message = error?.response?.data?.message || error?.message;
+        toast(message || 'Unkown error!', { type: 'error' });
+      },
+    }
+  );
+
   const tableRows = useMemo(() => {
     if (!data) {
       return undefined;
     }
-    const validItems = data.filter((item) => item.data.productRetrieve !== null);
+    const validItems = data
+      .filter((item) => item.data.productRetrieve !== null)
+      .filter((item) => !item.isOwned)
+      .filter((item) => !item.isPlayed);
     const rowItems = validItems.map((item) => {
       const cta = item.data.productRetrieve?.webctas.find((webcta) => webcta.type === 'ADD_TO_CART');
       return {
@@ -176,6 +237,20 @@ const PlaystationView = () => {
   }, [data]);
 
   const invalidRows = useMemo(() => data?.filter((item) => item.data.productRetrieve === null), [data]);
+
+  const ownedRows = useMemo(
+    () =>
+      data
+        ?.filter((item) => item.isOwned || item.isPlayed)
+        .map((item) => ({
+          id: item._id,
+          gameId: item.gameId,
+          imageSrc: item.imageSrc,
+          name: item.data.productRetrieve?.name || '-',
+          isPlayed: item.isPlayed,
+        })),
+    [data]
+  );
 
   return (
     <Root>
@@ -213,7 +288,8 @@ const PlaystationView = () => {
           </Form>
         )}
         <TableContent>
-          <Table>
+          <TableTitle>Wishlist</TableTitle>
+          <StyledTable>
             <TableHead>
               <TableRow>
                 <TableCell>Image</TableCell>
@@ -243,26 +319,64 @@ const PlaystationView = () => {
                     </TableCell>
                     <TableCell>{item.validUntil}</TableCell>
                     <TableCell>
-                      <IconButton
-                        color="primary"
-                        size="small"
-                        onClick={() =>
-                          window.open(
-                            `https://store.playstation.com/fi-fi/product/${item.gameId}`,
-                            '_blank',
-                            'noopener noreferrer'
-                          )
-                        }
-                      >
-                        <OpenInNew />
-                      </IconButton>
+                      <IconRow>
+                        <IconButton
+                          color="primary"
+                          size="small"
+                          onClick={() =>
+                            window.open(
+                              `https://store.playstation.com/fi-fi/product/${item.gameId}`,
+                              '_blank',
+                              'noopener noreferrer'
+                            )
+                          }
+                        >
+                          <OpenInNew />
+                        </IconButton>
+                        <IconButton color="warning" size="small" onClick={() => markAsOwned(item.id)}>
+                          <AttachMoney />
+                        </IconButton>
+                      </IconRow>
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             )}
-          </Table>
-          {tableRows && tableRows.length === 0 && <NoData>No data to show</NoData>}
+          </StyledTable>
+
+          <TableTitle>Library</TableTitle>
+          <StyledTable>
+            <TableHead>
+              <TableRow>
+                <TableCell>Image</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            {ownedRows && (
+              <TableBody>
+                {ownedRows.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      {item.imageSrc ? <ItemImage src={item.imageSrc} /> : <ImagePlaceholder>N/A</ImagePlaceholder>}
+                    </TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>
+                      {item.isPlayed ? (
+                        '-'
+                      ) : (
+                        <IconButton color="success" size="small" onClick={() => markAsPlayed(item.id)}>
+                          <Done />
+                        </IconButton>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
+          </StyledTable>
+
+          {data && data.length === 0 && <NoData>No data to show</NoData>}
           {invalidRows && invalidRows.length > 0 && (
             <StyledAlert severity="warning">
               <AlertTitle>Failed to retrieve the following items:</AlertTitle>

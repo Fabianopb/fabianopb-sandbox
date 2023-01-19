@@ -21,6 +21,12 @@ export const playstationWishlistSchema = {
       imageSrc: {
         bsonType: ['null', 'string'],
       },
+      isOwned: {
+        bsonType: 'bool',
+      },
+      isPlayed: {
+        bsonType: 'bool',
+      },
     },
   },
 };

@@ -17,6 +17,8 @@ export const init = () => {
 
     const wishlistCol = database.collection<Omit<WishlistItem, '_id'>>(PLAYSTATION_WISHLIST);
     const wishlistCursor = wishlistCol.find({
+      isOwned: { $ne: true },
+      isPlayed: { $ne: true },
       'data.productRetrieve.webctas': {
         $elemMatch: {
           type: 'ADD_TO_CART',

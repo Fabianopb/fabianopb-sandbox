@@ -73,4 +73,6 @@ export type WishlistItem = {
   data: GameData;
   updatedAt: number;
   imageSrc?: string;
+  isOwned?: boolean;
+  isPlayed?: boolean;
 };
