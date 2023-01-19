@@ -241,7 +241,7 @@ const PlaystationView = () => {
   const ownedRows = useMemo(
     () =>
       data
-        ?.filter((item) => item.isOwned)
+        ?.filter((item) => item.isOwned || item.isPlayed)
         .map((item) => ({
           id: item._id,
           gameId: item.gameId,
