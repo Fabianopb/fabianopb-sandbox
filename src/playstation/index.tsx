@@ -18,9 +18,9 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
-import { addPs4Game, getPs4Games } from '../apis/playstation';
+import { addPs4Game, editPsGame, getPs4Games } from '../apis/playstation';
 import { isSessionValid } from '../common/session';
-import { OpenInNew, Verified } from '@mui/icons-material';
+import { AttachMoney, OpenInNew, Verified } from '@mui/icons-material';
 
 type FormValues = {
   gameId: string;
@@ -109,6 +109,11 @@ const ImagePlaceholder = styled.div`
   color: ${colors.deepPurple[300]};
 `;
 
+const IconRow = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const NoData = styled.div`
   width: 100%;
   text-align: center;
@@ -141,6 +146,27 @@ const PlaystationView = () => {
       toast(message || 'Unkown error!', { type: 'error' });
     },
   });
+
+  const { mutate: markAsOwned } = useMutation(
+    async (itemId: string) => {
+      const item = data?.find((entry) => entry._id === itemId);
+      if (!item) {
+        throw new Error('Item not found!');
+      }
+      const { _id, ...rest } = item;
+      const payload = { ...rest, isOwned: true };
+      await editPsGame(itemId, payload);
+    },
+    {
+      onSuccess: () => {
+        refetchList();
+      },
+      onError: (error?: any) => {
+        const message = error?.response?.data?.message || error?.message;
+        toast(message || 'Unkown error!', { type: 'error' });
+      },
+    }
+  );
 
   const tableRows = useMemo(() => {
     if (!data) {
@@ -243,19 +269,24 @@ const PlaystationView = () => {
                     </TableCell>
                     <TableCell>{item.validUntil}</TableCell>
                     <TableCell>
-                      <IconButton
-                        color="primary"
-                        size="small"
-                        onClick={() =>
-                          window.open(
-                            `https://store.playstation.com/fi-fi/product/${item.gameId}`,
-                            '_blank',
-                            'noopener noreferrer'
-                          )
-                        }
-                      >
-                        <OpenInNew />
-                      </IconButton>
+                      <IconRow>
+                        <IconButton
+                          color="primary"
+                          size="small"
+                          onClick={() =>
+                            window.open(
+                              `https://store.playstation.com/fi-fi/product/${item.gameId}`,
+                              '_blank',
+                              'noopener noreferrer'
+                            )
+                          }
+                        >
+                          <OpenInNew />
+                        </IconButton>
+                        <IconButton color="success" size="small">
+                          <AttachMoney onClick={() => markAsOwned(item.id)} />
+                        </IconButton>
+                      </IconRow>
                     </TableCell>
                   </TableRow>
                 ))}
