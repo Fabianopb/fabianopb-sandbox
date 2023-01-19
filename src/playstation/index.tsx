@@ -20,7 +20,7 @@ import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { addPs4Game, editPsGame, getPs4Games } from '../apis/playstation';
 import { isSessionValid } from '../common/session';
-import { AttachMoney, OpenInNew, Verified } from '@mui/icons-material';
+import { AttachMoney, Done, OpenInNew, Verified } from '@mui/icons-material';
 
 type FormValues = {
   gameId: string;
@@ -168,11 +168,35 @@ const PlaystationView = () => {
     }
   );
 
+  const { mutate: markAsPlayed } = useMutation(
+    async (itemId: string) => {
+      const item = data?.find((entry) => entry._id === itemId);
+      if (!item) {
+        throw new Error('Item not found!');
+      }
+      const { _id, ...rest } = item;
+      const payload = { ...rest, isPlayed: true };
+      await editPsGame(itemId, payload);
+    },
+    {
+      onSuccess: () => {
+        refetchList();
+      },
+      onError: (error?: any) => {
+        const message = error?.response?.data?.message || error?.message;
+        toast(message || 'Unkown error!', { type: 'error' });
+      },
+    }
+  );
+
   const tableRows = useMemo(() => {
     if (!data) {
       return undefined;
     }
-    const validItems = data.filter((item) => item.data.productRetrieve !== null);
+    const validItems = data
+      .filter((item) => item.data.productRetrieve !== null)
+      .filter((item) => !item.isOwned)
+      .filter((item) => !item.isPlayed);
     const rowItems = validItems.map((item) => {
       const cta = item.data.productRetrieve?.webctas.find((webcta) => webcta.type === 'ADD_TO_CART');
       return {
@@ -202,6 +226,20 @@ const PlaystationView = () => {
   }, [data]);
 
   const invalidRows = useMemo(() => data?.filter((item) => item.data.productRetrieve === null), [data]);
+
+  const ownedRows = useMemo(
+    () =>
+      data
+        ?.filter((item) => item.isOwned)
+        .map((item) => ({
+          id: item._id,
+          gameId: item.gameId,
+          imageSrc: item.imageSrc,
+          name: item.data.productRetrieve?.name || '-',
+          isPlayed: item.isPlayed,
+        })),
+    [data]
+  );
 
   return (
     <Root>
@@ -283,8 +321,8 @@ const PlaystationView = () => {
                         >
                           <OpenInNew />
                         </IconButton>
-                        <IconButton color="success" size="small">
-                          <AttachMoney onClick={() => markAsOwned(item.id)} />
+                        <IconButton color="warning" size="small" onClick={() => markAsOwned(item.id)}>
+                          <AttachMoney />
                         </IconButton>
                       </IconRow>
                     </TableCell>
@@ -293,7 +331,39 @@ const PlaystationView = () => {
               </TableBody>
             )}
           </Table>
-          {tableRows && tableRows.length === 0 && <NoData>No data to show</NoData>}
+
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Image</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            {ownedRows && (
+              <TableBody>
+                {ownedRows.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      {item.imageSrc ? <ItemImage src={item.imageSrc} /> : <ImagePlaceholder>N/A</ImagePlaceholder>}
+                    </TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>
+                      {item.isPlayed ? (
+                        '-'
+                      ) : (
+                        <IconButton color="success" size="small" onClick={() => markAsPlayed(item.id)}>
+                          <Done />
+                        </IconButton>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
+          </Table>
+
+          {data && data.length === 0 && <NoData>No data to show</NoData>}
           {invalidRows && invalidRows.length > 0 && (
             <StyledAlert severity="warning">
               <AlertTitle>Failed to retrieve the following items:</AlertTitle>
