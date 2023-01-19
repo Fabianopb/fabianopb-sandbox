@@ -69,6 +69,17 @@ const StyledInput = styled(TextField).attrs({ fullWidth: true, variant: 'outline
   }
 `;
 
+const StyledTable = styled(Table)`
+  margin-bottom: 32px;
+`;
+
+const TableTitle = styled.p`
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: ${colors.deepPurple[600]};
+`;
+
 const Actions = styled.div`
   margin-top: 16px;
   display: flex;
@@ -277,7 +288,8 @@ const PlaystationView = () => {
           </Form>
         )}
         <TableContent>
-          <Table>
+          <TableTitle>Wishlist</TableTitle>
+          <StyledTable>
             <TableHead>
               <TableRow>
                 <TableCell>Image</TableCell>
@@ -330,9 +342,10 @@ const PlaystationView = () => {
                 ))}
               </TableBody>
             )}
-          </Table>
+          </StyledTable>
 
-          <Table>
+          <TableTitle>Library</TableTitle>
+          <StyledTable>
             <TableHead>
               <TableRow>
                 <TableCell>Image</TableCell>
@@ -361,7 +374,7 @@ const PlaystationView = () => {
                 ))}
               </TableBody>
             )}
-          </Table>
+          </StyledTable>
 
           {data && data.length === 0 && <NoData>No data to show</NoData>}
           {invalidRows && invalidRows.length > 0 && (
