@@ -33,4 +33,4 @@ jobs:
         run: yarn build-client
 
       - name: Deploy app build to S3 bucket
-        run: aws s3 sync ./dist/ s3://${{ secrets.AWS_BUCKET_NAME }} --delete
+        run: aws s3 sync ./fpb-dist/ s3://${{ secrets.AWS_BUCKET_NAME }} --delete
