@@ -1,8 +1,8 @@
 import { Button, colors, Divider, IconButton, LinearProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
-import { getBadges, getProjects, getSkills } from '../apis/portfolio';
+import { getBadges, getProjects } from '../apis/portfolio';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
 import BadgesSubsection from './components/BadgesSubsection';
@@ -14,6 +14,7 @@ import { isAdminAtom } from './atoms';
 import { Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { ADD_PROJECT_ID } from './components/ProjectDetails';
+import { skills } from '../data/skills';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -124,12 +125,6 @@ const PortfolioView = () => {
   const navigate = useNavigate();
 
   const {
-    data: skillsData,
-    isLoading: loadingSkills,
-    refetch: refetchSkills,
-  } = useQuery(['portfolio', 'skills'], getSkills);
-
-  const {
     data: badgesData,
     isLoading: loadingBadges,
     refetch: refetchBadges,
@@ -141,8 +136,8 @@ const PortfolioView = () => {
     refetch: refetchProjects,
   } = useQuery(['portfolio', 'all-projects'], getProjects);
 
-  const skillTypeData = useMemo(() => skillsData?.filter((skill) => skill.type === 'skill'), [skillsData]);
-  const toolTypeData = useMemo(() => skillsData?.filter((skill) => skill.type === 'tool'), [skillsData]);
+  const skillTypeData = skills.filter((skill) => skill.type === 'skill');
+  const toolTypeData = skills.filter((skill) => skill.type === 'tool');
 
   return (
     <MainWrapper>
@@ -179,14 +174,8 @@ const PortfolioView = () => {
 
       <Section>
         <SectionTitle>Skills</SectionTitle>
-        {loadingSkills && <LinearProgress />}
-        {skillTypeData && !loadingSkills && (
-          <SkillsSubsection skills={skillTypeData.sort((a, b) => b.value - a.value)} onSubmitSuccess={refetchSkills} />
-        )}
-        {loadingSkills && <LinearProgress />}
-        {toolTypeData && !loadingSkills && (
-          <ToolsetSubsection toolset={toolTypeData.sort((a, b) => b.value - a.value)} onSubmitSuccess={refetchSkills} />
-        )}
+        <SkillsSubsection skills={skillTypeData.sort((a, b) => b.value - a.value)} />
+        <ToolsetSubsection toolset={toolTypeData.sort((a, b) => b.value - a.value)} />
         {loadingBadges && <LinearProgress />}
         {badgesData && !loadingBadges && <BadgesSubsection badges={badgesData} onSubmitSuccess={refetchBadges} />}
       </Section>

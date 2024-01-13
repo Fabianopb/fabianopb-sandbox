@@ -1,21 +1,11 @@
-import { Add, Clear, Edit } from '@mui/icons-material';
-import { Button, colors, IconButton, Rating, TextField } from '@mui/material';
-import { useAtom } from 'jotai';
-import { useMemo, useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { colors, Rating } from '@mui/material';
+import { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 import styled from 'styled-components';
-import { isAdminAtom } from '../atoms';
-import useSkillsManagement from '../hooks/useSkillsManagement';
 import { Skill } from '../types';
-
-type FormValues = {
-  toolset: { id: string; name: string; value: string }[];
-};
 
 type Props = {
   toolset: Skill[];
-  onSubmitSuccess: () => void;
 };
 
 const ToolsetContainer = styled.div`
@@ -41,10 +31,6 @@ const Subtitle = styled.h2`
   color: ${colors.grey[600]};
 `;
 
-const EditIconButton = styled(IconButton)`
-  margin-left: 16px;
-`;
-
 const ChartContainer = styled.div`
   position: relative;
   display: flex;
@@ -67,57 +53,15 @@ const RatingLabel = styled.div`
   color: ${colors.grey[600]};
 `;
 
-const FormRow = styled.div`
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-`;
-
-const StyledNameInput = styled(TextField)`
-  flex: 3;
-`;
-
-const StyledValueInput = styled(TextField)`
-  margin-left: 8px;
-  flex: 1;
-`;
-
-const ClearIconButton = styled(IconButton)`
-  margin-left: 8px;
-`;
-
-const FormActions = styled.div`
-  margin-top: 16px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
+const ToolsetSubsection = ({ toolset }: Props) => {
   const [activePieIndex, setActivePieIndex] = useState(0);
-  const [isAdmin] = useAtom(isAdminAtom);
-
-  const { skillsMutation, isEditing, setIsEditing } = useSkillsManagement(toolset, 'tool', onSubmitSuccess);
-
-  const defaultValues = useMemo(
-    () => ({ toolset: toolset.map((tool) => ({ id: tool._id, name: tool.name, value: tool.value.toString() })) }),
-    [toolset]
-  );
-
-  const { control, register, handleSubmit } = useForm<FormValues>({ defaultValues });
-  const { fields, remove, append } = useFieldArray({ control, name: 'toolset' });
 
   return (
     <ToolsetContainer>
       <Header>
         <Subtitle>Toolset</Subtitle>
-        {isAdmin && (
-          <EditIconButton color="primary" size="small" onClick={() => setIsEditing((prev) => !prev)}>
-            <Edit />
-          </EditIconButton>
-        )}
       </Header>
-      {!isEditing && toolset.length > 0 && (
+      {toolset.length > 0 && (
         <ChartContainer>
           <RatingContainer>
             <RatingLabel>{toolset[activePieIndex].name}</RatingLabel>
@@ -178,59 +122,6 @@ const ToolsetSubsection = ({ toolset, onSubmitSuccess }: Props) => {
             </PieChart>
           </ResponsiveContainer>
         </ChartContainer>
-      )}
-      {isAdmin && isEditing && (
-        <form>
-          {fields.map((field, index) => (
-            <FormRow key={field.id}>
-              <StyledNameInput
-                {...register(`toolset.${index}.name`)}
-                size="small"
-                disabled={skillsMutation.isLoading}
-              />
-              <StyledValueInput
-                {...register(`toolset.${index}.value`)}
-                size="small"
-                disabled={skillsMutation.isLoading}
-              />
-              <ClearIconButton color="error" size="small" onClick={() => remove(index)}>
-                <Clear />
-              </ClearIconButton>
-            </FormRow>
-          ))}
-          <Button
-            style={{ marginTop: 8 }}
-            size="small"
-            variant="text"
-            endIcon={<Add />}
-            onClick={() => append({ id: new Date().valueOf().toString(), name: '', value: '' })}
-            disabled={skillsMutation.isLoading}
-          >
-            Add field
-          </Button>
-          <FormActions>
-            <Button
-              size="small"
-              variant="outlined"
-              color="secondary"
-              onClick={() => setIsEditing(false)}
-              disabled={skillsMutation.isLoading}
-            >
-              Cancel
-            </Button>
-            <Button
-              style={{ marginLeft: 8 }}
-              size="small"
-              variant="contained"
-              color="primary"
-              type="submit"
-              onClick={handleSubmit((data) => skillsMutation.mutate(data.toolset))}
-              disabled={skillsMutation.isLoading}
-            >
-              Save
-            </Button>
-          </FormActions>
-        </form>
       )}
     </ToolsetContainer>
   );

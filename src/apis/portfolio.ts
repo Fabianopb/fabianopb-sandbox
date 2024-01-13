@@ -13,18 +13,14 @@ agent.interceptors.request.use((config) => {
   return config;
 });
 
-type SkillPayload = Omit<Skill, '_id'>;
-
 type BadgePayload = Omit<Badge, '_id'>;
 
 type ProjectPayload = Omit<Project, '_id'>;
 
 // Skills endpoints
-export const getSkills = () => agent.get<Skill[]>('/skills').then((r) => r.data);
+export const addSkills = (payload: Skill[]) => agent.post('/skills', payload).then((res) => res.data);
 
-export const addSkills = (payload: SkillPayload[]) => agent.post('/skills', payload).then((res) => res.data);
-
-export const editSkill = (skillId: string, payload: SkillPayload) =>
+export const editSkill = (skillId: string, payload: Skill) =>
   agent.put(`/skills/${skillId}`, payload).then((res) => res.data);
 
 export const deleteSkill = (skillId: string) => agent.delete(`/skills/${skillId}`).then((res) => res.data);
