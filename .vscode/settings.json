@@ -6,15 +6,12 @@
     "static": true,
     "**/node_modules": true
   },
-  "[typescript]": {
+  "stylelint.validate": [
+    "typescriptreact"
+  ],
+  "[typescript][typescriptreact]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "explicit"
     }
-  },
-  "[typescriptreact]": {
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    }
-  },
-  "stylelint.validate": ["typescriptreact"]
+  }
 }
