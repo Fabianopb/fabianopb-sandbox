@@ -5,7 +5,6 @@ export type Skill = {
 };
 
 export type Badge = {
-  _id: string;
   name: string;
   imageSrc: string;
   href: string;

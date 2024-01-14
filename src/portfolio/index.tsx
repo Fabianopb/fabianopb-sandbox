@@ -2,7 +2,7 @@ import { Button, colors, Divider, IconButton, LinearProgress } from '@mui/materi
 import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import styled from 'styled-components';
-import { getBadges, getProjects } from '../apis/portfolio';
+import { getProjects } from '../apis/portfolio';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
 import BadgesSubsection from './components/BadgesSubsection';
@@ -125,12 +125,6 @@ const PortfolioView = () => {
   const navigate = useNavigate();
 
   const {
-    data: badgesData,
-    isLoading: loadingBadges,
-    refetch: refetchBadges,
-  } = useQuery(['portfolio', 'badges'], getBadges);
-
-  const {
     data: projectsData,
     isLoading: loadingProjects,
     refetch: refetchProjects,
@@ -176,8 +170,7 @@ const PortfolioView = () => {
         <SectionTitle>Skills</SectionTitle>
         <SkillsSubsection skills={skillTypeData.sort((a, b) => b.value - a.value)} />
         <ToolsetSubsection toolset={toolTypeData.sort((a, b) => b.value - a.value)} />
-        {loadingBadges && <LinearProgress />}
-        {badgesData && !loadingBadges && <BadgesSubsection badges={badgesData} onSubmitSuccess={refetchBadges} />}
+        <BadgesSubsection />
       </Section>
 
       <StyledDivider variant="middle" />

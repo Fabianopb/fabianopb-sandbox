@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Badge, Project, Skill } from '../portfolio/types';
+import { Project } from '../portfolio/types';
 import { getToken } from '../common/session';
 
 const agent = axios.create({ baseURL: '/api/v1/portfolio' });
@@ -13,27 +13,7 @@ agent.interceptors.request.use((config) => {
   return config;
 });
 
-type BadgePayload = Omit<Badge, '_id'>;
-
 type ProjectPayload = Omit<Project, '_id'>;
-
-// Skills endpoints
-export const addSkills = (payload: Skill[]) => agent.post('/skills', payload).then((res) => res.data);
-
-export const editSkill = (skillId: string, payload: Skill) =>
-  agent.put(`/skills/${skillId}`, payload).then((res) => res.data);
-
-export const deleteSkill = (skillId: string) => agent.delete(`/skills/${skillId}`).then((res) => res.data);
-
-// Badges endpoints
-export const getBadges = () => agent.get<Badge[]>('/badges').then((r) => r.data);
-
-export const addBadge = (payload: BadgePayload) => agent.post('/badges', payload).then((res) => res.data);
-
-export const editBadge = (badgeId: string, payload: BadgePayload) =>
-  agent.put(`/badges/${badgeId}`, payload).then((res) => res.data);
-
-export const deleteBadge = (badgeId: string) => agent.delete(`/badges/${badgeId}`).then((res) => res.data);
 
 // Projects endpoints
 export const getProjects = () => agent.get<Project[]>('/projects').then((r) => r.data);
