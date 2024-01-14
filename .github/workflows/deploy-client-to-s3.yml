@@ -30,7 +30,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build React App
-        run: yarn build-client
+        run: yarn build
 
       - name: Deploy app build to S3 bucket
         run: aws s3 sync ./fpb-dist/ s3://${{ secrets.AWS_BUCKET_NAME }} --delete

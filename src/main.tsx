@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createGlobalStyle } from 'styled-components';
 import { colors, createTheme, ThemeProvider } from '@mui/material';
 
@@ -8,9 +7,7 @@ import nunitoWoff from './assets/nunito-v25-latin-regular.woff';
 import nunitoWoff2 from './assets/nunito-v25-latin-regular.woff2';
 
 import App from './App';
-import { ToastContainer } from 'react-toastify';
 
-import 'react-toastify/dist/ReactToastify.css';
 import { Settings } from 'luxon';
 
 Settings.defaultLocale = 'fi';
@@ -84,24 +81,11 @@ const theme = createTheme({
   },
 });
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      retry: false,
-    },
-  },
-});
-
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <App />
-        <ToastContainer theme="colored" />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );
