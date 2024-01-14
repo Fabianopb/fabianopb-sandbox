@@ -1,13 +1,8 @@
-import { Logout } from '@mui/icons-material';
 import { colors, Link } from '@mui/material';
-import { useAtom } from 'jotai';
 import { useRef } from 'react';
 import { Outlet, Link as RRDLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { isAdminAtom } from '../atoms';
-import { clearSession } from '../../common/session';
 import Footer from './Footer';
-import LoginDialog from './LoginDialog';
 
 const Topbar = styled.div`
   display: flex;
@@ -36,24 +31,6 @@ const Logo = styled(RRDLink)`
   text-decoration: none;
 `;
 
-const AdminWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Admin = styled.div`
-  font-size: 0.75rem;
-  font-style: italic;
-  color: ${colors.cyan[500]};
-`;
-
-const LogoutIcon = styled(Logout)`
-  margin-left: 12px;
-  width: 18px;
-  fill: ${colors.cyan[500]};
-  cursor: pointer;
-`;
-
 const Navigation = styled.div`
   display: flex;
   align-items: center;
@@ -78,23 +55,11 @@ const FooterContainer = styled.div`
 
 const Layout = () => {
   const footerRef = useRef<HTMLDivElement>(null);
-  const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
   return (
     <>
       <Topbar>
         <LeftContent>
           <Logo to="/portfolio">Fabiano Brito</Logo>
-          {isAdmin && (
-            <AdminWrapper>
-              <Admin>Admin session</Admin>
-              <LogoutIcon
-                onClick={() => {
-                  clearSession();
-                  setIsAdmin(false);
-                }}
-              />
-            </AdminWrapper>
-          )}
         </LeftContent>
         <Navigation>
           <ContactLink onClick={() => footerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
@@ -111,8 +76,6 @@ const Layout = () => {
       <FooterContainer ref={footerRef}>
         <Footer />
       </FooterContainer>
-
-      <LoginDialog />
     </>
   );
 };

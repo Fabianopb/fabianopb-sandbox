@@ -5,9 +5,6 @@ import PortfolioView from './portfolio';
 import Layout from './portfolio/components/Layout';
 import ProjectDetails from './portfolio/components/ProjectDetails';
 import PlaystationView from './playstation';
-import { useQuery } from '@tanstack/react-query';
-import { getSession } from './apis/root';
-import { clearSession, getToken, setSession } from './common/session';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 
@@ -21,15 +18,6 @@ const NotFound = styled.div`
 `;
 
 const App = () => {
-  useQuery(['session'], getSession, {
-    enabled: !!getToken(),
-    onSuccess: ({ token }) => {
-      setSession(token);
-    },
-    onError: () => {
-      clearSession();
-    },
-  });
   return (
     <HashRouter>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
