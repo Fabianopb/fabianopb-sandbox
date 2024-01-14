@@ -11,7 +11,7 @@ export type Badge = {
 };
 
 export type Project = {
-  _id: string;
+  id: string;
   title: string;
   subtitle: string;
   shortDescription: string;

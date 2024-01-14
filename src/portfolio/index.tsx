@@ -1,19 +1,12 @@
-import { Button, colors, Divider, IconButton, LinearProgress } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { Button, colors, Divider } from '@mui/material';
 import { useRef } from 'react';
 import styled from 'styled-components';
-import { getProjects } from '../apis/portfolio';
 import bannerImageSrc from '../assets/banner.jpeg';
 import AboutSection from './components/AboutSection';
 import BadgesSubsection from './components/BadgesSubsection';
 import WorkSection from './components/WorkSection';
 import SkillsSubsection from './components/SkillsSubsection';
 import ToolsetSubsection from './components/ToolsetSubsection';
-import { useAtom } from 'jotai';
-import { isAdminAtom } from './atoms';
-import { Add } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { ADD_PROJECT_ID } from './components/ProjectDetails';
 import { skills } from '../data/skills';
 
 const MainWrapper = styled.div`
@@ -114,21 +107,8 @@ const StyledWorkSection = styled(WorkSection)`
   margin-top: 48px;
 `;
 
-const AddIconButton = styled(IconButton)`
-  margin-left: 8px;
-  color: ${colors.blue[900]};
-`;
-
 const PortfolioView = () => {
   const workSectionRef = useRef<HTMLDivElement>(null);
-  const [isAdmin] = useAtom(isAdminAtom);
-  const navigate = useNavigate();
-
-  const {
-    data: projectsData,
-    isLoading: loadingProjects,
-    refetch: refetchProjects,
-  } = useQuery(['portfolio', 'all-projects'], getProjects);
 
   const skillTypeData = skills.filter((skill) => skill.type === 'skill');
   const toolTypeData = skills.filter((skill) => skill.type === 'tool');
@@ -178,16 +158,8 @@ const PortfolioView = () => {
       <Section ref={workSectionRef}>
         <TitleContainer>
           <SectionTitle>Selected Work</SectionTitle>
-          {isAdmin && (
-            <AddIconButton size="small" onClick={() => navigate(`/portfolio/projects/${ADD_PROJECT_ID}`)}>
-              <Add />
-            </AddIconButton>
-          )}
         </TitleContainer>
-        {loadingProjects && <LinearProgress />}
-        {projectsData && !loadingProjects && (
-          <StyledWorkSection projects={projectsData} onSubmitSuccess={refetchProjects} />
-        )}
+        <StyledWorkSection />
       </Section>
     </MainWrapper>
   );

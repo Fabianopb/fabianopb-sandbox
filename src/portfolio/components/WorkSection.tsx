@@ -1,20 +1,10 @@
-import { Delete, Edit, MoreHoriz } from '@mui/icons-material';
-import { Menu, MenuList, MenuItem, ListItemIcon, ListItemText, IconButton, colors } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
-import { useAtom } from 'jotai';
-import { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { colors } from '@mui/material';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { deleteProject } from '../../apis/portfolio';
-import { isAdminAtom } from '../atoms';
-import { Project } from '../types';
-import DeleteDialog from './DeleteDialog';
+import { projects } from '../../data/projects';
 
 type Props = {
   className?: string;
-  projects: Project[];
-  onSubmitSuccess: () => void;
 };
 
 const WorkContainer = styled.div`
@@ -81,105 +71,16 @@ const WorkTag = styled.div`
   }
 `;
 
-const StyledIconButton = styled(IconButton)`
-  position: absolute;
-  right: 0;
-  top: 0;
-`;
-
-const DeleteIcon = styled(Delete)`
-  fill: ${colors.red[900]};
-`;
-
-const DeleteListItemText = styled(ListItemText)`
-  color: ${colors.red[900]};
-`;
-
-const WorkSection = ({ className, projects, onSubmitSuccess }: Props) => {
-  const [isAdmin] = useAtom(isAdminAtom);
-  const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [activeProject, setActiveProject] = useState<Project>();
-
-  const handleEditClick = useCallback(() => {
-    setAnchorEl(null);
-    navigate(`/portfolio/projects/${activeProject?._id}?edit=true`);
-  }, [activeProject?._id, navigate]);
-
-  const handleDeleteClick = useCallback(() => {
-    setAnchorEl(null);
-    setDeleteModalOpen(true);
-  }, []);
-
-  const { mutate, isLoading: isDeleting } = useMutation(
-    async () => {
-      if (!activeProject) {
-        throw new Error('Trying to delete without an active project');
-      }
-      await deleteProject(activeProject._id);
-    },
-    {
-      onSuccess: () => {
-        onSubmitSuccess();
-        setDeleteModalOpen(false);
-      },
-      onError: (error?: any) => {
-        const message = error?.response?.data?.message || error?.message;
-        toast(message || 'Unkown error!', { type: 'error' });
-      },
-    }
-  );
-
+const WorkSection = ({ className }: Props) => {
   return (
     <WorkContainer className={className}>
       {projects.map((work) => (
-        <WorkCell key={work._id} to={`/portfolio/projects/${work._id}`}>
+        <WorkCell key={work.id} to={`/portfolio/projects/${work.id}`}>
           <WorkImage src={work.thumbnailSrc} />
           <ImageText>{work.title}</ImageText>
           <WorkTag>{work.category}</WorkTag>
-          {isAdmin && (
-            <StyledIconButton
-              size="small"
-              color="secondary"
-              onClick={(e) => {
-                e.preventDefault();
-                setAnchorEl(e.currentTarget);
-                setActiveProject(work);
-              }}
-            >
-              <MoreHoriz />
-            </StyledIconButton>
-          )}
         </WorkCell>
       ))}
-      {isAdmin && (
-        <>
-          <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={() => setAnchorEl(null)}>
-            <MenuList dense>
-              <MenuItem onClick={handleEditClick}>
-                <ListItemIcon>
-                  <Edit />
-                </ListItemIcon>
-                <ListItemText>Edit</ListItemText>
-              </MenuItem>
-              <MenuItem onClick={handleDeleteClick}>
-                <ListItemIcon>
-                  <DeleteIcon />
-                </ListItemIcon>
-                <DeleteListItemText>Delete</DeleteListItemText>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-          <DeleteDialog
-            title={`Delete "${activeProject?.title}"?`}
-            isOpen={deleteModalOpen}
-            isLoading={isDeleting}
-            onClose={() => setDeleteModalOpen(false)}
-            onDelete={mutate}
-          />
-        </>
-      )}
     </WorkContainer>
   );
 };
