@@ -1,4 +1,4 @@
-import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import PortfolioView from './portfolio';
 import Layout from './portfolio/components/Layout';
 import ProjectDetails from './portfolio/components/ProjectDetails';
@@ -7,7 +7,7 @@ import NotFound from './portfolio/components/NotFound';
 
 const App = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/portfolio" replace />} />
         <Route path="/portfolio" element={<Layout />}>
@@ -17,7 +17,7 @@ const App = () => {
         <Route path="/playstation" element={<PlaystationView />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
